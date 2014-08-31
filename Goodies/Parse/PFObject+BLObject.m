@@ -7,23 +7,9 @@
 //
 
 #import "PFObject+BLObject.h"
-#import "BLLogger.h"
-#import "Reachability.h"
 
 
 @implementation PFObject (BLObject)
-
-#pragma mark - Creating Objects
-
-+ (instancetype)customObject
-{
-    return nil;
-}
-
-+ (PFQuery *)customQuery
-{
-    return nil;
-}
 
 
 #pragma mark - States
@@ -40,30 +26,18 @@
 }
 
 
-#pragma mark - Saving
+#pragma mark - Aux
 
-+ (void)saveEverythingWithObjects:(NSArray *)objects
-                         andBlock:(ParseCompletionBlock)block
++ (void)returnToSenderWithResult:(BOOL)result
+              andCompletionBlock:(ParseCompletionBlock)completionBlock
 {
-    //Sanity
-    if (objects.count == 0) {
-        [self returnToSenderWithResult:YES
-                    andCompletionBlock:block];
-        return;
-    }
-    
-    //
+    if (!completionBlock) return;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        completionBlock(result);
+    });
 }
 
-- (void)saveEverythingWithCompletionBlock:(ParseCompletionBlock)block;
-
-#pragma mark - Deleting
-+ (void)deleteEverythingWithObjects:(NSArray *)objects
-                           andBlock:(ParseCompletionBlock)block;
-- (void)deleteEverythingWithCompletionBlock:(ParseCompletionBlock)block;
-
-#pragma mark - Aux
-+ (void)returnToSenderWithResult:(BOOL)result
-              andCompletionBlock:(ParseCompletionBlock)completionBlock;
-
 @end
+
+
+

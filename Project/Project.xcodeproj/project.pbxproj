@@ -27,7 +27,6 @@
 		6529398019B378280047D238 /* BLInternet.m in Sources */ = {isa = PBXBuildFile; fileRef = 6529394A19B378280047D238 /* BLInternet.m */; };
 		6529398119B378280047D238 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 6529394C19B378280047D238 /* Reachability.m */; };
 		6529398219B378280047D238 /* BLPageControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 6529394F19B378280047D238 /* BLPageControl.m */; };
-		6529398319B378280047D238 /* BLUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 6529395219B378280047D238 /* BLUser.m */; };
 		6529398419B378280047D238 /* PFObject+BLObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 6529395419B378280047D238 /* PFObject+BLObject.m */; };
 		6529398519B378280047D238 /* PFRole+BLRole.m in Sources */ = {isa = PBXBuildFile; fileRef = 6529395619B378280047D238 /* PFRole+BLRole.m */; };
 		6529398619B378280047D238 /* BLPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6529395919B378280047D238 /* BLPlayer.m */; };
@@ -44,6 +43,12 @@
 		6529399119B378280047D238 /* BLTextViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6529397419B378280047D238 /* BLTextViewController.m */; };
 		6529399219B378280047D238 /* NSString+BLText.m in Sources */ = {isa = PBXBuildFile; fileRef = 6529397619B378280047D238 /* NSString+BLText.m */; };
 		6529399319B378280047D238 /* BLInternetLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6529397919B378280047D238 /* BLInternetLabel.m */; };
+		65A0B4D519B379B800691AF5 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65A0B4D219B379B800691AF5 /* Bolts.framework */; };
+		65A0B4D619B379B800691AF5 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65A0B4D319B379B800691AF5 /* Parse.framework */; };
+		65A0B4D719B379B800691AF5 /* ParseFacebookUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65A0B4D419B379B800691AF5 /* ParseFacebookUtils.framework */; };
+		65A0B4DA19B37E9500691AF5 /* BLParseObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 65A0B4D919B37E9500691AF5 /* BLParseObject.m */; };
+		65A0B4DD19B3814200691AF5 /* BLParseUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 65A0B4DC19B3814200691AF5 /* BLParseUser.m */; };
+		65A0B4E019B3912500691AF5 /* PFCloud+BLCloud.m in Sources */ = {isa = PBXBuildFile; fileRef = 65A0B4DF19B3912500691AF5 /* PFCloud+BLCloud.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -92,8 +97,6 @@
 		6529394C19B378280047D238 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		6529394E19B378280047D238 /* BLPageControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLPageControl.h; sourceTree = "<group>"; };
 		6529394F19B378280047D238 /* BLPageControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLPageControl.m; sourceTree = "<group>"; };
-		6529395119B378280047D238 /* BLUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLUser.h; sourceTree = "<group>"; };
-		6529395219B378280047D238 /* BLUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLUser.m; sourceTree = "<group>"; };
 		6529395319B378280047D238 /* PFObject+BLObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PFObject+BLObject.h"; sourceTree = "<group>"; };
 		6529395419B378280047D238 /* PFObject+BLObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "PFObject+BLObject.m"; sourceTree = "<group>"; };
 		6529395519B378280047D238 /* PFRole+BLRole.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PFRole+BLRole.h"; sourceTree = "<group>"; };
@@ -120,7 +123,6 @@
 		6529396D19B378280047D238 /* BLPostalCodeTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLPostalCodeTextField.m; sourceTree = "<group>"; };
 		6529396E19B378280047D238 /* BLStateTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLStateTextField.h; sourceTree = "<group>"; };
 		6529396F19B378280047D238 /* BLStateTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLStateTextField.m; sourceTree = "<group>"; };
-		6529397019B378280047D238 /* BLText.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLText.pch; sourceTree = "<group>"; };
 		6529397119B378280047D238 /* BLTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLTextField.h; sourceTree = "<group>"; };
 		6529397219B378280047D238 /* BLTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLTextField.m; sourceTree = "<group>"; };
 		6529397319B378280047D238 /* BLTextViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLTextViewController.h; sourceTree = "<group>"; };
@@ -129,6 +131,15 @@
 		6529397619B378280047D238 /* NSString+BLText.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+BLText.m"; sourceTree = "<group>"; };
 		6529397819B378280047D238 /* BLInternetLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLInternetLabel.h; sourceTree = "<group>"; };
 		6529397919B378280047D238 /* BLInternetLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLInternetLabel.m; sourceTree = "<group>"; };
+		65A0B4D219B379B800691AF5 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Bolts.framework; path = "../../../07_extensões/Parse/Bolts.framework"; sourceTree = "<group>"; };
+		65A0B4D319B379B800691AF5 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Parse.framework; path = "../../../07_extensões/Parse/Parse.framework"; sourceTree = "<group>"; };
+		65A0B4D419B379B800691AF5 /* ParseFacebookUtils.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ParseFacebookUtils.framework; path = "../../../07_extensões/Parse/ParseFacebookUtils.framework"; sourceTree = "<group>"; };
+		65A0B4D819B37E9500691AF5 /* BLParseObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLParseObject.h; sourceTree = "<group>"; };
+		65A0B4D919B37E9500691AF5 /* BLParseObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLParseObject.m; sourceTree = "<group>"; };
+		65A0B4DB19B3814200691AF5 /* BLParseUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLParseUser.h; sourceTree = "<group>"; };
+		65A0B4DC19B3814200691AF5 /* BLParseUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLParseUser.m; sourceTree = "<group>"; };
+		65A0B4DE19B3912500691AF5 /* PFCloud+BLCloud.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PFCloud+BLCloud.h"; sourceTree = "<group>"; };
+		65A0B4DF19B3912500691AF5 /* PFCloud+BLCloud.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "PFCloud+BLCloud.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -138,7 +149,10 @@
 			files = (
 				6529390919B378090047D238 /* CoreGraphics.framework in Frameworks */,
 				6529390B19B378090047D238 /* UIKit.framework in Frameworks */,
+				65A0B4D719B379B800691AF5 /* ParseFacebookUtils.framework in Frameworks */,
 				6529390719B378090047D238 /* Foundation.framework in Frameworks */,
+				65A0B4D519B379B800691AF5 /* Bolts.framework in Frameworks */,
+				65A0B4D619B379B800691AF5 /* Parse.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -178,6 +192,9 @@
 		6529390519B378090047D238 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				65A0B4D219B379B800691AF5 /* Bolts.framework */,
+				65A0B4D319B379B800691AF5 /* Parse.framework */,
+				65A0B4D419B379B800691AF5 /* ParseFacebookUtils.framework */,
 				6529390619B378090047D238 /* Foundation.framework */,
 				6529390819B378090047D238 /* CoreGraphics.framework */,
 				6529390A19B378090047D238 /* UIKit.framework */,
@@ -301,12 +318,16 @@
 		6529395019B378280047D238 /* Parse */ = {
 			isa = PBXGroup;
 			children = (
-				6529395119B378280047D238 /* BLUser.h */,
-				6529395219B378280047D238 /* BLUser.m */,
+				65A0B4DB19B3814200691AF5 /* BLParseUser.h */,
+				65A0B4DC19B3814200691AF5 /* BLParseUser.m */,
+				65A0B4D819B37E9500691AF5 /* BLParseObject.h */,
+				65A0B4D919B37E9500691AF5 /* BLParseObject.m */,
 				6529395319B378280047D238 /* PFObject+BLObject.h */,
 				6529395419B378280047D238 /* PFObject+BLObject.m */,
 				6529395519B378280047D238 /* PFRole+BLRole.h */,
 				6529395619B378280047D238 /* PFRole+BLRole.m */,
+				65A0B4DE19B3912500691AF5 /* PFCloud+BLCloud.h */,
+				65A0B4DF19B3912500691AF5 /* PFCloud+BLCloud.m */,
 			);
 			path = Parse;
 			sourceTree = "<group>";
@@ -350,7 +371,6 @@
 				6529396D19B378280047D238 /* BLPostalCodeTextField.m */,
 				6529396E19B378280047D238 /* BLStateTextField.h */,
 				6529396F19B378280047D238 /* BLStateTextField.m */,
-				6529397019B378280047D238 /* BLText.pch */,
 				6529397119B378280047D238 /* BLTextField.h */,
 				6529397219B378280047D238 /* BLTextField.m */,
 				6529397319B378280047D238 /* BLTextViewController.h */,
@@ -468,12 +488,12 @@
 			files = (
 				6529399219B378280047D238 /* NSString+BLText.m in Sources */,
 				6529399119B378280047D238 /* BLTextViewController.m in Sources */,
+				65A0B4DA19B37E9500691AF5 /* BLParseObject.m in Sources */,
 				6529398B19B378280047D238 /* BLNameTextField.m in Sources */,
 				6529397D19B378280047D238 /* BLViewController.m in Sources */,
 				6529399319B378280047D238 /* BLInternetLabel.m in Sources */,
 				6529398C19B378280047D238 /* BLPasswordTextField.m in Sources */,
 				6529391719B378090047D238 /* BLAppDelegate.m in Sources */,
-				6529398319B378280047D238 /* BLUser.m in Sources */,
 				6529398419B378280047D238 /* PFObject+BLObject.m in Sources */,
 				6529398A19B378280047D238 /* BLEmailTextField.m in Sources */,
 				6529397A19B378280047D238 /* BLObject.m in Sources */,
@@ -492,7 +512,9 @@
 				6529398119B378280047D238 /* Reachability.m in Sources */,
 				6529398219B378280047D238 /* BLPageControl.m in Sources */,
 				6529397E19B378280047D238 /* BLDatabase.m in Sources */,
+				65A0B4E019B3912500691AF5 /* PFCloud+BLCloud.m in Sources */,
 				6529399019B378280047D238 /* BLTextField.m in Sources */,
+				65A0B4DD19B3814200691AF5 /* BLParseUser.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -617,6 +639,11 @@
 		6529393019B378090047D238 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"/Users/andre/Arquivos/BellAppLab/07_extensões/Parse",
+					"$(PROJECT_DIR)",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Project/Project-Prefix.pch";
 				INFOPLIST_FILE = "Project/Project-Info.plist";
@@ -628,6 +655,11 @@
 		6529393119B378090047D238 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"/Users/andre/Arquivos/BellAppLab/07_extensões/Parse",
+					"$(PROJECT_DIR)",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Project/Project-Prefix.pch";
 				INFOPLIST_FILE = "Project/Project-Info.plist";
@@ -695,6 +727,7 @@
 				6529393119B378090047D238 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		6529393219B378090047D238 /* Build configuration list for PBXNativeTarget "ProjectTests" */ = {
 			isa = XCConfigurationList;
@@ -703,6 +736,7 @@
 				6529393419B378090047D238 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

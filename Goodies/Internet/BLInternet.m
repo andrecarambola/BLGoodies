@@ -86,6 +86,7 @@ static NSTimeInterval activityIndicatorThreshold = 1.0;
     [self setHandlesMemory:YES];
     [self setHandlesAppStates:YES];
     [self startReachability];
+    [BLInternet doWeHaveInternet];
 }
 
 
@@ -109,6 +110,11 @@ static NSTimeInterval activityIndicatorThreshold = 1.0;
         });
     }
     return result;
+}
+
++ (NetworkStatus)networkStatus
+{
+    return [BLInternet privateSingleton].reachability.currentReachabilityStatus;
 }
 
 
@@ -266,6 +272,19 @@ static NSTimeInterval activityIndicatorThreshold = 1.0;
                 block(newStatus);
             });
         }
+    }
+    switch (newStatus) {
+        case NotReachable:
+            [BLObject setDefaultTimeoutTime:kBLTimeoutTimeForNoConnection];
+            break;
+        case ReachableViaWiFi:
+            [BLObject setDefaultTimeoutTime:kBLTimeoutTimeForWiFI];
+            break;
+        case ReachableViaWWAN:
+            [BLObject setDefaultTimeoutTime:kBLTimeoutTimeFor3G];
+            break;
+        default:
+            break;
     }
 }
 

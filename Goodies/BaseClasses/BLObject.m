@@ -174,19 +174,7 @@
 
 - (void)handleInternetStateChange:(NetworkStatus)networkStatus
 {
-    switch (networkStatus) {
-        case NotReachable:
-            [BLObject setDefaultTimeoutTime:kBLTimeoutTimeForNoConnection];
-            break;
-        case ReachableViaWiFi:
-            [BLObject setDefaultTimeoutTime:kBLTimeoutTimeForWiFI];
-            break;
-        case ReachableViaWWAN:
-            [BLObject setDefaultTimeoutTime:kBLTimeoutTimeFor3G];
-            break;
-        default:
-            break;
-    }
+    return;
 }
 
 

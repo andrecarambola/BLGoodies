@@ -7,30 +7,20 @@
 //
 
 #import <Parse/Parse.h>
+#import "NSObject+Goodies.h"
 
 
+#pragma mark - Type Defs
 typedef void (^ParseCompletionBlock) (BOOL success);
 
 
+#pragma mark - PUBLIC INTERFACES
+#pragma mark BLObject
 @interface PFObject (BLObject)
-
-//Creating Objects
-+ (instancetype)customObject;
-+ (PFQuery *)customQuery;
 
 //States
 - (BOOL)hasBeenSavedToParse;
 - (BOOL)shouldSave;
-
-//Saving
-+ (void)saveEverythingWithObjects:(NSArray *)objects
-                         andBlock:(ParseCompletionBlock)block;
-- (void)saveEverythingWithCompletionBlock:(ParseCompletionBlock)block;
-
-//Deleting
-+ (void)deleteEverythingWithObjects:(NSArray *)objects
-                           andBlock:(ParseCompletionBlock)block;
-- (void)deleteEverythingWithCompletionBlock:(ParseCompletionBlock)block;
 
 //Aux
 + (void)returnToSenderWithResult:(BOOL)result

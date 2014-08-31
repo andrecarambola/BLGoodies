@@ -8,3 +8,7 @@
 
 
 "BLNoInternetAlert" = "It looks like we don't have a connection to the internet... :(";
+"BLInvalidEmailAlert" = "Please inset a valid email address";
+"BLInvalidPasswordAlert" = "Please insert a valid password";
+"BLNoLoginAlert" = "We couldn't log you in. Please verify your credentials and try again.";
+"BLEmailSentAlert" = "An email has been sent to your inbox!";

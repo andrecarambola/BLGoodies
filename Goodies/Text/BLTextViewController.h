@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 Bell App Lab. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "BLViewController.h"
 //Text Fields
 #import "BLNameTextField.h"
 #import "BLEmailTextField.h"
@@ -17,7 +17,7 @@
 #import "BLStateTextField.h"
 
 
-@interface BLTextViewController : UIViewController <UITextFieldDelegate>
+@interface BLTextViewController : BLViewController <UITextFieldDelegate>
 
 //Setup
 - (BOOL)isKeyboardViewController;

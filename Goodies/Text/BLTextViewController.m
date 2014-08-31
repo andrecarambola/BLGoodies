@@ -152,6 +152,44 @@
 }
 
 
+#pragma mark - Notifications
+
+- (void)handleKeyboardWillAppearNotification:(NSNotification *)notification
+{
+    if (isShowingKeyboard) return;
+    isShowingKeyboard = YES;
+    
+    if (notification &&
+        self.keyboardScrollView.frame.size.height == self.view.frame.size.height)
+    {
+        //Keyboard size
+        CGRect kbRect;
+        NSDictionary *info = [notification userInfo];
+        kbRect = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
+        kbRect.size.height += kBLTextDefaultInputAccessoryViewHeight + 4.f;
+        kbRect.origin.y -= kBLTextDefaultInputAccessoryViewHeight + 4.f;
+        
+        [self.keyboardScrollView setFrame:CGRectMake(self.keyboardScrollView.frame.origin.x,
+                                                     self.keyboardScrollView.frame.origin.y,
+                                                     self.keyboardScrollView.frame.size.width,
+                                                     self.keyboardScrollView.frame.size.height - kbRect.size.height)];
+    }
+    
+    [self.keyboardScrollView scrollRectToVisible:self.activeTextField.frame
+                                        animated:YES];
+}
+
+- (void)handleKeyboardWillHideNotification:(NSNotification *)notification
+{
+    if (!isShowingKeyboard) return;
+    isShowingKeyboard = NO;
+    
+    [self.keyboardScrollView setFrame:self.view.frame];
+    [self.keyboardScrollView setContentOffset:CGPointZero
+                                     animated:YES];
+}
+
+
 #pragma mark - Text Field Delegate
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range
@@ -238,6 +276,8 @@ replacementString:(NSString *)string
                 break;
         }
         [textField setInputAccessoryView:(shouldIncludeAccessoryView) ? [self defaultInputAccessoryView] : nil];
+        
+        
     }
     
     return YES;
@@ -250,6 +290,9 @@ replacementString:(NSString *)string
         if ([textField isKindOfClass:[BLTextField class]]) {
             [(BLTextField *)self.activeTextField setIsValid:YES];
         }
+        
+        [self.keyboardScrollView scrollRectToVisible:textField.frame
+                                            animated:YES];
     }
 }
 
