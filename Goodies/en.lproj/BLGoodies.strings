@@ -1,0 +1,10 @@
+/* 
+  BLGoodies.strings
+  Goodies
+
+  Created by André Abou Chami Campana on 24/08/14.
+  Copyright (c) 2014 Bell App Lab. All rights reserved.
+*/
+
+
+"BLNoInternetAlert" = "It looks like we don't have a connection to the internet... :(";
