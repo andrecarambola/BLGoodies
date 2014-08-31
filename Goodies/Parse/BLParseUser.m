@@ -14,6 +14,7 @@
 #import "NSString+BLText.h"
 #import "BLDefines.h"
 #import "PFCloud+BLCloud.h"
+#import <FacebookSDK/FacebookSDK.h>
 
 
 #pragma mark - Consts
@@ -38,6 +39,10 @@ NSString * const BLParseUserDidLogOutNotification = @"BLParseUserDidLogOutNotifi
 - (void)startTimeoutOperationWithBlock:(TimeoutBlock)timeoutBlock;
 - (void)operationDidTimeout:(NSTimer *)timer;
 - (void)stopTimeoutOperation;
+
+//Aux
++ (NSArray *)facebookReadPermissions;
++ (NSArray *)facebookWritePermissions;
 
 @end
 
@@ -121,6 +126,11 @@ NSString * const BLParseUserDidLogOutNotification = @"BLParseUserDidLogOutNotifi
                 [BLParseUser customLogout];
             }];
         } else {
+            BLParseUser *newUser = [BLParseUser currentUser];
+            [newUser setTerms:NO];
+            [newUser setClearCaches:NO];
+            [newUser setFacebookWrite:NO];
+            [newUser saveEventually];
             [BLParseUser returnToSenderWithResult:YES
                                andCompletionBlock:setupBlock];
         }
@@ -153,6 +163,25 @@ NSString * const BLParseUserDidLogOutNotification = @"BLParseUserDidLogOutNotifi
             [PFQuery clearAllCachedResults];
             [[BLParseUser currentUser] setClearCaches:NO];
             [[BLParseUser currentUser] saveEventually];
+        }
+        if ([BLParseUser isFacebookUser]) {
+            [FBRequestConnection startForMeWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error)
+            {
+                if (error) {
+                    FacebookLog(@"%@",error);
+                } else {
+                    // result is a dictionary with the user's Facebook data
+                    NSDictionary *userData = (NSDictionary *)result;
+                    NSString *email = userData[@"email"];
+                    [[BLParseUser currentUser] setEmail:email];
+                    [[BLParseUser currentUser] saveEventually];
+                }
+                [BLParseUser returnToSenderWithResult:(error == nil)
+                                   andCompletionBlock:loginBlock];
+                [[BLParseUser currentUser] stopTimeoutOperation];
+                [[BLParseUser currentUser] endBackgroundTask];
+            }];
+            return;
         }
         [BLParseUser returnToSenderWithResult:(error == nil)
                            andCompletionBlock:loginBlock];
@@ -328,9 +357,7 @@ NSString * const BLParseUserDidLogOutNotification = @"BLParseUserDidLogOutNotifi
                            andCompletionBlock:block];
         [BLParseUser endBackgroundTask:bgTaskId];
     }];
-    [PFFacebookUtils logInWithPermissions:@[@"",
-                                            @"",
-                                            @""]
+    [PFFacebookUtils logInWithPermissions:[BLParseUser facebookReadPermissions]
                                     block:^(PFUser *user, NSError *error)
     {
         if (error) FacebookLog(@"%@",error);
@@ -443,6 +470,8 @@ NSString * const BLParseUserDidLogOutNotification = @"BLParseUserDidLogOutNotifi
                                       andBlock:^(BOOL success)
     {
         if (success) [BLParseUser customLogout];
+        [BLParseUser returnToSenderWithResult:success
+                           andCompletionBlock:block];
     }];
 }
 
@@ -457,6 +486,21 @@ NSString * const BLParseUserDidLogOutNotification = @"BLParseUserDidLogOutNotifi
         [[NSNotificationCenter defaultCenter] postNotificationName:BLParseUserDidLogOutNotification
                                                             object:nil];
     });
+}
+
+
+#pragma mark - Aux
+
++ (NSArray *)facebookReadPermissions
+{
+    return @[@"public_profile",
+             @"email",
+             @"user_friends"];
+}
+
++ (NSArray *)facebookWritePermissions
+{
+    return @[@"publish_actions"];
 }
 
 @end

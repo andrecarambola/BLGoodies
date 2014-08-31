@@ -41,5 +41,7 @@ extern NSString * const BLParseUserDidLogOutNotification;
 
 //Setup
 @property (nonatomic, getter = shouldClearCaches) BOOL clearCaches;
+@property (nonatomic, getter = hasAcceptedTerms) BOOL terms;
+@property (nonatomic, getter = hasRequestedFacebookWritePermissions) BOOL facebookWrite;
 
 @end

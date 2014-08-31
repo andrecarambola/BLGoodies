@@ -49,6 +49,7 @@
 		65A0B4DA19B37E9500691AF5 /* BLParseObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 65A0B4D919B37E9500691AF5 /* BLParseObject.m */; };
 		65A0B4DD19B3814200691AF5 /* BLParseUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 65A0B4DC19B3814200691AF5 /* BLParseUser.m */; };
 		65A0B4E019B3912500691AF5 /* PFCloud+BLCloud.m in Sources */ = {isa = PBXBuildFile; fileRef = 65A0B4DF19B3912500691AF5 /* PFCloud+BLCloud.m */; };
+		65FA94E319B3D7930046A13E /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65FA94E219B3D7930046A13E /* FacebookSDK.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -140,6 +141,7 @@
 		65A0B4DC19B3814200691AF5 /* BLParseUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLParseUser.m; sourceTree = "<group>"; };
 		65A0B4DE19B3912500691AF5 /* PFCloud+BLCloud.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PFCloud+BLCloud.h"; sourceTree = "<group>"; };
 		65A0B4DF19B3912500691AF5 /* PFCloud+BLCloud.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "PFCloud+BLCloud.m"; sourceTree = "<group>"; };
+		65FA94E219B3D7930046A13E /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = "../../../08_github/facebook-ios-sdk/build/FacebookSDK.framework"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -153,6 +155,7 @@
 				6529390719B378090047D238 /* Foundation.framework in Frameworks */,
 				65A0B4D519B379B800691AF5 /* Bolts.framework in Frameworks */,
 				65A0B4D619B379B800691AF5 /* Parse.framework in Frameworks */,
+				65FA94E319B3D7930046A13E /* FacebookSDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -192,6 +195,7 @@
 		6529390519B378090047D238 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				65FA94E219B3D7930046A13E /* FacebookSDK.framework */,
 				65A0B4D219B379B800691AF5 /* Bolts.framework */,
 				65A0B4D319B379B800691AF5 /* Parse.framework */,
 				65A0B4D419B379B800691AF5 /* ParseFacebookUtils.framework */,
@@ -643,6 +647,7 @@
 					"$(inherited)",
 					"/Users/andre/Arquivos/BellAppLab/07_extensões/Parse",
 					"$(PROJECT_DIR)",
+					"/Users/andre/Arquivos/BellAppLab/08_github/facebook-ios-sdk/build",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Project/Project-Prefix.pch";
@@ -659,6 +664,7 @@
 					"$(inherited)",
 					"/Users/andre/Arquivos/BellAppLab/07_extensões/Parse",
 					"$(PROJECT_DIR)",
+					"/Users/andre/Arquivos/BellAppLab/08_github/facebook-ios-sdk/build",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Project/Project-Prefix.pch";
