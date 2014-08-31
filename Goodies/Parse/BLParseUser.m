@@ -40,10 +40,6 @@ NSString * const BLParseUserDidLogOutNotification = @"BLParseUserDidLogOutNotifi
 - (void)operationDidTimeout:(NSTimer *)timer;
 - (void)stopTimeoutOperation;
 
-//Aux
-+ (NSArray *)facebookReadPermissions;
-+ (NSArray *)facebookWritePermissions;
-
 @end
 
 
@@ -173,8 +169,11 @@ NSString * const BLParseUserDidLogOutNotification = @"BLParseUserDidLogOutNotifi
                     // result is a dictionary with the user's Facebook data
                     NSDictionary *userData = (NSDictionary *)result;
                     NSString *email = userData[@"email"];
-                    [[BLParseUser currentUser] setEmail:email];
-                    [[BLParseUser currentUser] saveEventually];
+                    BLParseUser *user = [BLParseUser currentUser];
+                    if (![user.email isEqualToString:email]) {
+                        [user setEmail:email];
+                        [user saveEventually];
+                    }
                 }
                 [BLParseUser returnToSenderWithResult:(error == nil)
                                    andCompletionBlock:loginBlock];

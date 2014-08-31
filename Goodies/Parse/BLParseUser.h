@@ -44,4 +44,8 @@ extern NSString * const BLParseUserDidLogOutNotification;
 @property (nonatomic, getter = hasAcceptedTerms) BOOL terms;
 @property (nonatomic, getter = hasRequestedFacebookWritePermissions) BOOL facebookWrite;
 
+//Aux
++ (NSArray *)facebookReadPermissions;
++ (NSArray *)facebookWritePermissions;
+
 @end
