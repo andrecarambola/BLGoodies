@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "NSObject+Goodies.h"
-#import "BLInternet.h"
+#import "Reachability.h"
 
 
 @interface BLObject : NSObject
