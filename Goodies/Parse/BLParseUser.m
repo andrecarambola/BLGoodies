@@ -21,6 +21,10 @@
 NSString * const BLParseUserDidLogOutNotification = @"BLParseUserDidLogOutNotification";
 
 
+#pragma mark - Globals
+static ParseCompletionBlock pushCompletionBlock;
+
+
 #pragma mark - Private Interface
 @interface BLParseUser ()
 
@@ -82,6 +86,7 @@ NSString * const BLParseUserDidLogOutNotification = @"BLParseUserDidLogOutNotifi
 
 @synthesize bgTaskId = _bgTaskId;
 @dynamic clearCaches;
+@dynamic terms;
 
 - (void)setup
 {
@@ -125,7 +130,6 @@ NSString * const BLParseUserDidLogOutNotification = @"BLParseUserDidLogOutNotifi
             BLParseUser *newUser = [BLParseUser currentUser];
             [newUser setTerms:NO];
             [newUser setClearCaches:NO];
-            [newUser setFacebookWrite:NO];
             [newUser saveEventually];
             [BLParseUser returnToSenderWithResult:YES
                                andCompletionBlock:setupBlock];
@@ -472,6 +476,32 @@ NSString * const BLParseUserDidLogOutNotification = @"BLParseUserDidLogOutNotifi
         [BLParseUser returnToSenderWithResult:success
                            andCompletionBlock:block];
     }];
+}
+
+
+#pragma mark - Push
+
+- (void)registerForPushNotificationsWithBlock:(ParseCompletionBlock)block
+{
+    if (block) pushCompletionBlock = [block copy];
+    [[UIApplication sharedApplication] registerForRemoteNotificationTypes:UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound];
+}
+
+- (void)handlePushRegistrationWithSuccess:(BOOL)hasSucceeded
+                                  andData:(NSData *)data
+{
+    BOOL success = (hasSucceeded == YES && data != nil);
+    if (success) {
+        PFInstallation *currentInstallation = [PFInstallation currentInstallation];
+        [currentInstallation setDeviceTokenFromData:data];
+        [currentInstallation setObject:self
+                                forKey:@"user"];
+        [currentInstallation saveInBackground];
+    }
+    ParseCompletionBlock block = pushCompletionBlock;
+    [BLParseUser returnToSenderWithResult:success
+                       andCompletionBlock:block];
+    pushCompletionBlock = nil;
 }
 
 

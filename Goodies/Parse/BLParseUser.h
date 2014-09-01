@@ -36,13 +36,19 @@ extern NSString * const BLParseUserDidLogOutNotification;
 - (void)requestPasswordResetWithBlock:(ParseCompletionBlock)block;
 #warning check email validation
 
+//Push
+- (void)registerForPushNotificationsWithBlock:(ParseCompletionBlock)block;
+- (void)handlePushRegistrationWithSuccess:(BOOL)hasSucceeded
+                                  andData:(NSData *)data;
+
 //Logging Out
 + (void)customLogout;
 
 //Setup
 @property (nonatomic, getter = shouldClearCaches) BOOL clearCaches;
 @property (nonatomic, getter = hasAcceptedTerms) BOOL terms;
-@property (nonatomic, getter = hasRequestedFacebookWritePermissions) BOOL facebookWrite;
+- (void)initialSetupWithBlock:(ParseCompletionBlock)setupBlock;
+- (void)loginSetupWithBlock:(ParseCompletionBlock)loginBlock;
 
 //Aux
 + (NSArray *)facebookReadPermissions;

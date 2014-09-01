@@ -648,6 +648,7 @@
 					"/Users/andre/Arquivos/BellAppLab/07_extensões/Parse",
 					"$(PROJECT_DIR)",
 					"/Users/andre/Arquivos/BellAppLab/08_github/facebook-ios-sdk/build",
+					/Users/andre/Arquivos/BellAppLab/02_apps/BLGoodies/Goodies,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Project/Project-Prefix.pch";
@@ -665,6 +666,7 @@
 					"/Users/andre/Arquivos/BellAppLab/07_extensões/Parse",
 					"$(PROJECT_DIR)",
 					"/Users/andre/Arquivos/BellAppLab/08_github/facebook-ios-sdk/build",
+					/Users/andre/Arquivos/BellAppLab/02_apps/BLGoodies/Goodies,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Project/Project-Prefix.pch";
