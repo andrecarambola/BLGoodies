@@ -50,6 +50,14 @@ extern NSString * const BLParseUserDidLogOutNotification;
 - (void)initialSetupWithBlock:(ParseCompletionBlock)setupBlock;
 - (void)loginSetupWithBlock:(ParseCompletionBlock)loginBlock;
 
+//Background
+- (void)startBackgroundTask;
+- (void)endBackgroundTask;
+
+//Timeout
+- (void)startTimeoutOperationWithBlock:(TimeoutBlock)timeoutBlock;
+- (void)stopTimeoutOperation;
+
 //Aux
 + (NSArray *)facebookReadPermissions;
 + (NSArray *)facebookWritePermissions;

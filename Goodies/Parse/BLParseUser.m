@@ -35,14 +35,10 @@ static ParseCompletionBlock pushCompletionBlock;
 
 //Background
 @property (nonatomic) UIBackgroundTaskIdentifier bgTaskId;
-- (void)startBackgroundTask;
-- (void)endBackgroundTask;
 
 //Timeout
 @property (nonatomic, weak) NSTimer *timeoutTimer;
-- (void)startTimeoutOperationWithBlock:(TimeoutBlock)timeoutBlock;
 - (void)operationDidTimeout:(NSTimer *)timer;
-- (void)stopTimeoutOperation;
 
 @end
 
@@ -509,6 +505,7 @@ static ParseCompletionBlock pushCompletionBlock;
 
 + (void)customLogout
 {
+    [[self currentUser] endBackgroundTask];
     [self logOut];
     [PFQuery clearAllCachedResults];
     dispatch_async(dispatch_get_main_queue(), ^{
