@@ -18,38 +18,38 @@
 		6529392219B378090047D238 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6529390A19B378090047D238 /* UIKit.framework */; };
 		6529392A19B378090047D238 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6529392819B378090047D238 /* InfoPlist.strings */; };
 		6529392C19B378090047D238 /* ProjectTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6529392B19B378090047D238 /* ProjectTests.m */; };
-		6529397A19B378280047D238 /* BLObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 6529393819B378280047D238 /* BLObject.m */; };
-		6529397B19B378280047D238 /* NSObject+Goodies.m in Sources */ = {isa = PBXBuildFile; fileRef = 6529393A19B378280047D238 /* NSObject+Goodies.m */; };
-		6529397C19B378280047D238 /* BLTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6529394019B378280047D238 /* BLTableViewController.m */; };
-		6529397D19B378280047D238 /* BLViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6529394219B378280047D238 /* BLViewController.m */; };
-		6529397E19B378280047D238 /* BLDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 6529394519B378280047D238 /* BLDatabase.m */; };
-		6529397F19B378280047D238 /* BLGoodies.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6529394619B378280047D238 /* BLGoodies.strings */; };
-		6529398019B378280047D238 /* BLInternet.m in Sources */ = {isa = PBXBuildFile; fileRef = 6529394A19B378280047D238 /* BLInternet.m */; };
-		6529398119B378280047D238 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 6529394C19B378280047D238 /* Reachability.m */; };
-		6529398219B378280047D238 /* BLPageControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 6529394F19B378280047D238 /* BLPageControl.m */; };
-		6529398419B378280047D238 /* PFObject+BLObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 6529395419B378280047D238 /* PFObject+BLObject.m */; };
-		6529398519B378280047D238 /* PFRole+BLRole.m in Sources */ = {isa = PBXBuildFile; fileRef = 6529395619B378280047D238 /* PFRole+BLRole.m */; };
-		6529398619B378280047D238 /* BLPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6529395919B378280047D238 /* BLPlayer.m */; };
-		6529398719B378280047D238 /* BLVideoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6529395D19B378280047D238 /* BLVideoView.m */; };
-		6529398819B378280047D238 /* BLQueuer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6529396019B378280047D238 /* BLQueuer.m */; };
-		6529398919B378280047D238 /* BLCityTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 6529396319B378280047D238 /* BLCityTextField.m */; };
-		6529398A19B378280047D238 /* BLEmailTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 6529396519B378280047D238 /* BLEmailTextField.m */; };
-		6529398B19B378280047D238 /* BLNameTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 6529396719B378280047D238 /* BLNameTextField.m */; };
-		6529398C19B378280047D238 /* BLPasswordTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 6529396919B378280047D238 /* BLPasswordTextField.m */; };
-		6529398D19B378280047D238 /* BLPhoneNumberTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 6529396B19B378280047D238 /* BLPhoneNumberTextField.m */; };
-		6529398E19B378280047D238 /* BLPostalCodeTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 6529396D19B378280047D238 /* BLPostalCodeTextField.m */; };
-		6529398F19B378280047D238 /* BLStateTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 6529396F19B378280047D238 /* BLStateTextField.m */; };
-		6529399019B378280047D238 /* BLTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 6529397219B378280047D238 /* BLTextField.m */; };
-		6529399119B378280047D238 /* BLTextViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6529397419B378280047D238 /* BLTextViewController.m */; };
-		6529399219B378280047D238 /* NSString+BLText.m in Sources */ = {isa = PBXBuildFile; fileRef = 6529397619B378280047D238 /* NSString+BLText.m */; };
-		6529399319B378280047D238 /* BLInternetLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6529397919B378280047D238 /* BLInternetLabel.m */; };
 		65A0B4D519B379B800691AF5 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65A0B4D219B379B800691AF5 /* Bolts.framework */; };
 		65A0B4D619B379B800691AF5 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65A0B4D319B379B800691AF5 /* Parse.framework */; };
 		65A0B4D719B379B800691AF5 /* ParseFacebookUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65A0B4D419B379B800691AF5 /* ParseFacebookUtils.framework */; };
-		65A0B4DA19B37E9500691AF5 /* BLParseObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 65A0B4D919B37E9500691AF5 /* BLParseObject.m */; };
-		65A0B4DD19B3814200691AF5 /* BLParseUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 65A0B4DC19B3814200691AF5 /* BLParseUser.m */; };
-		65A0B4E019B3912500691AF5 /* PFCloud+BLCloud.m in Sources */ = {isa = PBXBuildFile; fileRef = 65A0B4DF19B3912500691AF5 /* PFCloud+BLCloud.m */; };
 		65FA94E319B3D7930046A13E /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65FA94E219B3D7930046A13E /* FacebookSDK.framework */; };
+		65FA968A19B4056E0046A13E /* BLObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 65FA964519B4056E0046A13E /* BLObject.m */; };
+		65FA968B19B4056E0046A13E /* NSObject+Goodies.m in Sources */ = {isa = PBXBuildFile; fileRef = 65FA964719B4056E0046A13E /* NSObject+Goodies.m */; };
+		65FA968C19B4056E0046A13E /* BLTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 65FA964D19B4056E0046A13E /* BLTableViewController.m */; };
+		65FA968D19B4056E0046A13E /* BLViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 65FA964F19B4056E0046A13E /* BLViewController.m */; };
+		65FA968E19B4056E0046A13E /* BLDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 65FA965219B4056E0046A13E /* BLDatabase.m */; };
+		65FA968F19B4056E0046A13E /* BLGoodies.strings in Resources */ = {isa = PBXBuildFile; fileRef = 65FA965319B4056E0046A13E /* BLGoodies.strings */; };
+		65FA969019B4056E0046A13E /* BLInternet.m in Sources */ = {isa = PBXBuildFile; fileRef = 65FA965719B4056E0046A13E /* BLInternet.m */; };
+		65FA969119B4056E0046A13E /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 65FA965919B4056E0046A13E /* Reachability.m */; };
+		65FA969219B4056E0046A13E /* BLPageControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 65FA965C19B4056E0046A13E /* BLPageControl.m */; };
+		65FA969319B4056E0046A13E /* BLParseObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 65FA965F19B4056E0046A13E /* BLParseObject.m */; };
+		65FA969419B4056E0046A13E /* BLParseUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 65FA966119B4056E0046A13E /* BLParseUser.m */; };
+		65FA969519B4056E0046A13E /* PFCloud+BLCloud.m in Sources */ = {isa = PBXBuildFile; fileRef = 65FA966319B4056E0046A13E /* PFCloud+BLCloud.m */; };
+		65FA969619B4056E0046A13E /* PFObject+BLObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 65FA966519B4056E0046A13E /* PFObject+BLObject.m */; };
+		65FA969719B4056E0046A13E /* PFRole+BLRole.m in Sources */ = {isa = PBXBuildFile; fileRef = 65FA966719B4056E0046A13E /* PFRole+BLRole.m */; };
+		65FA969819B4056E0046A13E /* BLPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 65FA966A19B4056E0046A13E /* BLPlayer.m */; };
+		65FA969919B4056E0046A13E /* BLVideoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 65FA966E19B4056E0046A13E /* BLVideoView.m */; };
+		65FA969A19B4056E0046A13E /* BLQueuer.m in Sources */ = {isa = PBXBuildFile; fileRef = 65FA967119B4056E0046A13E /* BLQueuer.m */; };
+		65FA969B19B4056E0046A13E /* BLCityTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 65FA967419B4056E0046A13E /* BLCityTextField.m */; };
+		65FA969C19B4056E0046A13E /* BLEmailTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 65FA967619B4056E0046A13E /* BLEmailTextField.m */; };
+		65FA969D19B4056E0046A13E /* BLNameTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 65FA967819B4056E0046A13E /* BLNameTextField.m */; };
+		65FA969E19B4056E0046A13E /* BLPasswordTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 65FA967A19B4056E0046A13E /* BLPasswordTextField.m */; };
+		65FA969F19B4056E0046A13E /* BLPhoneNumberTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 65FA967C19B4056E0046A13E /* BLPhoneNumberTextField.m */; };
+		65FA96A019B4056E0046A13E /* BLPostalCodeTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 65FA967E19B4056E0046A13E /* BLPostalCodeTextField.m */; };
+		65FA96A119B4056E0046A13E /* BLStateTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 65FA968019B4056E0046A13E /* BLStateTextField.m */; };
+		65FA96A219B4056E0046A13E /* BLTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 65FA968219B4056E0046A13E /* BLTextField.m */; };
+		65FA96A319B4056E0046A13E /* BLTextViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 65FA968419B4056E0046A13E /* BLTextViewController.m */; };
+		65FA96A419B4056E0046A13E /* NSString+BLText.m in Sources */ = {isa = PBXBuildFile; fileRef = 65FA968619B4056E0046A13E /* NSString+BLText.m */; };
+		65FA96A519B4056E0046A13E /* BLInternetLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 65FA968919B4056E0046A13E /* BLInternetLabel.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -78,70 +78,70 @@
 		6529392719B378090047D238 /* ProjectTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ProjectTests-Info.plist"; sourceTree = "<group>"; };
 		6529392919B378090047D238 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		6529392B19B378090047D238 /* ProjectTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ProjectTests.m; sourceTree = "<group>"; };
-		6529393719B378280047D238 /* BLObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLObject.h; sourceTree = "<group>"; };
-		6529393819B378280047D238 /* BLObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLObject.m; sourceTree = "<group>"; };
-		6529393919B378280047D238 /* NSObject+Goodies.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+Goodies.h"; sourceTree = "<group>"; };
-		6529393A19B378280047D238 /* NSObject+Goodies.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+Goodies.m"; sourceTree = "<group>"; };
-		6529393B19B378280047D238 /* BLDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLDefines.h; sourceTree = "<group>"; };
-		6529393C19B378280047D238 /* BLGoodies.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLGoodies.pch; sourceTree = "<group>"; };
-		6529393D19B378280047D238 /* BLLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLLogger.h; sourceTree = "<group>"; };
-		6529393F19B378280047D238 /* BLTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLTableViewController.h; sourceTree = "<group>"; };
-		6529394019B378280047D238 /* BLTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLTableViewController.m; sourceTree = "<group>"; };
-		6529394119B378280047D238 /* BLViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLViewController.h; sourceTree = "<group>"; };
-		6529394219B378280047D238 /* BLViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLViewController.m; sourceTree = "<group>"; };
-		6529394419B378280047D238 /* BLDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLDatabase.h; sourceTree = "<group>"; };
-		6529394519B378280047D238 /* BLDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLDatabase.m; sourceTree = "<group>"; };
-		6529394719B378280047D238 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/BLGoodies.strings; sourceTree = "<group>"; };
-		6529394919B378280047D238 /* BLInternet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLInternet.h; sourceTree = "<group>"; };
-		6529394A19B378280047D238 /* BLInternet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLInternet.m; sourceTree = "<group>"; };
-		6529394B19B378280047D238 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
-		6529394C19B378280047D238 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
-		6529394E19B378280047D238 /* BLPageControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLPageControl.h; sourceTree = "<group>"; };
-		6529394F19B378280047D238 /* BLPageControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLPageControl.m; sourceTree = "<group>"; };
-		6529395319B378280047D238 /* PFObject+BLObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PFObject+BLObject.h"; sourceTree = "<group>"; };
-		6529395419B378280047D238 /* PFObject+BLObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "PFObject+BLObject.m"; sourceTree = "<group>"; };
-		6529395519B378280047D238 /* PFRole+BLRole.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PFRole+BLRole.h"; sourceTree = "<group>"; };
-		6529395619B378280047D238 /* PFRole+BLRole.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "PFRole+BLRole.m"; sourceTree = "<group>"; };
-		6529395819B378280047D238 /* BLPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLPlayer.h; sourceTree = "<group>"; };
-		6529395919B378280047D238 /* BLPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLPlayer.m; sourceTree = "<group>"; };
-		6529395A19B378280047D238 /* BLPlayerControls.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLPlayerControls.h; sourceTree = "<group>"; };
-		6529395B19B378280047D238 /* BLPlayerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLPlayerDelegate.h; sourceTree = "<group>"; };
-		6529395C19B378280047D238 /* BLVideoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLVideoView.h; sourceTree = "<group>"; };
-		6529395D19B378280047D238 /* BLVideoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLVideoView.m; sourceTree = "<group>"; };
-		6529395F19B378280047D238 /* BLQueuer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLQueuer.h; sourceTree = "<group>"; };
-		6529396019B378280047D238 /* BLQueuer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLQueuer.m; sourceTree = "<group>"; };
-		6529396219B378280047D238 /* BLCityTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLCityTextField.h; sourceTree = "<group>"; };
-		6529396319B378280047D238 /* BLCityTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLCityTextField.m; sourceTree = "<group>"; };
-		6529396419B378280047D238 /* BLEmailTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLEmailTextField.h; sourceTree = "<group>"; };
-		6529396519B378280047D238 /* BLEmailTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLEmailTextField.m; sourceTree = "<group>"; };
-		6529396619B378280047D238 /* BLNameTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLNameTextField.h; sourceTree = "<group>"; };
-		6529396719B378280047D238 /* BLNameTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLNameTextField.m; sourceTree = "<group>"; };
-		6529396819B378280047D238 /* BLPasswordTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLPasswordTextField.h; sourceTree = "<group>"; };
-		6529396919B378280047D238 /* BLPasswordTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLPasswordTextField.m; sourceTree = "<group>"; };
-		6529396A19B378280047D238 /* BLPhoneNumberTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLPhoneNumberTextField.h; sourceTree = "<group>"; };
-		6529396B19B378280047D238 /* BLPhoneNumberTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLPhoneNumberTextField.m; sourceTree = "<group>"; };
-		6529396C19B378280047D238 /* BLPostalCodeTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLPostalCodeTextField.h; sourceTree = "<group>"; };
-		6529396D19B378280047D238 /* BLPostalCodeTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLPostalCodeTextField.m; sourceTree = "<group>"; };
-		6529396E19B378280047D238 /* BLStateTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLStateTextField.h; sourceTree = "<group>"; };
-		6529396F19B378280047D238 /* BLStateTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLStateTextField.m; sourceTree = "<group>"; };
-		6529397119B378280047D238 /* BLTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLTextField.h; sourceTree = "<group>"; };
-		6529397219B378280047D238 /* BLTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLTextField.m; sourceTree = "<group>"; };
-		6529397319B378280047D238 /* BLTextViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLTextViewController.h; sourceTree = "<group>"; };
-		6529397419B378280047D238 /* BLTextViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLTextViewController.m; sourceTree = "<group>"; };
-		6529397519B378280047D238 /* NSString+BLText.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+BLText.h"; sourceTree = "<group>"; };
-		6529397619B378280047D238 /* NSString+BLText.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+BLText.m"; sourceTree = "<group>"; };
-		6529397819B378280047D238 /* BLInternetLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLInternetLabel.h; sourceTree = "<group>"; };
-		6529397919B378280047D238 /* BLInternetLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLInternetLabel.m; sourceTree = "<group>"; };
 		65A0B4D219B379B800691AF5 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Bolts.framework; path = "../../../07_extensões/Parse/Bolts.framework"; sourceTree = "<group>"; };
 		65A0B4D319B379B800691AF5 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Parse.framework; path = "../../../07_extensões/Parse/Parse.framework"; sourceTree = "<group>"; };
 		65A0B4D419B379B800691AF5 /* ParseFacebookUtils.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ParseFacebookUtils.framework; path = "../../../07_extensões/Parse/ParseFacebookUtils.framework"; sourceTree = "<group>"; };
-		65A0B4D819B37E9500691AF5 /* BLParseObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLParseObject.h; sourceTree = "<group>"; };
-		65A0B4D919B37E9500691AF5 /* BLParseObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLParseObject.m; sourceTree = "<group>"; };
-		65A0B4DB19B3814200691AF5 /* BLParseUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLParseUser.h; sourceTree = "<group>"; };
-		65A0B4DC19B3814200691AF5 /* BLParseUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLParseUser.m; sourceTree = "<group>"; };
-		65A0B4DE19B3912500691AF5 /* PFCloud+BLCloud.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PFCloud+BLCloud.h"; sourceTree = "<group>"; };
-		65A0B4DF19B3912500691AF5 /* PFCloud+BLCloud.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "PFCloud+BLCloud.m"; sourceTree = "<group>"; };
 		65FA94E219B3D7930046A13E /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = "../../../08_github/facebook-ios-sdk/build/FacebookSDK.framework"; sourceTree = "<group>"; };
+		65FA964419B4056E0046A13E /* BLObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLObject.h; sourceTree = "<group>"; };
+		65FA964519B4056E0046A13E /* BLObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLObject.m; sourceTree = "<group>"; };
+		65FA964619B4056E0046A13E /* NSObject+Goodies.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+Goodies.h"; sourceTree = "<group>"; };
+		65FA964719B4056E0046A13E /* NSObject+Goodies.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+Goodies.m"; sourceTree = "<group>"; };
+		65FA964819B4056E0046A13E /* BLDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLDefines.h; sourceTree = "<group>"; };
+		65FA964919B4056E0046A13E /* BLGoodies.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLGoodies.pch; sourceTree = "<group>"; };
+		65FA964A19B4056E0046A13E /* BLLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLLogger.h; sourceTree = "<group>"; };
+		65FA964C19B4056E0046A13E /* BLTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLTableViewController.h; sourceTree = "<group>"; };
+		65FA964D19B4056E0046A13E /* BLTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLTableViewController.m; sourceTree = "<group>"; };
+		65FA964E19B4056E0046A13E /* BLViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLViewController.h; sourceTree = "<group>"; };
+		65FA964F19B4056E0046A13E /* BLViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLViewController.m; sourceTree = "<group>"; };
+		65FA965119B4056E0046A13E /* BLDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLDatabase.h; sourceTree = "<group>"; };
+		65FA965219B4056E0046A13E /* BLDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLDatabase.m; sourceTree = "<group>"; };
+		65FA965419B4056E0046A13E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/BLGoodies.strings; sourceTree = "<group>"; };
+		65FA965619B4056E0046A13E /* BLInternet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLInternet.h; sourceTree = "<group>"; };
+		65FA965719B4056E0046A13E /* BLInternet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLInternet.m; sourceTree = "<group>"; };
+		65FA965819B4056E0046A13E /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
+		65FA965919B4056E0046A13E /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
+		65FA965B19B4056E0046A13E /* BLPageControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLPageControl.h; sourceTree = "<group>"; };
+		65FA965C19B4056E0046A13E /* BLPageControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLPageControl.m; sourceTree = "<group>"; };
+		65FA965E19B4056E0046A13E /* BLParseObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLParseObject.h; sourceTree = "<group>"; };
+		65FA965F19B4056E0046A13E /* BLParseObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLParseObject.m; sourceTree = "<group>"; };
+		65FA966019B4056E0046A13E /* BLParseUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLParseUser.h; sourceTree = "<group>"; };
+		65FA966119B4056E0046A13E /* BLParseUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLParseUser.m; sourceTree = "<group>"; };
+		65FA966219B4056E0046A13E /* PFCloud+BLCloud.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PFCloud+BLCloud.h"; sourceTree = "<group>"; };
+		65FA966319B4056E0046A13E /* PFCloud+BLCloud.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "PFCloud+BLCloud.m"; sourceTree = "<group>"; };
+		65FA966419B4056E0046A13E /* PFObject+BLObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PFObject+BLObject.h"; sourceTree = "<group>"; };
+		65FA966519B4056E0046A13E /* PFObject+BLObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "PFObject+BLObject.m"; sourceTree = "<group>"; };
+		65FA966619B4056E0046A13E /* PFRole+BLRole.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PFRole+BLRole.h"; sourceTree = "<group>"; };
+		65FA966719B4056E0046A13E /* PFRole+BLRole.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "PFRole+BLRole.m"; sourceTree = "<group>"; };
+		65FA966919B4056E0046A13E /* BLPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLPlayer.h; sourceTree = "<group>"; };
+		65FA966A19B4056E0046A13E /* BLPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLPlayer.m; sourceTree = "<group>"; };
+		65FA966B19B4056E0046A13E /* BLPlayerControls.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLPlayerControls.h; sourceTree = "<group>"; };
+		65FA966C19B4056E0046A13E /* BLPlayerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLPlayerDelegate.h; sourceTree = "<group>"; };
+		65FA966D19B4056E0046A13E /* BLVideoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLVideoView.h; sourceTree = "<group>"; };
+		65FA966E19B4056E0046A13E /* BLVideoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLVideoView.m; sourceTree = "<group>"; };
+		65FA967019B4056E0046A13E /* BLQueuer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLQueuer.h; sourceTree = "<group>"; };
+		65FA967119B4056E0046A13E /* BLQueuer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLQueuer.m; sourceTree = "<group>"; };
+		65FA967319B4056E0046A13E /* BLCityTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLCityTextField.h; sourceTree = "<group>"; };
+		65FA967419B4056E0046A13E /* BLCityTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLCityTextField.m; sourceTree = "<group>"; };
+		65FA967519B4056E0046A13E /* BLEmailTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLEmailTextField.h; sourceTree = "<group>"; };
+		65FA967619B4056E0046A13E /* BLEmailTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLEmailTextField.m; sourceTree = "<group>"; };
+		65FA967719B4056E0046A13E /* BLNameTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLNameTextField.h; sourceTree = "<group>"; };
+		65FA967819B4056E0046A13E /* BLNameTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLNameTextField.m; sourceTree = "<group>"; };
+		65FA967919B4056E0046A13E /* BLPasswordTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLPasswordTextField.h; sourceTree = "<group>"; };
+		65FA967A19B4056E0046A13E /* BLPasswordTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLPasswordTextField.m; sourceTree = "<group>"; };
+		65FA967B19B4056E0046A13E /* BLPhoneNumberTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLPhoneNumberTextField.h; sourceTree = "<group>"; };
+		65FA967C19B4056E0046A13E /* BLPhoneNumberTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLPhoneNumberTextField.m; sourceTree = "<group>"; };
+		65FA967D19B4056E0046A13E /* BLPostalCodeTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLPostalCodeTextField.h; sourceTree = "<group>"; };
+		65FA967E19B4056E0046A13E /* BLPostalCodeTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLPostalCodeTextField.m; sourceTree = "<group>"; };
+		65FA967F19B4056E0046A13E /* BLStateTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLStateTextField.h; sourceTree = "<group>"; };
+		65FA968019B4056E0046A13E /* BLStateTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLStateTextField.m; sourceTree = "<group>"; };
+		65FA968119B4056E0046A13E /* BLTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLTextField.h; sourceTree = "<group>"; };
+		65FA968219B4056E0046A13E /* BLTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLTextField.m; sourceTree = "<group>"; };
+		65FA968319B4056E0046A13E /* BLTextViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLTextViewController.h; sourceTree = "<group>"; };
+		65FA968419B4056E0046A13E /* BLTextViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLTextViewController.m; sourceTree = "<group>"; };
+		65FA968519B4056E0046A13E /* NSString+BLText.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+BLText.h"; sourceTree = "<group>"; };
+		65FA968619B4056E0046A13E /* NSString+BLText.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+BLText.m"; sourceTree = "<group>"; };
+		65FA968819B4056E0046A13E /* BLInternetLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLInternetLabel.h; sourceTree = "<group>"; };
+		65FA968919B4056E0046A13E /* BLInternetLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLInternetLabel.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -175,7 +175,7 @@
 		652938FA19B378090047D238 = {
 			isa = PBXGroup;
 			children = (
-				6529393519B378280047D238 /* Goodies */,
+				65FA964219B4056E0046A13E /* Goodies */,
 				6529390C19B378090047D238 /* Project */,
 				6529392519B378090047D238 /* ProjectTests */,
 				6529390519B378090047D238 /* Frameworks */,
@@ -246,150 +246,149 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		6529393519B378280047D238 /* Goodies */ = {
+		65FA964219B4056E0046A13E /* Goodies */ = {
 			isa = PBXGroup;
 			children = (
-				6529393619B378280047D238 /* BaseClasses */,
-				6529393B19B378280047D238 /* BLDefines.h */,
-				6529393C19B378280047D238 /* BLGoodies.pch */,
-				6529393D19B378280047D238 /* BLLogger.h */,
-				6529393E19B378280047D238 /* Controllers */,
-				6529394319B378280047D238 /* CoreData */,
-				6529394619B378280047D238 /* BLGoodies.strings */,
-				6529394819B378280047D238 /* Internet */,
-				6529394D19B378280047D238 /* PageControl */,
-				6529395019B378280047D238 /* Parse */,
-				6529395719B378280047D238 /* Player  */,
-				6529395E19B378280047D238 /* Queuer */,
-				6529396119B378280047D238 /* Text */,
-				6529397719B378280047D238 /* UI */,
+				65FA964319B4056E0046A13E /* BaseClasses */,
+				65FA964819B4056E0046A13E /* BLDefines.h */,
+				65FA964919B4056E0046A13E /* BLGoodies.pch */,
+				65FA964A19B4056E0046A13E /* BLLogger.h */,
+				65FA964B19B4056E0046A13E /* Controllers */,
+				65FA965019B4056E0046A13E /* CoreData */,
+				65FA965319B4056E0046A13E /* BLGoodies.strings */,
+				65FA965519B4056E0046A13E /* Internet */,
+				65FA965A19B4056E0046A13E /* PageControl */,
+				65FA965D19B4056E0046A13E /* Parse */,
+				65FA966819B4056E0046A13E /* Player  */,
+				65FA966F19B4056E0046A13E /* Queuer */,
+				65FA967219B4056E0046A13E /* Text */,
+				65FA968719B4056E0046A13E /* UI */,
 			);
-			name = Goodies;
-			path = ../Goodies;
+			path = Goodies;
 			sourceTree = "<group>";
 		};
-		6529393619B378280047D238 /* BaseClasses */ = {
+		65FA964319B4056E0046A13E /* BaseClasses */ = {
 			isa = PBXGroup;
 			children = (
-				6529393719B378280047D238 /* BLObject.h */,
-				6529393819B378280047D238 /* BLObject.m */,
-				6529393919B378280047D238 /* NSObject+Goodies.h */,
-				6529393A19B378280047D238 /* NSObject+Goodies.m */,
+				65FA964419B4056E0046A13E /* BLObject.h */,
+				65FA964519B4056E0046A13E /* BLObject.m */,
+				65FA964619B4056E0046A13E /* NSObject+Goodies.h */,
+				65FA964719B4056E0046A13E /* NSObject+Goodies.m */,
 			);
 			path = BaseClasses;
 			sourceTree = "<group>";
 		};
-		6529393E19B378280047D238 /* Controllers */ = {
+		65FA964B19B4056E0046A13E /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				6529393F19B378280047D238 /* BLTableViewController.h */,
-				6529394019B378280047D238 /* BLTableViewController.m */,
-				6529394119B378280047D238 /* BLViewController.h */,
-				6529394219B378280047D238 /* BLViewController.m */,
+				65FA964C19B4056E0046A13E /* BLTableViewController.h */,
+				65FA964D19B4056E0046A13E /* BLTableViewController.m */,
+				65FA964E19B4056E0046A13E /* BLViewController.h */,
+				65FA964F19B4056E0046A13E /* BLViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
 		};
-		6529394319B378280047D238 /* CoreData */ = {
+		65FA965019B4056E0046A13E /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
-				6529394419B378280047D238 /* BLDatabase.h */,
-				6529394519B378280047D238 /* BLDatabase.m */,
+				65FA965119B4056E0046A13E /* BLDatabase.h */,
+				65FA965219B4056E0046A13E /* BLDatabase.m */,
 			);
 			path = CoreData;
 			sourceTree = "<group>";
 		};
-		6529394819B378280047D238 /* Internet */ = {
+		65FA965519B4056E0046A13E /* Internet */ = {
 			isa = PBXGroup;
 			children = (
-				6529394919B378280047D238 /* BLInternet.h */,
-				6529394A19B378280047D238 /* BLInternet.m */,
-				6529394B19B378280047D238 /* Reachability.h */,
-				6529394C19B378280047D238 /* Reachability.m */,
+				65FA965619B4056E0046A13E /* BLInternet.h */,
+				65FA965719B4056E0046A13E /* BLInternet.m */,
+				65FA965819B4056E0046A13E /* Reachability.h */,
+				65FA965919B4056E0046A13E /* Reachability.m */,
 			);
 			path = Internet;
 			sourceTree = "<group>";
 		};
-		6529394D19B378280047D238 /* PageControl */ = {
+		65FA965A19B4056E0046A13E /* PageControl */ = {
 			isa = PBXGroup;
 			children = (
-				6529394E19B378280047D238 /* BLPageControl.h */,
-				6529394F19B378280047D238 /* BLPageControl.m */,
+				65FA965B19B4056E0046A13E /* BLPageControl.h */,
+				65FA965C19B4056E0046A13E /* BLPageControl.m */,
 			);
 			path = PageControl;
 			sourceTree = "<group>";
 		};
-		6529395019B378280047D238 /* Parse */ = {
+		65FA965D19B4056E0046A13E /* Parse */ = {
 			isa = PBXGroup;
 			children = (
-				65A0B4DB19B3814200691AF5 /* BLParseUser.h */,
-				65A0B4DC19B3814200691AF5 /* BLParseUser.m */,
-				65A0B4D819B37E9500691AF5 /* BLParseObject.h */,
-				65A0B4D919B37E9500691AF5 /* BLParseObject.m */,
-				6529395319B378280047D238 /* PFObject+BLObject.h */,
-				6529395419B378280047D238 /* PFObject+BLObject.m */,
-				6529395519B378280047D238 /* PFRole+BLRole.h */,
-				6529395619B378280047D238 /* PFRole+BLRole.m */,
-				65A0B4DE19B3912500691AF5 /* PFCloud+BLCloud.h */,
-				65A0B4DF19B3912500691AF5 /* PFCloud+BLCloud.m */,
+				65FA965E19B4056E0046A13E /* BLParseObject.h */,
+				65FA965F19B4056E0046A13E /* BLParseObject.m */,
+				65FA966019B4056E0046A13E /* BLParseUser.h */,
+				65FA966119B4056E0046A13E /* BLParseUser.m */,
+				65FA966219B4056E0046A13E /* PFCloud+BLCloud.h */,
+				65FA966319B4056E0046A13E /* PFCloud+BLCloud.m */,
+				65FA966419B4056E0046A13E /* PFObject+BLObject.h */,
+				65FA966519B4056E0046A13E /* PFObject+BLObject.m */,
+				65FA966619B4056E0046A13E /* PFRole+BLRole.h */,
+				65FA966719B4056E0046A13E /* PFRole+BLRole.m */,
 			);
 			path = Parse;
 			sourceTree = "<group>";
 		};
-		6529395719B378280047D238 /* Player  */ = {
+		65FA966819B4056E0046A13E /* Player  */ = {
 			isa = PBXGroup;
 			children = (
-				6529395819B378280047D238 /* BLPlayer.h */,
-				6529395919B378280047D238 /* BLPlayer.m */,
-				6529395A19B378280047D238 /* BLPlayerControls.h */,
-				6529395B19B378280047D238 /* BLPlayerDelegate.h */,
-				6529395C19B378280047D238 /* BLVideoView.h */,
-				6529395D19B378280047D238 /* BLVideoView.m */,
+				65FA966919B4056E0046A13E /* BLPlayer.h */,
+				65FA966A19B4056E0046A13E /* BLPlayer.m */,
+				65FA966B19B4056E0046A13E /* BLPlayerControls.h */,
+				65FA966C19B4056E0046A13E /* BLPlayerDelegate.h */,
+				65FA966D19B4056E0046A13E /* BLVideoView.h */,
+				65FA966E19B4056E0046A13E /* BLVideoView.m */,
 			);
 			path = "Player ";
 			sourceTree = "<group>";
 		};
-		6529395E19B378280047D238 /* Queuer */ = {
+		65FA966F19B4056E0046A13E /* Queuer */ = {
 			isa = PBXGroup;
 			children = (
-				6529395F19B378280047D238 /* BLQueuer.h */,
-				6529396019B378280047D238 /* BLQueuer.m */,
+				65FA967019B4056E0046A13E /* BLQueuer.h */,
+				65FA967119B4056E0046A13E /* BLQueuer.m */,
 			);
 			path = Queuer;
 			sourceTree = "<group>";
 		};
-		6529396119B378280047D238 /* Text */ = {
+		65FA967219B4056E0046A13E /* Text */ = {
 			isa = PBXGroup;
 			children = (
-				6529396219B378280047D238 /* BLCityTextField.h */,
-				6529396319B378280047D238 /* BLCityTextField.m */,
-				6529396419B378280047D238 /* BLEmailTextField.h */,
-				6529396519B378280047D238 /* BLEmailTextField.m */,
-				6529396619B378280047D238 /* BLNameTextField.h */,
-				6529396719B378280047D238 /* BLNameTextField.m */,
-				6529396819B378280047D238 /* BLPasswordTextField.h */,
-				6529396919B378280047D238 /* BLPasswordTextField.m */,
-				6529396A19B378280047D238 /* BLPhoneNumberTextField.h */,
-				6529396B19B378280047D238 /* BLPhoneNumberTextField.m */,
-				6529396C19B378280047D238 /* BLPostalCodeTextField.h */,
-				6529396D19B378280047D238 /* BLPostalCodeTextField.m */,
-				6529396E19B378280047D238 /* BLStateTextField.h */,
-				6529396F19B378280047D238 /* BLStateTextField.m */,
-				6529397119B378280047D238 /* BLTextField.h */,
-				6529397219B378280047D238 /* BLTextField.m */,
-				6529397319B378280047D238 /* BLTextViewController.h */,
-				6529397419B378280047D238 /* BLTextViewController.m */,
-				6529397519B378280047D238 /* NSString+BLText.h */,
-				6529397619B378280047D238 /* NSString+BLText.m */,
+				65FA967319B4056E0046A13E /* BLCityTextField.h */,
+				65FA967419B4056E0046A13E /* BLCityTextField.m */,
+				65FA967519B4056E0046A13E /* BLEmailTextField.h */,
+				65FA967619B4056E0046A13E /* BLEmailTextField.m */,
+				65FA967719B4056E0046A13E /* BLNameTextField.h */,
+				65FA967819B4056E0046A13E /* BLNameTextField.m */,
+				65FA967919B4056E0046A13E /* BLPasswordTextField.h */,
+				65FA967A19B4056E0046A13E /* BLPasswordTextField.m */,
+				65FA967B19B4056E0046A13E /* BLPhoneNumberTextField.h */,
+				65FA967C19B4056E0046A13E /* BLPhoneNumberTextField.m */,
+				65FA967D19B4056E0046A13E /* BLPostalCodeTextField.h */,
+				65FA967E19B4056E0046A13E /* BLPostalCodeTextField.m */,
+				65FA967F19B4056E0046A13E /* BLStateTextField.h */,
+				65FA968019B4056E0046A13E /* BLStateTextField.m */,
+				65FA968119B4056E0046A13E /* BLTextField.h */,
+				65FA968219B4056E0046A13E /* BLTextField.m */,
+				65FA968319B4056E0046A13E /* BLTextViewController.h */,
+				65FA968419B4056E0046A13E /* BLTextViewController.m */,
+				65FA968519B4056E0046A13E /* NSString+BLText.h */,
+				65FA968619B4056E0046A13E /* NSString+BLText.m */,
 			);
 			path = Text;
 			sourceTree = "<group>";
 		};
-		6529397719B378280047D238 /* UI */ = {
+		65FA968719B4056E0046A13E /* UI */ = {
 			isa = PBXGroup;
 			children = (
-				6529397819B378280047D238 /* BLInternetLabel.h */,
-				6529397919B378280047D238 /* BLInternetLabel.m */,
+				65FA968819B4056E0046A13E /* BLInternetLabel.h */,
+				65FA968919B4056E0046A13E /* BLInternetLabel.m */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -471,7 +470,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6529391119B378090047D238 /* InfoPlist.strings in Resources */,
-				6529397F19B378280047D238 /* BLGoodies.strings in Resources */,
+				65FA968F19B4056E0046A13E /* BLGoodies.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -490,35 +489,35 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6529399219B378280047D238 /* NSString+BLText.m in Sources */,
-				6529399119B378280047D238 /* BLTextViewController.m in Sources */,
-				65A0B4DA19B37E9500691AF5 /* BLParseObject.m in Sources */,
-				6529398B19B378280047D238 /* BLNameTextField.m in Sources */,
-				6529397D19B378280047D238 /* BLViewController.m in Sources */,
-				6529399319B378280047D238 /* BLInternetLabel.m in Sources */,
-				6529398C19B378280047D238 /* BLPasswordTextField.m in Sources */,
+				65FA969819B4056E0046A13E /* BLPlayer.m in Sources */,
+				65FA968D19B4056E0046A13E /* BLViewController.m in Sources */,
+				65FA96A419B4056E0046A13E /* NSString+BLText.m in Sources */,
 				6529391719B378090047D238 /* BLAppDelegate.m in Sources */,
-				6529398419B378280047D238 /* PFObject+BLObject.m in Sources */,
-				6529398A19B378280047D238 /* BLEmailTextField.m in Sources */,
-				6529397A19B378280047D238 /* BLObject.m in Sources */,
-				6529398519B378280047D238 /* PFRole+BLRole.m in Sources */,
-				6529397B19B378280047D238 /* NSObject+Goodies.m in Sources */,
-				6529397C19B378280047D238 /* BLTableViewController.m in Sources */,
+				65FA969B19B4056E0046A13E /* BLCityTextField.m in Sources */,
+				65FA969D19B4056E0046A13E /* BLNameTextField.m in Sources */,
+				65FA968A19B4056E0046A13E /* BLObject.m in Sources */,
+				65FA969719B4056E0046A13E /* PFRole+BLRole.m in Sources */,
+				65FA969619B4056E0046A13E /* PFObject+BLObject.m in Sources */,
+				65FA968B19B4056E0046A13E /* NSObject+Goodies.m in Sources */,
+				65FA968C19B4056E0046A13E /* BLTableViewController.m in Sources */,
 				6529391319B378090047D238 /* main.m in Sources */,
-				6529398019B378280047D238 /* BLInternet.m in Sources */,
-				6529398D19B378280047D238 /* BLPhoneNumberTextField.m in Sources */,
-				6529398819B378280047D238 /* BLQueuer.m in Sources */,
-				6529398E19B378280047D238 /* BLPostalCodeTextField.m in Sources */,
-				6529398619B378280047D238 /* BLPlayer.m in Sources */,
-				6529398F19B378280047D238 /* BLStateTextField.m in Sources */,
-				6529398719B378280047D238 /* BLVideoView.m in Sources */,
-				6529398919B378280047D238 /* BLCityTextField.m in Sources */,
-				6529398119B378280047D238 /* Reachability.m in Sources */,
-				6529398219B378280047D238 /* BLPageControl.m in Sources */,
-				6529397E19B378280047D238 /* BLDatabase.m in Sources */,
-				65A0B4E019B3912500691AF5 /* PFCloud+BLCloud.m in Sources */,
-				6529399019B378280047D238 /* BLTextField.m in Sources */,
-				65A0B4DD19B3814200691AF5 /* BLParseUser.m in Sources */,
+				65FA969019B4056E0046A13E /* BLInternet.m in Sources */,
+				65FA969919B4056E0046A13E /* BLVideoView.m in Sources */,
+				65FA969C19B4056E0046A13E /* BLEmailTextField.m in Sources */,
+				65FA969F19B4056E0046A13E /* BLPhoneNumberTextField.m in Sources */,
+				65FA969119B4056E0046A13E /* Reachability.m in Sources */,
+				65FA96A119B4056E0046A13E /* BLStateTextField.m in Sources */,
+				65FA969419B4056E0046A13E /* BLParseUser.m in Sources */,
+				65FA969319B4056E0046A13E /* BLParseObject.m in Sources */,
+				65FA969A19B4056E0046A13E /* BLQueuer.m in Sources */,
+				65FA969E19B4056E0046A13E /* BLPasswordTextField.m in Sources */,
+				65FA969519B4056E0046A13E /* PFCloud+BLCloud.m in Sources */,
+				65FA969219B4056E0046A13E /* BLPageControl.m in Sources */,
+				65FA96A219B4056E0046A13E /* BLTextField.m in Sources */,
+				65FA968E19B4056E0046A13E /* BLDatabase.m in Sources */,
+				65FA96A519B4056E0046A13E /* BLInternetLabel.m in Sources */,
+				65FA96A019B4056E0046A13E /* BLPostalCodeTextField.m in Sources */,
+				65FA96A319B4056E0046A13E /* BLTextViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -557,10 +556,10 @@
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
-		6529394619B378280047D238 /* BLGoodies.strings */ = {
+		65FA965319B4056E0046A13E /* BLGoodies.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				6529394719B378280047D238 /* en */,
+				65FA965419B4056E0046A13E /* en */,
 			);
 			name = BLGoodies.strings;
 			sourceTree = "<group>";

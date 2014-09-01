@@ -1,0 +1,21 @@
+//
+//  BLGoodies.pch
+//  Goodies
+//
+//  Created by André Abou Chami Campana on 29/08/14.
+//  Copyright (c) 2014 Bell App Lab. All rights reserved.
+//
+
+#ifndef Goodies_BLGoodies_pch
+#define Goodies_BLGoodies_pch
+
+//Header Files
+#import "BLDefines.h"
+#import "BLLogger.h"
+#import "BLInternetLabel.h"
+#import "BLViewController.h"
+#import "BLTableViewController.h"
+#import "BLInternet.h"
+#import "BLQueuer.h"
+
+#endif
