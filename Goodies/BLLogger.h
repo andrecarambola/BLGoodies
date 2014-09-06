@@ -18,6 +18,7 @@
 #   define kBLShouldLogAdmin
 #   define kBLShouldLogFiles
 #   define kBLShouldLogMedia
+#   define kBLShouldLogCoreData
 #else
 #   define DLog(...)
 #endif
@@ -69,6 +70,13 @@
 #   define MediaLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 #else
 #   define MediaLog(...)
+#endif
+
+//CoreData
+#ifdef kBLShouldLogCoreData
+#   define CoreDataLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
+#else
+#   define CoreDataLog(...)
 #endif
 
 #endif
