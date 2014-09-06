@@ -42,7 +42,6 @@
 {
     NSAssert(modelFileName.length > 0, @"Core Data Model file name shouldn't be nil");
     NSAssert(storeFileName.length > 0, @"Core Data Store file name shouldn't be nil");
-    if (modelFileName.length == 0 || storeFileName.length == 0) return nil;
     BLDatabase *result = [[BLDatabase alloc] init];
     [result setStorageFileName:storeFileName];
     
