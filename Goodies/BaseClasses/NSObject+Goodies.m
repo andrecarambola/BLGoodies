@@ -52,10 +52,29 @@ static NSTimeInterval defaultTimeoutTime = 10;
 
 + (NSTimer *)startTimeoutOperationWithBlock:(TimeoutBlock)timeoutBlock
 {
+    return [self startTimeoutOperationWithInterval:[self defaultTimeoutTime]
+                                          andBlock:timeoutBlock];
+}
+
++ (NSTimer *)startTimeoutOperationWithInterval:(NSTimeInterval)interval
+                                      andBlock:(TimeoutBlock)timeoutBlock
+{
+    return [self startTimeoutOperationWithTarget:self
+                                          action:@selector(operationDidTimeout:)
+                                        interval:interval
+                                        andBlock:timeoutBlock];
+}
+
++ (NSTimer *)startTimeoutOperationWithTarget:(id)target
+                                      action:(SEL)action
+                                    interval:(NSTimeInterval)interval
+                                    andBlock:(TimeoutBlock)timeoutBlock
+{
+    NSAssert(target != nil && action != NULL, @"Target and action should not be void");
     NSDictionary *userInfo = (timeoutBlock != nil) ? @{kBLTimeoutBlockKey: [timeoutBlock copy]} : nil;
-    NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:[self defaultTimeoutTime]
-                                                      target:self
-                                                    selector:@selector(operationDidTimeout:)
+    NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:interval
+                                                      target:target
+                                                    selector:action
                                                     userInfo:userInfo
                                                      repeats:NO];
     return timer;

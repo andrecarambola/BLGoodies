@@ -8,6 +8,7 @@
 
 #import "BLObject.h"
 #import "BLDefines.h"
+#import "BLInternet.h"
 
 
 @interface BLObject ()
@@ -183,7 +184,9 @@
 - (void)startTimeoutOperationWithBlock:(TimeoutBlock)timeoutBlock
 {
     if (self.timeoutTimer) [self stopTimeoutOperation];
-    NSTimer *timer = [BLObject startTimeoutOperationWithBlock:timeoutBlock];
+    NSTimer *timer = [BLObject startTimeoutOperationWithTarget:self
+                                                        action:@selector(operationDidTimeout:) interval:[BLObject defaultTimeoutTime]
+                                                      andBlock:timeoutBlock];
     [self setTimeoutTimer:timer];
 }
 

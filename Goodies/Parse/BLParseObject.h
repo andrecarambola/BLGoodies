@@ -11,6 +11,9 @@
 #import "BLInternet.h"
 
 
+@class BLParseUser;
+
+
 #pragma mark - Public Interface
 @interface BLParseObject : PFObject <PFSubclassing>
 
@@ -49,6 +52,8 @@
 //Deleting
 - (void)deleteEverythingWithCompletionBlock:(ParseCompletionBlock)block;
 - (void)deleteDependenciesWithBlock:(ParseCompletionBlock)dependenciesBlock;
++ (void)deleteAllObjectsForUser:(BLParseUser *)user
+                      withBlock:(ParseCompletionBlock)block;
 
 @end
 

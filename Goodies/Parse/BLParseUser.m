@@ -213,7 +213,10 @@ static ParseCompletionBlock pushCompletionBlock;
 - (void)startTimeoutOperationWithBlock:(TimeoutBlock)timeoutBlock
 {
     if (self.timeoutTimer) [self stopTimeoutOperation];
-    NSTimer *timer = [BLObject startTimeoutOperationWithBlock:timeoutBlock];
+    NSTimer *timer = [BLObject startTimeoutOperationWithTarget:self
+                                                        action:@selector(operationDidTimeout:)
+                                                      interval:[BLObject defaultTimeoutTime]
+                                                      andBlock:timeoutBlock];
     [self setTimeoutTimer:timer];
 }
 

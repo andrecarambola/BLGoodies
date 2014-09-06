@@ -71,7 +71,7 @@ static NSTimeInterval activityIndicatorThreshold = 1.0;
 + (void)startInternetWithHost:(NSString *)host
 {
     myHost = host;
-    [BLInternet privateSingleton];
+    [BLInternet doWeHaveInternet];
 }
 
 + (void)setThresholdForNetworkActivityIndicator:(NSTimeInterval)threshold
@@ -86,7 +86,6 @@ static NSTimeInterval activityIndicatorThreshold = 1.0;
     [self setHandlesMemory:YES];
     [self setHandlesAppStates:YES];
     [self startReachability];
-    [BLInternet doWeHaveInternet];
 }
 
 
