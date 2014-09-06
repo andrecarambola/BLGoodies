@@ -41,6 +41,13 @@
 
 #pragma mark - Setup
 
+- (id)initFromNib
+{
+    self = [self initWithNibName:NSStringFromClass([self class])
+                          bundle:nil];
+    return self;
+}
+
 - (id)init
 {
     if (self = [super init]) [self setup];

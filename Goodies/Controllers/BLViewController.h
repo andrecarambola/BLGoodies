@@ -12,6 +12,7 @@
 @interface BLViewController : UIViewController
 
 //Setup
+- (id)initFromNib;
 - (void)setup;
 
 //States

@@ -45,6 +45,15 @@
     return (self.keyboardScrollView != nil && self.allTextFields.count > 0);
 }
 
+- (void)setup
+{
+    [super setup];
+    _useForms = NO;
+    _keyboardEnabled = YES;
+    _editingText = NO;
+    isShowingKeyboard = NO;
+}
+
 
 #pragma mark - States
 
@@ -100,11 +109,6 @@
 
 - (void)viewDidLoad
 {
-    _useForms = NO;
-    _keyboardEnabled = YES;
-    _editingText = NO;
-    isShowingKeyboard = NO;
-    
     [super viewDidLoad];
     
     if (self.isKeyboardViewController) {
@@ -117,6 +121,22 @@
             return (NSComparisonResult)NSOrderedSame;
         }];
         [self setAllTextFields:orderedTextFields];
+        NSArray *orderedValidationViews = [self.allTextValidationViews sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2)
+        {
+            UIView *firstTextField = obj1;
+            UIView *secondTextField = obj2;
+            if (firstTextField.tag > secondTextField.tag) return (NSComparisonResult)NSOrderedDescending;
+            if (firstTextField.tag < secondTextField.tag) return (NSComparisonResult)NSOrderedAscending;
+            return (NSComparisonResult)NSOrderedSame;
+        }];
+        [self setAllTextValidationViews:orderedValidationViews];
+        for (UITextField *textField in self.allTextFields) {
+            for (UIView *validationView in self.allTextValidationViews) {
+                if (textField.tag == validationView.tag) {
+                    [textField setRightView:validationView];
+                }
+            }
+        }
     }
 }
 
@@ -276,8 +296,6 @@ replacementString:(NSString *)string
                 break;
         }
         [textField setInputAccessoryView:(shouldIncludeAccessoryView) ? [self defaultInputAccessoryView] : nil];
-        
-        
     }
     
     return YES;
@@ -310,8 +328,10 @@ replacementString:(NSString *)string
     if (self.isKeyboardViewController)
     {
         [self storeValidatedTextForTextField:self.activeTextField];
-        UITextField *nextTextField = [self nextTextFieldForTextField:self.activeTextField];
-        if (nextTextField) [nextTextField becomeFirstResponder];
+        if (self.useForms) {
+            UITextField *nextTextField = [self nextTextFieldForTextField:self.activeTextField];
+            if (nextTextField) [nextTextField becomeFirstResponder];
+        }
     }
 }
 

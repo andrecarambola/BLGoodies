@@ -30,6 +30,7 @@
 //UI Elements
 @property (nonatomic, weak) IBOutlet UIScrollView *keyboardScrollView;
 @property (nonatomic, strong) IBOutletCollection(UITextField) NSArray *allTextFields;
+@property (nonatomic, strong) IBOutletCollection(UIView) NSArray *allTextValidationViews;
 
 //UI Actions
 //- (IBAction)nextTextField:(id)sender;
