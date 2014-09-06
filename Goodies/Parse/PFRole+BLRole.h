@@ -9,10 +9,10 @@
 #import <Parse/Parse.h>
 
 
-typedef enum {
+typedef NS_ENUM(NSInteger, blRoles) {
     blRoleAdmin,
     blRoleClient
-} blRoles;
+};
 
 
 @interface PFRole (BLRole)

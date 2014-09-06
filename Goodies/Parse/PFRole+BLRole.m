@@ -13,18 +13,14 @@
 
 + (NSString *)roleNameForType:(blRoles)roleType
 {
-    NSString *result = @"";
     switch (roleType) {
         case blRoleAdmin:
-            result = @"Admin";
-            break;
+            return @"Admin";
         case blRoleClient:
-            result = @"Client";
-            break;
+            return @"Client";
         default:
-            break;
+            return nil;
     }
-    return result;
 }
 
 @end
