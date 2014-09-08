@@ -30,8 +30,9 @@ static ParseCompletionBlock pushCompletionBlock;
 
 //Setup
 - (void)setup;
-- (void)initialSetupWithBlock:(ParseCompletionBlock)setupBlock;
-- (void)loginSetupWithBlock:(ParseCompletionBlock)loginBlock;
+@property (nonatomic) BOOL shouldClearCaches;
+- (void)privateInitialSetupWithBlock:(ParseCompletionBlock)setupBlock;
+- (void)privateLoginSetupWithBlock:(ParseCompletionBlock)loginBlock;
 
 //Background
 @property (nonatomic) UIBackgroundTaskIdentifier bgTaskId;
@@ -74,11 +75,11 @@ static ParseCompletionBlock pushCompletionBlock;
 
 #pragma mark - Setup
 
-+ (void)load
-{
-    [super load];
-    [self registerSubclass];
-}
+//+ (void)load
+//{
+//    [super load];
+//    [self registerSubclass];
+//}
 
 @synthesize bgTaskId = _bgTaskId;
 @dynamic clearCaches;
@@ -89,7 +90,9 @@ static ParseCompletionBlock pushCompletionBlock;
     _bgTaskId = UIBackgroundTaskInvalid;
 }
 
-- (void)initialSetupWithBlock:(ParseCompletionBlock)setupBlock
+@dynamic shouldClearCaches;
+
+- (void)privateInitialSetupWithBlock:(ParseCompletionBlock)setupBlock
 {
     //Internet
     if (![BLInternet doWeHaveInternet]) {
@@ -122,17 +125,27 @@ static ParseCompletionBlock pushCompletionBlock;
                 setupBlock(NO);
                 [BLParseUser customLogout];
             }];
+            [[BLParseUser currentUser] stopTimeoutOperation];
+            [[BLParseUser currentUser] endBackgroundTask];
         } else {
             BLParseUser *newUser = [BLParseUser currentUser];
             [newUser setTerms:NO];
             [newUser setClearCaches:NO];
             [newUser saveEventually];
-            [BLParseUser returnToSenderWithResult:YES
-                               andCompletionBlock:setupBlock];
+            [newUser initialSetupWithBlock:^(BOOL success)
+            {
+                [BLParseUser returnToSenderWithResult:success
+                                   andCompletionBlock:setupBlock];
+                [[BLParseUser currentUser] stopTimeoutOperation];
+                [[BLParseUser currentUser] endBackgroundTask];
+            }];
         }
-        [[BLParseUser currentUser] stopTimeoutOperation];
-        [[BLParseUser currentUser] endBackgroundTask];
     }];
+}
+
+- (void)initialSetupWithBlock:(ParseCompletionBlock)setupBlock
+{
+    if (setupBlock) setupBlock(YES);
 }
 
 - (void)loginSetupWithBlock:(ParseCompletionBlock)loginBlock
@@ -154,7 +167,14 @@ static ParseCompletionBlock pushCompletionBlock;
     }];
     [self refreshInBackgroundWithBlock:^(PFObject *object, NSError *error)
     {
-        if (error) ParseLog(@"%@",error);
+        if (error) {
+            ParseLog(@"%@",error);
+            [BLParseUser returnToSenderWithResult:NO
+                               andCompletionBlock:loginBlock];
+            [[BLParseUser currentUser] stopTimeoutOperation];
+            [[BLParseUser currentUser] endBackgroundTask];
+            return ;
+        }
         if ([[BLParseUser currentUser] shouldClearCaches]) {
             [PFQuery clearAllCachedResults];
             [[BLParseUser currentUser] setClearCaches:NO];
@@ -175,17 +195,23 @@ static ParseCompletionBlock pushCompletionBlock;
                         [user saveEventually];
                     }
                 }
-                [BLParseUser returnToSenderWithResult:(error == nil)
-                                   andCompletionBlock:loginBlock];
-                [[BLParseUser currentUser] stopTimeoutOperation];
-                [[BLParseUser currentUser] endBackgroundTask];
+                [[BLParseUser currentUser] loginSetupWithBlock:^(BOOL success)
+                {
+                    [BLParseUser returnToSenderWithResult:success
+                                       andCompletionBlock:loginBlock];
+                    [[BLParseUser currentUser] stopTimeoutOperation];
+                    [[BLParseUser currentUser] endBackgroundTask];
+                }];
             }];
             return;
         }
-        [BLParseUser returnToSenderWithResult:(error == nil)
-                           andCompletionBlock:loginBlock];
-        [[BLParseUser currentUser] stopTimeoutOperation];
-        [[BLParseUser currentUser] endBackgroundTask];
+        [[BLParseUser currentUser] loginSetupWithBlock:^(BOOL success)
+        {
+            [BLParseUser returnToSenderWithResult:success
+                               andCompletionBlock:loginBlock];
+            [[BLParseUser currentUser] stopTimeoutOperation];
+            [[BLParseUser currentUser] endBackgroundTask];
+        }];
     }];
 }
 
@@ -288,11 +314,12 @@ static ParseCompletionBlock pushCompletionBlock;
         [newUser setEmail:username];
         [newUser setUsername:username];
         [newUser setPassword:password];
+        [newUser setShouldClearCaches:NO];
         [newUser signUpInBackgroundWithBlock:^(BOOL succeeded, NSError *error)
         {
             ParseLog(@"%@",error);
             if (succeeded) {
-                [newUser initialSetupWithBlock:^(BOOL success)
+                [newUser privateInitialSetupWithBlock:^(BOOL success)
                 {
                     [BLParseUser returnToSenderWithResult:succeeded
                                        andCompletionBlock:block];
@@ -365,7 +392,7 @@ static ParseCompletionBlock pushCompletionBlock;
         if (error) FacebookLog(@"%@",error);
         if (user) {
             if (user.isNew) {
-                [[BLParseUser currentUser] initialSetupWithBlock:block];
+                [[BLParseUser currentUser] privateInitialSetupWithBlock:block];
             } else {
                 [[BLParseUser currentUser] loginSetupWithBlock:block];
             }
@@ -400,7 +427,7 @@ static ParseCompletionBlock pushCompletionBlock;
         if (error) TwitterLog(@"%@",error);
         if (user) {
             if (user.isNew) {
-                [[BLParseUser currentUser] initialSetupWithBlock:block];
+                [[BLParseUser currentUser] privateInitialSetupWithBlock:block];
             } else {
                 [[BLParseUser currentUser] loginSetupWithBlock:block];
             }

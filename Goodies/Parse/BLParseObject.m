@@ -644,45 +644,48 @@ static NSMutableArray *deletingObjects;
         return;
     }
     
-    if ([self hasBeenSavedToParse])
-    { //Saving Locally
-        [self saveEventually];
-        if (!shouldReturnToMainThread) {
-            [PFObject returnInBackgroundWithResult:YES
+    __weak BLParseObject *weakSelf = self;
+    [self saveDependenciesWithBlock:^(BOOL success)
+    {
+        if (!success)
+        {
+            if (!shouldReturnToMainThread) {
+                [PFObject returnInBackgroundWithResult:NO
+                                    andCompletionBlock:block];
+            } else {
+                [PFObject returnToSenderWithResult:NO
                                 andCompletionBlock:block];
-        } else {
-            [PFObject returnToSenderWithResult:YES
-                            andCompletionBlock:block];
+            }
         }
-    }
-    else
-    { //Saving to the server
-        __weak BLParseObject *weakSelf = self;
-        [self saveDependenciesWithBlock:^(BOOL success)
-         {
-             if (!success) {
-                 if (!shouldReturnToMainThread) {
-                     [PFObject returnInBackgroundWithResult:NO
+        else
+        {
+            if ([weakSelf hasBeenSavedToParse])
+            { //Saving Locally
+                [self saveEventually];
+                if (!shouldReturnToMainThread) {
+                    [PFObject returnInBackgroundWithResult:YES
+                                        andCompletionBlock:block];
+                } else {
+                    [PFObject returnToSenderWithResult:YES
+                                    andCompletionBlock:block];
+                }
+            }
+            else
+            { //Saving to the server
+                [weakSelf saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error)
+                 {
+                     if (error) ParseLog(@"%@",error);
+                     if (!shouldReturnToMainThread) {
+                         [PFObject returnInBackgroundWithResult:succeeded
+                                             andCompletionBlock:block];
+                     } else {
+                         [PFObject returnToSenderWithResult:succeeded
                                          andCompletionBlock:block];
-                 } else {
-                     [PFObject returnToSenderWithResult:NO
-                                     andCompletionBlock:block];
-                 }
-             } else {
-                 [weakSelf saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error)
-                  {
-                      if (error) ParseLog(@"%@",error);
-                      if (!shouldReturnToMainThread) {
-                          [PFObject returnInBackgroundWithResult:succeeded
-                                              andCompletionBlock:block];
-                      } else {
-                          [PFObject returnToSenderWithResult:succeeded
-                                          andCompletionBlock:block];
-                      }
-                  }];
-             }
-         }];
-    }
+                     }
+                 }];
+            }
+        }
+    }];
 }
 
 
