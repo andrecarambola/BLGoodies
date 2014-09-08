@@ -81,6 +81,9 @@
 		65A0B4D219B379B800691AF5 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Bolts.framework; path = "../../../07_extensões/Parse/Bolts.framework"; sourceTree = "<group>"; };
 		65A0B4D319B379B800691AF5 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Parse.framework; path = "../../../07_extensões/Parse/Parse.framework"; sourceTree = "<group>"; };
 		65A0B4D419B379B800691AF5 /* ParseFacebookUtils.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ParseFacebookUtils.framework; path = "../../../07_extensões/Parse/ParseFacebookUtils.framework"; sourceTree = "<group>"; };
+		65CD32EF19BD49B90016E600 /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/BLGoodies.strings; sourceTree = "<group>"; };
+		65CD32F019BD49B90016E600 /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		65CD32F119BD49B90016E600 /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		65FA94E219B3D7930046A13E /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = "../../../08_github/facebook-ios-sdk/build/FacebookSDK.framework"; sourceTree = "<group>"; };
 		65FA98F119B4086F0046A13E /* BLObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLObject.h; sourceTree = "<group>"; };
 		65FA98F219B4086F0046A13E /* BLObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLObject.m; sourceTree = "<group>"; };
@@ -453,6 +456,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				pt,
 			);
 			mainGroup = 652938FA19B378090047D238;
 			productRefGroup = 6529390419B378090047D238 /* Products */;
@@ -545,6 +549,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				6529391019B378090047D238 /* en */,
+				65CD32F019BD49B90016E600 /* pt */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -553,6 +558,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				6529392919B378090047D238 /* en */,
+				65CD32F119BD49B90016E600 /* pt */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -561,6 +567,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				65FA990119B4086F0046A13E /* en */,
+				65CD32EF19BD49B90016E600 /* pt */,
 			);
 			name = BLGoodies.strings;
 			sourceTree = "<group>";
