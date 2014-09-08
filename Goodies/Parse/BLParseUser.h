@@ -34,7 +34,6 @@ extern NSString * const BLParseUserDidLogOutNotification;
 + (void)requestPasswordResetWithEmail:(NSString *)email
                              andBlock:(ParseCompletionBlock)block;
 - (void)requestPasswordResetWithBlock:(ParseCompletionBlock)block;
-#warning check email validation
 
 //Push
 - (void)registerForPushNotificationsWithBlock:(ParseCompletionBlock)block;
