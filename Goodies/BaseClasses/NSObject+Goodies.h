@@ -25,8 +25,8 @@ typedef void (^TimeoutBlock) (void);
 + (void)setDefaultTimeoutTime:(NSTimeInterval)defaultTimeout;
 + (NSTimeInterval)defaultTimeoutTime;
 + (NSTimer *)startTimeoutOperationWithBlock:(TimeoutBlock)timeoutBlock;
-//+ (NSTimer *)startTimeoutOperationWithInterval:(NSTimeInterval)interval
-//                                      andBlock:(TimeoutBlock)timeoutBlock;
++ (NSTimer *)startTimeoutOperationWithInterval:(NSTimeInterval)interval
+                                      andBlock:(TimeoutBlock)timeoutBlock;
 + (NSTimer *)startTimeoutOperationWithTarget:(id)target
                                       action:(SEL)action
                                     interval:(NSTimeInterval)interval

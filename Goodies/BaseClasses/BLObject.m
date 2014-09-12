@@ -183,9 +183,17 @@
 
 - (void)startTimeoutOperationWithBlock:(TimeoutBlock)timeoutBlock
 {
+    [self startTimeoutOperationWithInterval:[BLObject defaultTimeoutTime]
+                                   andBlock:timeoutBlock];
+}
+
+- (void)startTimeoutOperationWithInterval:(NSTimeInterval)timeInterval
+                                 andBlock:(TimeoutBlock)timeoutBlock
+{
     if (self.timeoutTimer) [self stopTimeoutOperation];
     NSTimer *timer = [BLObject startTimeoutOperationWithTarget:self
-                                                        action:@selector(operationDidTimeout:) interval:[BLObject defaultTimeoutTime]
+                                                        action:@selector(operationDidTimeout:)
+                                                      interval:timeInterval
                                                       andBlock:timeoutBlock];
     [self setTimeoutTimer:timer];
 }

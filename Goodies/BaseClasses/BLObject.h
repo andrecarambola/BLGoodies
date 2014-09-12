@@ -34,6 +34,8 @@
 
 //Timeout
 - (void)startTimeoutOperationWithBlock:(TimeoutBlock)timeoutBlock;
+- (void)startTimeoutOperationWithInterval:(NSTimeInterval)timeInterval
+                                 andBlock:(TimeoutBlock)timeoutBlock;
 - (void)operationDidTimeout:(NSTimer *)timer;
 - (void)stopTimeoutOperation;
 

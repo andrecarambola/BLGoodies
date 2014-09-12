@@ -37,7 +37,11 @@
 - (void)handleInternetStateChange:(NetworkStatus)networkStatus;
 
 //Timeout
++ (NSTimeInterval)customTimeoutTime;
+- (NSTimeInterval)customTimeoutTime;
 - (void)startTimeoutOperationWithBlock:(TimeoutBlock)timeoutBlock;
+- (void)startTimeoutOperationWithInterval:(NSTimeInterval)timeInterval
+                                 andBlock:(TimeoutBlock)timeoutBlock;
 - (void)operationDidTimeout:(NSTimer *)timer;
 - (void)stopTimeoutOperation;
 

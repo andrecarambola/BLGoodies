@@ -222,14 +222,31 @@ static NSMutableArray *deletingObjects;
 
 #pragma mark - Timeout
 
++ (NSTimeInterval)customTimeoutTime
+{
+    return [BLObject defaultTimeoutTime];
+}
+
+- (NSTimeInterval)customTimeoutTime
+{
+    return [BLObject defaultTimeoutTime];
+}
+
 @synthesize timeoutTimer = _timeoutTimer;
 
 - (void)startTimeoutOperationWithBlock:(TimeoutBlock)timeoutBlock
 {
+    [self startTimeoutOperationWithInterval:[BLObject defaultTimeoutTime]
+                                   andBlock:timeoutBlock];
+}
+
+- (void)startTimeoutOperationWithInterval:(NSTimeInterval)timeInterval
+                                 andBlock:(TimeoutBlock)timeoutBlock
+{
     if (self.timeoutTimer) [self stopTimeoutOperation];
     NSTimer *timer = [BLObject startTimeoutOperationWithTarget:self
                                                         action:@selector(operationDidTimeout:)
-                                                      interval:[BLObject defaultTimeoutTime]
+                                                      interval:timeInterval
                                                       andBlock:timeoutBlock];
     [self setTimeoutTimer:timer];
 }
@@ -253,7 +270,8 @@ static NSMutableArray *deletingObjects;
 {
     [self startBackgroundTask];
     __weak BLParseObject *weakSelf = self;
-    [self startTimeoutOperationWithBlock:^
+    [self startTimeoutOperationWithInterval:[self customTimeoutTime]
+                                   andBlock:^
     {
         [BLParseObject returnInBackgroundWithResult:NO
                                  andCompletionBlock:block];
@@ -279,7 +297,8 @@ static NSMutableArray *deletingObjects;
 {
     [self startBackgroundTask];
     __weak BLParseObject *weakSelf = self;
-    [self startTimeoutOperationWithBlock:^
+    [self startTimeoutOperationWithInterval:[self customTimeoutTime]
+                                   andBlock:^
     {
         [BLParseObject returnInBackgroundWithResult:NO
                                  andCompletionBlock:block];
@@ -306,7 +325,8 @@ static NSMutableArray *deletingObjects;
 {
     [self startBackgroundTask];
     __weak BLParseObject *weakSelf = self;
-    [self startTimeoutOperationWithBlock:^
+    [self startTimeoutOperationWithInterval:[self customTimeoutTime]
+                                   andBlock:^
     {
         [BLParseObject returnInBackgroundWithResult:NO
                                  andCompletionBlock:block];
@@ -344,10 +364,11 @@ static NSMutableArray *deletingObjects;
     
     //Deleting
     UIBackgroundTaskIdentifier bgTaskId = [self startBackgroundTask];
-    NSTimer *timer = [self startTimeoutOperationWithBlock:^
+    NSTimer *timer = [self startTimeoutOperationWithInterval:[self customTimeoutTime]
+                                                    andBlock:^
     {
         [BLParseObject returnInBackgroundWithResult:NO
-                                andCompletionBlock:block];
+                                 andCompletionBlock:block];
         [BLParseObject endBackgroundTask:bgTaskId];
     }];
     PFQuery *query = [self query];
@@ -447,7 +468,8 @@ static NSMutableArray *deletingObjects;
     BLParseObject *object = [objectsToFetch firstObject];
     [objectsToFetch removeObjectAtIndex:0];
     [BLParseObject setObjectsToFetch:objectsToFetch];
-    [object startTimeoutOperationWithBlock:^
+    [object startTimeoutOperationWithInterval:[object customTimeoutTime]
+                                     andBlock:^
     {
         [BLParseObject setObjectsToFetch:nil];
         [BLParseObject returnToSenderWithResult:NO
@@ -593,7 +615,8 @@ static NSMutableArray *deletingObjects;
     
     //Process save
     BLParseObject *object = [objectsToSave firstObject];
-    [object startTimeoutOperationWithBlock:^
+    [object startTimeoutOperationWithInterval:[object customTimeoutTime]
+                                     andBlock:^
     {
         [BLParseObject setObjectsToSave:nil];
         [BLParseObject returnToSenderWithResult:NO
@@ -758,7 +781,8 @@ static NSMutableArray *deletingObjects;
     
     //Process delete
     BLParseObject *object = [objectsToDelete firstObject];
-    [object startTimeoutOperationWithBlock:^
+    [object startTimeoutOperationWithInterval:[object customTimeoutTime]
+                                     andBlock:^
     {
         [BLParseObject setObjectsToDelete:nil];
         [BLParseObject returnToSenderWithResult:NO

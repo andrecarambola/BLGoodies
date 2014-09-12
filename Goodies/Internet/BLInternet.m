@@ -238,8 +238,8 @@ static NSTimeInterval activityIndicatorThreshold = 1.0;
     [super handleMemoryWarningNotification:notification];
     if (_allBlocks.count == 0) {
         _allBlocks = nil;
-        [self stopReachability];
     }
+    [self stopReachability];
     self.operationCounter = 0;
     [BLInternet didEndInternetOperation];
     [BLInternet destroySingleton];
@@ -251,7 +251,6 @@ static NSTimeInterval activityIndicatorThreshold = 1.0;
     if (toTheBackground) {
         if (_allBlocks.count == 0) {
             _allBlocks = nil;
-            [self stopReachability];
         }
     } else {
         if ([BLInternet areWeUsingTheInternet]) {
