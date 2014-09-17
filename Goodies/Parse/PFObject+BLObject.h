@@ -25,7 +25,5 @@ typedef void (^ParseCompletionBlock) (BOOL success);
 //Aux
 + (void)returnToSenderWithResult:(BOOL)result
               andCompletionBlock:(ParseCompletionBlock)completionBlock;
-+ (void)returnInBackgroundWithResult:(BOOL)result
-                  andCompletionBlock:(ParseCompletionBlock)completionBlock;
 
 @end

@@ -45,20 +45,6 @@
 - (void)operationDidTimeout:(NSTimer *)timer;
 - (void)stopTimeoutOperation;
 
-//Fetching
-- (void)fetchEverythingWithCompletionBlock:(ParseCompletionBlock)block;
-- (void)fetchDependenciesWithBlock:(ParseCompletionBlock)dependenciesBlock;
-
-//Saving
-- (void)saveEverythingWithCompletionBlock:(ParseCompletionBlock)block;
-- (void)saveDependenciesWithBlock:(ParseCompletionBlock)dependenciesBlock;
-
-//Deleting
-- (void)deleteEverythingWithCompletionBlock:(ParseCompletionBlock)block;
-- (void)deleteDependenciesWithBlock:(ParseCompletionBlock)dependenciesBlock;
-+ (void)deleteAllObjectsForUser:(BLParseUser *)user
-                      withBlock:(ParseCompletionBlock)block;
-
 @end
 
 
@@ -67,6 +53,10 @@
 
 + (void)fetchEverythingWithObjects:(NSArray *)objects
                           andBlock:(ParseCompletionBlock)block;
++ (void)fetchDependenciesWithObjects:(NSArray *)objects
+                            andBlock:(ParseCompletionBlock)dependenciesBlock;
+- (void)fetchEverythingWithCompletionBlock:(ParseCompletionBlock)block;
+- (void)fetchDependenciesWithBlock:(ParseCompletionBlock)dependenciesBlock;
 
 @end
 
@@ -75,6 +65,10 @@
 
 + (void)saveEverythingWithObjects:(NSArray *)objects
                          andBlock:(ParseCompletionBlock)block;
++ (void)saveDependenciesWithObjects:(NSArray *)objects
+                           andBlock:(ParseCompletionBlock)dependenciesBlock;
+- (void)saveEverythingWithCompletionBlock:(ParseCompletionBlock)block;
+- (void)saveDependenciesWithBlock:(ParseCompletionBlock)dependenciesBlock;
 
 @end
 
@@ -83,5 +77,11 @@
 
 + (void)deleteEverythingWithObjects:(NSArray *)objects
                            andBlock:(ParseCompletionBlock)block;
++ (void)deleteDependenciesWithObjects:(NSArray *)objects
+                             andBlock:(ParseCompletionBlock)dependenciesBlock;
+- (void)deleteEverythingWithCompletionBlock:(ParseCompletionBlock)block;
+- (void)deleteDependenciesWithBlock:(ParseCompletionBlock)dependenciesBlock;
++ (void)deleteAllObjectsForUser:(BLParseUser *)user
+                      withBlock:(ParseCompletionBlock)block;
 
 @end

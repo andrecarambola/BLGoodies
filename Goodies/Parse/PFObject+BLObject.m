@@ -7,7 +7,6 @@
 //
 
 #import "PFObject+BLObject.h"
-#import "BLQueuer.h"
 
 
 @implementation PFObject (BLObject)
@@ -36,16 +35,6 @@
     dispatch_async(dispatch_get_main_queue(), ^{
         completionBlock(result);
     });
-}
-
-+ (void)returnInBackgroundWithResult:(BOOL)result
-                  andCompletionBlock:(ParseCompletionBlock)completionBlock
-{
-    if (!completionBlock) return;
-    [BLQueuer enqueueSequentialOperationWithBlock:^
-    {
-        completionBlock(result);
-    }];
 }
 
 @end

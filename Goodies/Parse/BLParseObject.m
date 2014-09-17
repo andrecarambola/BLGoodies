@@ -15,12 +15,6 @@
 #import "BLQueuer.h"
 
 
-#pragma mark - Globals
-static NSMutableArray *fetchingObjects;
-static NSMutableArray *savingObjects;
-static NSMutableArray *deletingObjects;
-
-
 #pragma mark - Private Interface
 @interface BLParseObject ()
 
@@ -36,41 +30,6 @@ static NSMutableArray *deletingObjects;
 
 //Timeout
 @property (nonatomic, weak) NSTimer *timeoutTimer;
-
-@end
-
-
-#pragma mark - Private Categories
-@interface BLParseObject (PrivateFetching)
-
-+ (NSMutableArray *)objectsToFetch;
-+ (void)setObjectsToFetch:(NSMutableArray *)array;
-
-+ (void)processObjectsToFetchWithBlock:(ParseCompletionBlock)overallCompletionBlock;
-- (void)fetchEverythingWithCompletionBlock:(ParseCompletionBlock)block
-                        returnToMainThread:(BOOL)shouldReturnToMainThread;
-
-@end
-
-@interface BLParseObject (PrivateSaving)
-
-+ (NSMutableArray *)objectsToSave;
-+ (void)setObjectsToSave:(NSMutableArray *)array;
-
-+ (void)processObjectsToSaveWithBlock:(ParseCompletionBlock)overallCompletionBlock;
-- (void)saveEverythingWithCompletionBlock:(ParseCompletionBlock)block
-                       returnToMainThread:(BOOL)shouldReturnToMainThread;
-
-@end
-
-@interface BLParseObject (PrivateDeleting)
-
-+ (NSMutableArray *)objectsToDelete;
-+ (void)setObjectsToDelete:(NSMutableArray *)array;
-
-+ (void)processObjectsToDeleteWithBlock:(ParseCompletionBlock)overallCompletionBlock;
-- (void)deleteEverythingWithCompletionBlock:(ParseCompletionBlock)block
-                         returnToMainThread:(BOOL)shouldReturnToMainThread;
 
 @end
 
@@ -264,139 +223,6 @@ static NSMutableArray *deletingObjects;
 }
 
 
-#pragma mark - Fetching
-
-- (void)fetchEverythingWithCompletionBlock:(ParseCompletionBlock)block
-{
-    [self startBackgroundTask];
-    __weak BLParseObject *weakSelf = self;
-    [self startTimeoutOperationWithInterval:[self customTimeoutTime]
-                                   andBlock:^
-    {
-        [BLParseObject returnInBackgroundWithResult:NO
-                                 andCompletionBlock:block];
-        [weakSelf endBackgroundTask];
-    }];
-    [self fetchEverythingWithCompletionBlock:^(BOOL success)
-     {
-         if (block) block(success);
-         [weakSelf endBackgroundTask];
-     }
-                          returnToMainThread:YES];
-}
-
-- (void)fetchDependenciesWithBlock:(ParseCompletionBlock)dependenciesBlock
-{
-    if (dependenciesBlock) dependenciesBlock(YES);
-}
-
-
-#pragma mark - Saving
-
-- (void)saveEverythingWithCompletionBlock:(ParseCompletionBlock)block
-{
-    [self startBackgroundTask];
-    __weak BLParseObject *weakSelf = self;
-    [self startTimeoutOperationWithInterval:[self customTimeoutTime]
-                                   andBlock:^
-    {
-        [BLParseObject returnInBackgroundWithResult:NO
-                                 andCompletionBlock:block];
-        [weakSelf endBackgroundTask];
-    }];
-    [self saveEverythingWithCompletionBlock:^(BOOL success)
-     {
-         if (block) block(success);
-         [weakSelf endBackgroundTask];
-     }
-                         returnToMainThread:YES];
-}
-
-
-- (void)saveDependenciesWithBlock:(ParseCompletionBlock)dependenciesBlock
-{
-    if (dependenciesBlock) dependenciesBlock(YES);
-}
-
-
-#pragma mark - Deleting
-
-- (void)deleteEverythingWithCompletionBlock:(ParseCompletionBlock)block
-{
-    [self startBackgroundTask];
-    __weak BLParseObject *weakSelf = self;
-    [self startTimeoutOperationWithInterval:[self customTimeoutTime]
-                                   andBlock:^
-    {
-        [BLParseObject returnInBackgroundWithResult:NO
-                                 andCompletionBlock:block];
-        [weakSelf endBackgroundTask];
-    }];
-    [self deleteEverythingWithCompletionBlock:^(BOOL success)
-     {
-         if (block) block(success);
-         [weakSelf endBackgroundTask];
-     }
-                           returnToMainThread:YES];
-}
-
-- (void)deleteDependenciesWithBlock:(ParseCompletionBlock)dependenciesBlock
-{
-    if (dependenciesBlock) dependenciesBlock(YES);
-}
-
-+ (void)deleteAllObjectsForUser:(BLParseUser *)user
-                      withBlock:(ParseCompletionBlock)block
-{
-    //Sanity
-    if (!user) {
-        [self returnInBackgroundWithResult:NO
-                        andCompletionBlock:block];
-        return;
-    }
-    
-    //Internet
-    if (![BLInternet doWeHaveInternet]) {
-        [self returnInBackgroundWithResult:NO
-                        andCompletionBlock:block];
-        return;
-    }
-    
-    //Deleting
-    UIBackgroundTaskIdentifier bgTaskId = [self startBackgroundTask];
-    NSTimer *timer = [self startTimeoutOperationWithInterval:[self customTimeoutTime]
-                                                    andBlock:^
-    {
-        [BLParseObject returnInBackgroundWithResult:NO
-                                 andCompletionBlock:block];
-        [BLParseObject endBackgroundTask:bgTaskId];
-    }];
-    PFQuery *query = [self query];
-    [query whereKey:@"user"
-            equalTo:user];
-    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error)
-    {
-        if (error) ParseLog(@"%@",error);
-        if (objects.count > 0) {
-            [PFObject deleteAllInBackground:objects
-                                      block:^(BOOL succeeded, NSError *error)
-            {
-                if (error) ParseLog(@"%@",error);
-                [BLParseObject returnToSenderWithResult:succeeded
-                                     andCompletionBlock:block];
-                [BLParseObject stopTimeoutOperation:timer];
-                [BLParseObject endBackgroundTask:bgTaskId];
-            }];
-        } else {
-            [BLParseObject returnToSenderWithResult:(error == nil)
-                                 andCompletionBlock:block];
-            [BLParseObject stopTimeoutOperation:timer];
-            [BLParseObject endBackgroundTask:bgTaskId];
-        }
-    }];
-}
-
-
 @end
 
 
@@ -413,137 +239,109 @@ static NSMutableArray *deletingObjects;
         return;
     }
     
-    //Saving
-    UIBackgroundTaskIdentifier bgTaskId = [self startBackgroundTask];
-    [self setObjectsToFetch:[NSMutableArray arrayWithArray:objects]];
-    [BLQueuer enqueueSequentialOperationWithBlock:^
-     {
-         [BLParseObject processObjectsToFetchWithBlock:^(BOOL success)
-          {
-              [BLParseObject returnToSenderWithResult:success
-                                   andCompletionBlock:block];
-              [BLParseObject endBackgroundTask:bgTaskId];
-          }];
-     }];
-}
-
-@end
-
-
-@implementation BLParseObject (PrivateFetching)
-
-+ (NSMutableArray *)objectsToFetch
-{
-    @synchronized(self)
-    {
-        if (!fetchingObjects) fetchingObjects = [NSMutableArray array];
-        return fetchingObjects;
-    }
-}
-
-+ (void)setObjectsToFetch:(NSMutableArray *)array
-{
-    @synchronized(self)
-    {
-        if (array.count == 0) {
-            fetchingObjects = nil;
-        } else {
-            fetchingObjects = array;
-        }
-    }
-}
-
-+ (void)processObjectsToFetchWithBlock:(ParseCompletionBlock)overallCompletionBlock
-{
-    //Returning
-    NSMutableArray *objectsToFetch = [self objectsToFetch];
-    if (objectsToFetch.count == 0) {
-        [BLParseObject setObjectsToFetch:nil];
-        [BLParseObject returnToSenderWithResult:YES
-                             andCompletionBlock:overallCompletionBlock];
+    //Internet
+    if (![BLInternet doWeHaveInternet]) {
+        [self returnToSenderWithResult:NO
+                    andCompletionBlock:block];
         return;
     }
     
-    //Process fetch
-    BLParseObject *object = [objectsToFetch firstObject];
-    [objectsToFetch removeObjectAtIndex:0];
-    [BLParseObject setObjectsToFetch:objectsToFetch];
-    [object startTimeoutOperationWithInterval:[object customTimeoutTime]
-                                     andBlock:^
+    //Saving
+    UIBackgroundTaskIdentifier bgTaskId = [self startBackgroundTask];
+    NSTimer *timer = [self startTimeoutOperationWithInterval:[self customTimeoutTime]
+                                                    andBlock:^
     {
-        [BLParseObject setObjectsToFetch:nil];
         [BLParseObject returnToSenderWithResult:NO
-                             andCompletionBlock:overallCompletionBlock];
+                             andCompletionBlock:block];
+        [BLParseObject endBackgroundTask:bgTaskId];
     }];
-    [object fetchEverythingWithCompletionBlock:^(BOOL success)
-     {
-         if (!success) {
-             [BLParseObject setObjectsToFetch:nil];
-             [BLParseObject returnToSenderWithResult:NO
-                                  andCompletionBlock:overallCompletionBlock];
-         } else {
-             [objectsToFetch removeObject:object];
-             [BLParseObject setObjectsToFetch:objectsToFetch];
-             [BLParseObject processObjectsToFetchWithBlock:overallCompletionBlock];
-         }
-         [object stopTimeoutOperation];
-     }
-                            returnToMainThread:NO];
+    
+    void (^returnBlock) (BOOL) = ^(BOOL result)
+    {
+        [BLParseObject returnToSenderWithResult:result
+                             andCompletionBlock:block];
+        [BLParseObject stopTimeoutOperation:timer];
+        [BLParseObject endBackgroundTask:bgTaskId];
+    };
+    
+    [self fetchDependenciesWithObjects:objects
+                              andBlock:^(BOOL success)
+    {
+        if (!success) {
+            returnBlock(NO);
+        } else {
+            [PFObject fetchAllInBackground:objects
+                                     block:^(NSArray *objects, NSError *error)
+            {
+                if (error) ParseLog(@"%@",error);
+                returnBlock(error == nil);
+            }];
+        }
+    }];
+}
+
++ (void)fetchDependenciesWithObjects:(NSArray *)objects
+                            andBlock:(ParseCompletionBlock)dependenciesBlock
+{
+    if (dependenciesBlock) dependenciesBlock(YES);
 }
 
 - (void)fetchEverythingWithCompletionBlock:(ParseCompletionBlock)block
-                        returnToMainThread:(BOOL)shouldReturnToMainThread
 {
     //Internet
     if (![self isDataAvailable] &&
         ![BLInternet doWeHaveInternet])
     {
-        if (!shouldReturnToMainThread) {
-            [PFObject returnInBackgroundWithResult:NO
-                                andCompletionBlock:block];
-        } else {
-            [PFObject returnToSenderWithResult:NO
-                            andCompletionBlock:block];
-        }
+        [PFObject returnToSenderWithResult:NO
+                        andCompletionBlock:block];
         return;
     }
     
     //Fetching
+    [self startBackgroundTask];
     __weak BLParseObject *weakSelf = self;
-    [self fetchDependenciesWithBlock:^(BOOL success)
+    [self startTimeoutOperationWithInterval:[self customTimeoutTime]
+                                   andBlock:^
      {
-         if (!success) {
-             if (!shouldReturnToMainThread) {
-                 [PFObject returnInBackgroundWithResult:NO
-                                     andCompletionBlock:block];
-             } else {
-                 [PFObject returnToSenderWithResult:NO
-                                 andCompletionBlock:block];
-             }
-         } else {
-             if ([weakSelf isDataAvailable]) {
-                 if (!shouldReturnToMainThread) {
-                     [PFObject returnInBackgroundWithResult:YES
-                                         andCompletionBlock:block];
-                 } else {
-                     [PFObject returnToSenderWithResult:YES
-                                     andCompletionBlock:block];
-                 }
-             } else {
-                 [weakSelf fetchInBackgroundWithBlock:^(PFObject *object, NSError *error)
-                  {
-                      if (error) ParseLog(@"%@",error);
-                      if (!shouldReturnToMainThread) {
-                          [PFObject returnInBackgroundWithResult:(error == nil)
-                                              andCompletionBlock:block];
-                      } else {
-                          [PFObject returnToSenderWithResult:(error == nil)
-                                          andCompletionBlock:block];
-                      }
-                  }];
-             }
-         }
+         [BLParseObject returnToSenderWithResult:NO
+                              andCompletionBlock:block];
+         [weakSelf endBackgroundTask];
      }];
+    
+    void (^returnBlock) (BOOL) = ^(BOOL result)
+    {
+        [PFObject returnToSenderWithResult:result
+                        andCompletionBlock:block];
+        [weakSelf stopTimeoutOperation];
+        [weakSelf endBackgroundTask];
+    };
+    
+    void (^dependenciesBlock) (NSError *) = ^(NSError *parseError)
+    {
+        if (parseError) {
+            ParseLog(@"%@",parseError);
+            returnBlock(NO);
+        } else {
+            [weakSelf fetchDependenciesWithBlock:^(BOOL success)
+            {
+                returnBlock(success);
+            }];
+        }
+    };
+    
+    if (self.isDataAvailable) {
+        dependenciesBlock(nil);
+    } else {
+        [self fetchInBackgroundWithBlock:^(PFObject *object, NSError *error)
+        {
+            dependenciesBlock(error);
+        }];
+    }
+}
+
+- (void)fetchDependenciesWithBlock:(ParseCompletionBlock)dependenciesBlock
+{
+    if (dependenciesBlock) dependenciesBlock(YES);
 }
 
 @end
@@ -562,94 +360,59 @@ static NSMutableArray *deletingObjects;
         return;
     }
     
-    //Saving
-    UIBackgroundTaskIdentifier bgTaskId = [self startBackgroundTask];
-    [self setObjectsToSave:[NSMutableArray arrayWithArray:objects]];
-    [BLQueuer enqueueSequentialOperationWithBlock:^
-     {
-         [BLParseObject processObjectsToSaveWithBlock:^(BOOL success)
-          {
-              [BLParseObject returnToSenderWithResult:success
-                                   andCompletionBlock:block];
-              [BLParseObject endBackgroundTask:bgTaskId];
-          }];
-     }];
-}
-
-@end
-
-
-@implementation BLParseObject (PrivateSaving)
-
-+ (NSMutableArray *)objectsToSave
-{
-    @synchronized(self)
-    {
-        if (!savingObjects) savingObjects = [NSMutableArray array];
-        return savingObjects;
-    }
-}
-
-+ (void)setObjectsToSave:(NSMutableArray *)array
-{
-    @synchronized(self)
-    {
-        if (array.count == 0) {
-            savingObjects = nil;
-        } else {
-            savingObjects = array;
-        }
-    }
-}
-
-+ (void)processObjectsToSaveWithBlock:(ParseCompletionBlock)overallCompletionBlock
-{
-    //Returning
-    NSMutableArray *objectsToSave = [self objectsToSave];
-    if (objectsToSave.count == 0) {
-        [BLParseObject setObjectsToSave:nil];
-        [BLParseObject returnToSenderWithResult:YES
-                             andCompletionBlock:overallCompletionBlock];
+    //Internet
+    if (![BLInternet doWeHaveInternet]) {
+        [self returnToSenderWithResult:NO
+                    andCompletionBlock:block];
         return;
     }
     
-    //Process save
-    BLParseObject *object = [objectsToSave firstObject];
-    [object startTimeoutOperationWithInterval:[object customTimeoutTime]
-                                     andBlock:^
+    //Saving
+    UIBackgroundTaskIdentifier bgTaskId = [self startBackgroundTask];
+    NSTimer *timer = [self startTimeoutOperationWithInterval:[self customTimeoutTime]
+                                                    andBlock:^
     {
-        [BLParseObject setObjectsToSave:nil];
         [BLParseObject returnToSenderWithResult:NO
-                             andCompletionBlock:overallCompletionBlock];
+                             andCompletionBlock:block];
+        [BLParseObject endBackgroundTask:bgTaskId];
     }];
-    [object saveEverythingWithCompletionBlock:^(BOOL success)
-     {
-         if (!success) {
-             [BLParseObject setObjectsToSave:nil];
-             [BLParseObject returnToSenderWithResult:NO
-                                  andCompletionBlock:overallCompletionBlock];
-         } else {
-             [objectsToSave removeObject:object];
-             [BLParseObject setObjectsToSave:objectsToSave];
-             [BLParseObject processObjectsToSaveWithBlock:overallCompletionBlock];
-         }
-         [object stopTimeoutOperation];
-     }
-                           returnToMainThread:NO];
+    
+    void (^returnBlock) (BOOL) = ^(BOOL result)
+    {
+        [BLParseObject returnToSenderWithResult:result
+                             andCompletionBlock:block];
+        [BLParseObject stopTimeoutOperation:timer];
+        [BLParseObject endBackgroundTask:bgTaskId];
+    };
+    
+    [self saveDependenciesWithObjects:objects
+                             andBlock:^(BOOL success)
+    {
+        if (!success) {
+            returnBlock(NO);
+        } else {
+            [PFObject saveAllInBackground:objects
+                                    block:^(BOOL succeeded, NSError *error)
+            {
+                if (error) ParseLog(@"%@",error);
+                returnBlock(error == nil);
+            }];
+        }
+    }];
+}
+
++ (void)saveDependenciesWithObjects:(NSArray *)objects
+                           andBlock:(ParseCompletionBlock)dependenciesBlock
+{
+    if (dependenciesBlock) dependenciesBlock(YES);
 }
 
 - (void)saveEverythingWithCompletionBlock:(ParseCompletionBlock)block
-                       returnToMainThread:(BOOL)shouldReturnToMainThread
 {
     //Sanity
     if (![self shouldSave]) {
-        if (!shouldReturnToMainThread) {
-            [PFObject returnInBackgroundWithResult:YES
-                                andCompletionBlock:block];
-        } else {
-            [PFObject returnToSenderWithResult:YES
-                            andCompletionBlock:block];
-        }
+        [PFObject returnToSenderWithResult:YES
+                        andCompletionBlock:block];
         return;
     }
     
@@ -657,60 +420,60 @@ static NSMutableArray *deletingObjects;
     if (![self hasBeenSavedToParse] &&
         ![BLInternet doWeHaveInternet])
     {
-        if (!shouldReturnToMainThread) {
-            [PFObject returnInBackgroundWithResult:NO
-                                andCompletionBlock:block];
-        } else {
-            [PFObject returnToSenderWithResult:NO
-                            andCompletionBlock:block];
-        }
+        [PFObject returnToSenderWithResult:NO
+                        andCompletionBlock:block];
         return;
     }
     
+    //Saving
+    [self startBackgroundTask];
     __weak BLParseObject *weakSelf = self;
-    [self saveDependenciesWithBlock:^(BOOL success)
+    [self startTimeoutOperationWithInterval:[self customTimeoutTime]
+                                   andBlock:^
+     {
+         [BLParseObject returnToSenderWithResult:NO
+                              andCompletionBlock:block];
+         [weakSelf endBackgroundTask];
+     }];
+    
+    void (^returnBlock) (BOOL) = ^(BOOL result)
     {
-        if (!success)
-        {
-            if (!shouldReturnToMainThread) {
-                [PFObject returnInBackgroundWithResult:NO
-                                    andCompletionBlock:block];
-            } else {
-                [PFObject returnToSenderWithResult:NO
-                                andCompletionBlock:block];
-            }
-        }
-        else
-        {
-            if ([weakSelf hasBeenSavedToParse])
-            { //Saving Locally
-                [self saveEventually];
-                if (!shouldReturnToMainThread) {
-                    [PFObject returnInBackgroundWithResult:YES
-                                        andCompletionBlock:block];
-                } else {
-                    [PFObject returnToSenderWithResult:YES
-                                    andCompletionBlock:block];
-                }
-            }
-            else
-            { //Saving to the server
-                [weakSelf saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error)
-                 {
-                     if (error) ParseLog(@"%@",error);
-                     if (!shouldReturnToMainThread) {
-                         [PFObject returnInBackgroundWithResult:succeeded
-                                             andCompletionBlock:block];
-                     } else {
-                         [PFObject returnToSenderWithResult:succeeded
-                                         andCompletionBlock:block];
-                     }
-                 }];
-            }
-        }
-    }];
+        [PFObject returnToSenderWithResult:result
+                        andCompletionBlock:block];
+        [weakSelf stopTimeoutOperation];
+        [weakSelf endBackgroundTask];
+    };
+    
+    [self saveDependenciesWithBlock:^(BOOL success)
+     {
+         if (!success)
+         {
+             returnBlock(NO);
+         }
+         else
+         {
+             if ([weakSelf hasBeenSavedToParse])
+             { //Saving Locally
+                 [self saveEventually];
+                 returnBlock(YES);
+             }
+             else
+             { //Saving to the server
+                 [weakSelf saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error)
+                  {
+                      if (error) ParseLog(@"%@",error);
+                      returnBlock(error == nil);
+                  }];
+             }
+         }
+     }];
 }
 
+
+- (void)saveDependenciesWithBlock:(ParseCompletionBlock)dependenciesBlock
+{
+    if (dependenciesBlock) dependenciesBlock(YES);
+}
 
 @end
 
@@ -728,124 +491,142 @@ static NSMutableArray *deletingObjects;
         return;
     }
     
-    //Saving
+    //Deleting
     UIBackgroundTaskIdentifier bgTaskId = [self startBackgroundTask];
-    [self setObjectsToDelete:[NSMutableArray arrayWithArray:objects]];
-    [BLQueuer enqueueSequentialOperationWithBlock:^
-     {
-         [BLParseObject processObjectsToDeleteWithBlock:^(BOOL success)
-          {
-              [BLParseObject returnToSenderWithResult:success
-                                   andCompletionBlock:block];
-              [BLParseObject endBackgroundTask:bgTaskId];
-          }];
-     }];
-}
-
-@end
-
-
-@implementation BLParseObject (PrivateDeleting)
-
-+ (NSMutableArray *)objectsToDelete
-{
-    @synchronized(self)
+    NSTimer *timer = [self startTimeoutOperationWithInterval:[self customTimeoutTime]
+                                                    andBlock:^
     {
-        if (!deletingObjects) deletingObjects = [NSMutableArray array];
-        return deletingObjects;
-    }
-}
-
-+ (void)setObjectsToDelete:(NSMutableArray *)array
-{
-    @synchronized(self)
-    {
-        if (array.count == 0) {
-            deletingObjects = nil;
-        } else {
-            deletingObjects = array;
-        }
-    }
-}
-
-+ (void)processObjectsToDeleteWithBlock:(ParseCompletionBlock)overallCompletionBlock
-{
-    //Returning
-    NSMutableArray *objectsToDelete = [self objectsToDelete];
-    if (objectsToDelete.count == 0) {
-        [BLParseObject setObjectsToDelete:nil];
-        [BLParseObject returnToSenderWithResult:YES
-                             andCompletionBlock:overallCompletionBlock];
-        return;
-    }
-    
-    //Process delete
-    BLParseObject *object = [objectsToDelete firstObject];
-    [object startTimeoutOperationWithInterval:[object customTimeoutTime]
-                                     andBlock:^
-    {
-        [BLParseObject setObjectsToDelete:nil];
         [BLParseObject returnToSenderWithResult:NO
-                             andCompletionBlock:overallCompletionBlock];
+                             andCompletionBlock:block];
+        [BLParseObject endBackgroundTask:bgTaskId];
     }];
-    [object deleteEverythingWithCompletionBlock:^(BOOL success)
-     {
-         if (!success) {
-             [BLParseObject setObjectsToDelete:nil];
-             [BLParseObject returnToSenderWithResult:NO
-                                  andCompletionBlock:overallCompletionBlock];
-         } else {
-             [objectsToDelete removeObject:object];
-             [BLParseObject setObjectsToDelete:objectsToDelete];
-             [BLParseObject processObjectsToDeleteWithBlock:overallCompletionBlock];
-         }
-         [object stopTimeoutOperation];
-     }
-                             returnToMainThread:NO];
+    
+    void (^returnBlock) (BOOL) = ^(BOOL result)
+    {
+        [BLParseObject returnToSenderWithResult:result
+                             andCompletionBlock:block];
+        [BLParseObject stopTimeoutOperation:timer];
+        [BLParseObject endBackgroundTask:bgTaskId];
+    };
+    
+    [self deleteDependenciesWithObjects:objects
+                               andBlock:^(BOOL success)
+    {
+        if (!success) {
+            returnBlock(NO);
+        } else {
+            [PFObject deleteAllInBackground:objects
+                                      block:^(BOOL succeeded, NSError *error)
+            {
+                ParseLog(@"%@",error);
+                returnBlock(error == nil);
+            }];
+        }
+    }];
+}
+
++ (void)deleteDependenciesWithObjects:(NSArray *)objects
+                             andBlock:(ParseCompletionBlock)dependenciesBlock
+{
+    if (dependenciesBlock) dependenciesBlock(YES);
 }
 
 - (void)deleteEverythingWithCompletionBlock:(ParseCompletionBlock)block
-                         returnToMainThread:(BOOL)shouldReturnToMainThread
 {
+    [self startBackgroundTask];
+    __weak BLParseObject *weakSelf = self;
+    [self startTimeoutOperationWithInterval:[self customTimeoutTime]
+                                   andBlock:^
+     {
+         [BLParseObject returnToSenderWithResult:NO
+                              andCompletionBlock:block];
+         [weakSelf endBackgroundTask];
+     }];
+    
+    void (^returnBlock) (BOOL) = ^(BOOL result)
+    {
+        [BLParseObject returnToSenderWithResult:result
+                             andCompletionBlock:block];
+        [weakSelf stopTimeoutOperation];
+        [weakSelf endBackgroundTask];
+    };
+    
     if ([self hasBeenSavedToParse])
     { //Deleting on the server
-        __weak BLParseObject *weakSelf = self;
         [self deleteDependenciesWithBlock:^(BOOL success)
          {
              if (!success) {
-                 if (!shouldReturnToMainThread) {
-                     [PFObject returnInBackgroundWithResult:NO
-                                         andCompletionBlock:block];
-                 } else {
-                     [PFObject returnToSenderWithResult:NO
-                                     andCompletionBlock:block];
-                 }
+                 returnBlock(NO);
              } else {
                  if ([BLInternet doWeHaveInternet]) {
                      [weakSelf deleteInBackground];
                  } else {
                      [weakSelf deleteEventually];
                  }
-                 if (!shouldReturnToMainThread) {
-                     [PFObject returnInBackgroundWithResult:YES
-                                         andCompletionBlock:block];
-                 } else {
-                     [PFObject returnToSenderWithResult:YES
-                                     andCompletionBlock:block];
-                 }
+                 returnBlock(YES);
              }
          }];
     }
     else
     { //Not deleting
-        if (!shouldReturnToMainThread) {
-            [PFObject returnInBackgroundWithResult:YES
-                                andCompletionBlock:block];
-        } else {
-            [PFObject returnToSenderWithResult:YES
-                            andCompletionBlock:block];
-        }
+        returnBlock(YES);
     }
+}
+
+- (void)deleteDependenciesWithBlock:(ParseCompletionBlock)dependenciesBlock
+{
+    if (dependenciesBlock) dependenciesBlock(YES);
+}
+
++ (void)deleteAllObjectsForUser:(BLParseUser *)user
+                      withBlock:(ParseCompletionBlock)block
+{
+    //Sanity
+    if (!user) {
+        [self returnToSenderWithResult:NO
+                    andCompletionBlock:block];
+        return;
+    }
+    
+    //Internet
+    if (![BLInternet doWeHaveInternet]) {
+        [self returnToSenderWithResult:NO
+                    andCompletionBlock:block];
+        return;
+    }
+    
+    //Deleting
+    UIBackgroundTaskIdentifier bgTaskId = [self startBackgroundTask];
+    NSTimer *timer = [self startTimeoutOperationWithInterval:[self customTimeoutTime]
+                                                    andBlock:^
+    {
+        [BLParseObject returnToSenderWithResult:NO
+                             andCompletionBlock:block];
+        [BLParseObject endBackgroundTask:bgTaskId];
+    }];
+    PFQuery *query = [self query];
+    [query whereKey:@"user"
+            equalTo:user];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error)
+     {
+         if (error) ParseLog(@"%@",error);
+         if (objects.count > 0) {
+             [PFObject deleteAllInBackground:objects
+                                       block:^(BOOL succeeded, NSError *error)
+              {
+                  if (error) ParseLog(@"%@",error);
+                  [BLParseObject returnToSenderWithResult:succeeded
+                                       andCompletionBlock:block];
+                  [BLParseObject stopTimeoutOperation:timer];
+                  [BLParseObject endBackgroundTask:bgTaskId];
+              }];
+         } else {
+             [BLParseObject returnToSenderWithResult:(error == nil)
+                                  andCompletionBlock:block];
+             [BLParseObject stopTimeoutOperation:timer];
+             [BLParseObject endBackgroundTask:bgTaskId];
+         }
+     }];
 }
 
 @end

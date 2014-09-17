@@ -15,6 +15,7 @@
 #import "BLDefines.h"
 #import "PFCloud+BLCloud.h"
 #import <FacebookSDK/FacebookSDK.h>
+#import "PFRole+BLRole.h"
 
 
 #pragma mark - Consts
@@ -131,6 +132,12 @@ static ParseCompletionBlock pushCompletionBlock;
             BLParseUser *newUser = [BLParseUser currentUser];
             [newUser setTerms:NO];
             [newUser setClearCaches:NO];
+            PFACL *acl = [PFACL ACLWithUser:newUser];
+            [acl setWriteAccess:YES
+                forRoleWithName:[PFRole roleNameForType:blRoleAdmin]];
+            [acl setReadAccess:YES
+               forRoleWithName:[PFRole roleNameForType:blRoleAdmin]];
+            [newUser setACL:acl];
             [newUser saveEventually];
             [newUser initialSetupWithBlock:^(BOOL success)
             {
@@ -148,7 +155,7 @@ static ParseCompletionBlock pushCompletionBlock;
     if (setupBlock) setupBlock(YES);
 }
 
-- (void)loginSetupWithBlock:(ParseCompletionBlock)loginBlock
+- (void)privateLoginSetupWithBlock:(ParseCompletionBlock)loginBlock
 {
     //Internet
     if (![BLInternet doWeHaveInternet]) {
@@ -166,53 +173,58 @@ static ParseCompletionBlock pushCompletionBlock;
         [[BLParseUser currentUser] endBackgroundTask];
     }];
     [self refreshInBackgroundWithBlock:^(PFObject *object, NSError *error)
-    {
-        if (error) {
-            ParseLog(@"%@",error);
-            [BLParseUser returnToSenderWithResult:NO
-                               andCompletionBlock:loginBlock];
-            [[BLParseUser currentUser] stopTimeoutOperation];
-            [[BLParseUser currentUser] endBackgroundTask];
-            return ;
-        }
-        if ([[BLParseUser currentUser] shouldClearCaches]) {
-            [PFQuery clearAllCachedResults];
-            [[BLParseUser currentUser] setClearCaches:NO];
-            [[BLParseUser currentUser] saveEventually];
-        }
-        if ([BLParseUser isFacebookUser]) {
-            [FBRequestConnection startForMeWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error)
-            {
-                if (error) {
-                    FacebookLog(@"%@",error);
-                } else {
-                    // result is a dictionary with the user's Facebook data
-                    NSDictionary *userData = (NSDictionary *)result;
-                    NSString *email = userData[@"email"];
-                    BLParseUser *user = [BLParseUser currentUser];
-                    if (![user.email isEqualToString:email]) {
-                        [user setEmail:email];
-                        [user saveEventually];
-                    }
-                }
-                [[BLParseUser currentUser] loginSetupWithBlock:^(BOOL success)
-                {
-                    [BLParseUser returnToSenderWithResult:success
-                                       andCompletionBlock:loginBlock];
-                    [[BLParseUser currentUser] stopTimeoutOperation];
-                    [[BLParseUser currentUser] endBackgroundTask];
-                }];
-            }];
-            return;
-        }
-        [[BLParseUser currentUser] loginSetupWithBlock:^(BOOL success)
-        {
-            [BLParseUser returnToSenderWithResult:success
-                               andCompletionBlock:loginBlock];
-            [[BLParseUser currentUser] stopTimeoutOperation];
-            [[BLParseUser currentUser] endBackgroundTask];
-        }];
-    }];
+     {
+         if (error) {
+             ParseLog(@"%@",error);
+             [BLParseUser returnToSenderWithResult:NO
+                                andCompletionBlock:loginBlock];
+             [[BLParseUser currentUser] stopTimeoutOperation];
+             [[BLParseUser currentUser] endBackgroundTask];
+             return ;
+         }
+         if ([[BLParseUser currentUser] shouldClearCaches]) {
+             [PFQuery clearAllCachedResults];
+             [[BLParseUser currentUser] setClearCaches:NO];
+             [[BLParseUser currentUser] saveEventually];
+         }
+         if ([BLParseUser isFacebookUser]) {
+             [FBRequestConnection startForMeWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error)
+              {
+                  if (error) {
+                      FacebookLog(@"%@",error);
+                  } else {
+                      // result is a dictionary with the user's Facebook data
+                      NSDictionary *userData = (NSDictionary *)result;
+                      NSString *email = userData[@"email"];
+                      BLParseUser *user = [BLParseUser currentUser];
+                      if (![user.email isEqualToString:email]) {
+                          [user setEmail:email];
+                          [user saveEventually];
+                      }
+                  }
+                  [[BLParseUser currentUser] loginSetupWithBlock:^(BOOL success)
+                   {
+                       [BLParseUser returnToSenderWithResult:success
+                                          andCompletionBlock:loginBlock];
+                       [[BLParseUser currentUser] stopTimeoutOperation];
+                       [[BLParseUser currentUser] endBackgroundTask];
+                   }];
+              }];
+             return;
+         }
+         [[BLParseUser currentUser] loginSetupWithBlock:^(BOOL success)
+          {
+              [BLParseUser returnToSenderWithResult:success
+                                 andCompletionBlock:loginBlock];
+              [[BLParseUser currentUser] stopTimeoutOperation];
+              [[BLParseUser currentUser] endBackgroundTask];
+          }];
+     }];
+}
+
+- (void)loginSetupWithBlock:(ParseCompletionBlock)loginBlock
+{
+    if (loginBlock) loginBlock(YES);
 }
 
 
@@ -348,7 +360,7 @@ static ParseCompletionBlock pushCompletionBlock;
     {
         if (error) ParseLog(@"%@",error);
         if (user) {
-            [[BLParseUser currentUser] loginSetupWithBlock:^(BOOL success)
+            [[BLParseUser currentUser] privateLoginSetupWithBlock:^(BOOL success)
             {
                 [BLParseUser returnToSenderWithResult:success
                                    andCompletionBlock:block];
@@ -394,7 +406,7 @@ static ParseCompletionBlock pushCompletionBlock;
             if (user.isNew) {
                 [[BLParseUser currentUser] privateInitialSetupWithBlock:block];
             } else {
-                [[BLParseUser currentUser] loginSetupWithBlock:block];
+                [[BLParseUser currentUser] privateLoginSetupWithBlock:block];
             }
         } else {
             [BLParseUser returnToSenderWithResult:NO
@@ -429,7 +441,7 @@ static ParseCompletionBlock pushCompletionBlock;
             if (user.isNew) {
                 [[BLParseUser currentUser] privateInitialSetupWithBlock:block];
             } else {
-                [[BLParseUser currentUser] loginSetupWithBlock:block];
+                [[BLParseUser currentUser] privateLoginSetupWithBlock:block];
             }
         } else {
             [BLParseUser returnToSenderWithResult:NO
