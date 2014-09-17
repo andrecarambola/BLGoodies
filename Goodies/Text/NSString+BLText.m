@@ -111,6 +111,30 @@
     return [NSString cleanNumbers:self];
 }
 
++ (NSString *)cleanStringForFileSystem:(NSString *)text
+{
+    //Sanity Check
+    if (text.length > 0) {
+        text = [self cleanWhiteSpacesAndNewLineCharacters:text];
+        text = [self cleanSymbols:text];
+        if ([text rangeOfString:@"."].location != NSNotFound) {
+            NSMutableArray *components = [[text componentsSeparatedByString:@"."] mutableCopy];
+            NSString *type = [components lastObject];
+            [components removeLastObject];
+            NSString *result = [components componentsJoinedByString:@""];
+            result = [self cleanPunctuation:result];
+            return [NSString stringWithFormat:@"%@.%@",result,[self cleanPunctuation:type]];
+        }
+    }
+    
+    return text;
+}
+
+- (NSString *)cleanStringForFileSystem
+{
+    return [NSString cleanStringForFileSystem:self];
+}
+
 
 #pragma mark - General Checks
 

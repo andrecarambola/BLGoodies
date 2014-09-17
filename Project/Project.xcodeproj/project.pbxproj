@@ -21,6 +21,7 @@
 		65A0B4D519B379B800691AF5 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65A0B4D219B379B800691AF5 /* Bolts.framework */; };
 		65A0B4D619B379B800691AF5 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65A0B4D319B379B800691AF5 /* Parse.framework */; };
 		65A0B4D719B379B800691AF5 /* ParseFacebookUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65A0B4D419B379B800691AF5 /* ParseFacebookUtils.framework */; };
+		65B32A0119CA3BFD00937D6B /* NSFileManager+Goodies.m in Sources */ = {isa = PBXBuildFile; fileRef = 65B32A0019CA3BFD00937D6B /* NSFileManager+Goodies.m */; };
 		65FA94E319B3D7930046A13E /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65FA94E219B3D7930046A13E /* FacebookSDK.framework */; };
 		65FA993719B4086F0046A13E /* BLObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 65FA98F219B4086F0046A13E /* BLObject.m */; };
 		65FA993819B4086F0046A13E /* NSObject+Goodies.m in Sources */ = {isa = PBXBuildFile; fileRef = 65FA98F419B4086F0046A13E /* NSObject+Goodies.m */; };
@@ -81,6 +82,8 @@
 		65A0B4D219B379B800691AF5 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Bolts.framework; path = "../../../07_extensões/Parse/Bolts.framework"; sourceTree = "<group>"; };
 		65A0B4D319B379B800691AF5 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Parse.framework; path = "../../../07_extensões/Parse/Parse.framework"; sourceTree = "<group>"; };
 		65A0B4D419B379B800691AF5 /* ParseFacebookUtils.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ParseFacebookUtils.framework; path = "../../../07_extensões/Parse/ParseFacebookUtils.framework"; sourceTree = "<group>"; };
+		65B329FF19CA3BFD00937D6B /* NSFileManager+Goodies.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSFileManager+Goodies.h"; sourceTree = "<group>"; };
+		65B32A0019CA3BFD00937D6B /* NSFileManager+Goodies.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSFileManager+Goodies.m"; sourceTree = "<group>"; };
 		65CD32EF19BD49B90016E600 /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/BLGoodies.strings; sourceTree = "<group>"; };
 		65CD32F019BD49B90016E600 /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		65CD32F119BD49B90016E600 /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -249,6 +252,15 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		65B329FE19CA3BFD00937D6B /* Files */ = {
+			isa = PBXGroup;
+			children = (
+				65B329FF19CA3BFD00937D6B /* NSFileManager+Goodies.h */,
+				65B32A0019CA3BFD00937D6B /* NSFileManager+Goodies.m */,
+			);
+			path = Files;
+			sourceTree = "<group>";
+		};
 		65FA98EF19B4086F0046A13E /* Goodies */ = {
 			isa = PBXGroup;
 			children = (
@@ -263,6 +275,7 @@
 				65FA990719B4086F0046A13E /* PageControl */,
 				65FA990A19B4086F0046A13E /* Parse */,
 				65FA991519B4086F0046A13E /* Player  */,
+				65B329FE19CA3BFD00937D6B /* Files */,
 				65FA991C19B4086F0046A13E /* Queuer */,
 				65FA991F19B4086F0046A13E /* Text */,
 				65FA993419B4086F0046A13E /* UI */,
@@ -507,6 +520,7 @@
 				65FA993919B4086F0046A13E /* BLTableViewController.m in Sources */,
 				6529391319B378090047D238 /* main.m in Sources */,
 				65FA993D19B4086F0046A13E /* BLInternet.m in Sources */,
+				65B32A0119CA3BFD00937D6B /* NSFileManager+Goodies.m in Sources */,
 				65FA994619B4086F0046A13E /* BLVideoView.m in Sources */,
 				65FA994919B4086F0046A13E /* BLEmailTextField.m in Sources */,
 				65FA994C19B4086F0046A13E /* BLPhoneNumberTextField.m in Sources */,

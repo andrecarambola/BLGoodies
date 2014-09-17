@@ -24,6 +24,8 @@
 - (NSString *)cleanSymbols;
 + (NSString *)cleanNumbers:(NSString *)text;
 - (NSString *)cleanNumbers;
++ (NSString *)cleanStringForFileSystem:(NSString *)text;
+- (NSString *)cleanStringForFileSystem;
 
 //General Checks
 + (BOOL)isLetter:(NSString *)string;
