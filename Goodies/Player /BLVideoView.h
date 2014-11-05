@@ -56,12 +56,13 @@
 #import <UIKit/UIKit.h>
 
 
-@class AVPlayerLayer;
+@class AVPlayerLayer, AVPlayer;
 
 
 @interface BLVideoView : UIView
 
 @property (nonatomic, readonly) AVPlayerLayer *playerLayer;
+- (void)setPlayer:(AVPlayer*)player;
 
 - (void)toggleVideoGravity;
 

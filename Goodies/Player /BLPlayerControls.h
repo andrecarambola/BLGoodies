@@ -7,24 +7,35 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "BLVideoView.h"
 
 
 @protocol BLPlayerControls <NSObject>
-@property (weak, nonatomic) IBOutlet UIButton *playButton;
+@property (nonatomic, weak) IBOutlet UIButton *playButton;
 - (IBAction)playButtonPressed:(UIButton *)sender;
-@property (weak, nonatomic) IBOutlet UISlider *timeSlider;
+@property (nonatomic, weak) IBOutlet UISlider *timeSlider;
 - (IBAction)timeSliderTouchedDown:(UISlider *)sender;
 - (IBAction)timeSliderTouchedDragInside:(UISlider *)sender;
 - (IBAction)timeSliderValueChanged:(UISlider *)sender;
 - (IBAction)timeSliderTouchedUpInside:(UISlider *)sender;
 - (IBAction)timeSliderTouchedUpOutside:(UISlider *)sender;
-@property (weak, nonatomic) IBOutlet UILabel *elapsedTimeLabel;
+@property (nonatomic, weak) IBOutlet UILabel *elapsedTimeLabel;
 @optional
-@property (weak, nonatomic) IBOutlet UIButton *previousTrackButton;
-@property (weak, nonatomic) IBOutlet UIButton *nextTrackButton;
-@property (weak, nonatomic) IBOutlet UIButton *skipForwardButton;
-@property (weak, nonatomic) IBOutlet UIButton *skipBackwardButton;
-@property (weak, nonatomic) IBOutlet UILabel *remainingTimeLabel;
-@property (weak, nonatomic) IBOutlet UILabel *trackNameLabel;
-@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *spinningThing;
+@property (nonatomic, weak) IBOutlet UIButton *previousTrackButton;
+@property (nonatomic, weak) IBOutlet UIButton *nextTrackButton;
+- (IBAction)changeTrackPressed:(UIButton *)sender;
+@property (nonatomic, weak) IBOutlet UIButton *skipForwardButton;
+@property (nonatomic, weak) IBOutlet UIButton *skipBackwardButton;
+- (IBAction)skipPressed:(UIButton *)sender;
+@property (nonatomic, weak) IBOutlet UILabel *remainingTimeLabel;
+@property (nonatomic, weak) IBOutlet UILabel *trackNameLabel;
+@property (nonatomic, weak) IBOutlet UIActivityIndicatorView *mediaSpinningThing;
+@end
+
+
+@protocol BLPlayerVideoControls <BLPlayerControls>
+@property (nonatomic, weak) IBOutlet BLVideoView *videoView;
+@optional
+@property (nonatomic, weak) IBOutlet UIButton *toggleGravityButton;
+- (IBAction)toggleGravityPressed:(UIButton *)sender;
 @end

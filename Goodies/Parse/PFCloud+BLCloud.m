@@ -70,31 +70,4 @@
     }];
 }
 
-
-#pragma mark - New Users
-
-+ (void)registerNewClientUserWithBlock:(ParseCompletionBlock)block
-{
-    //Sanity
-    if (![BLParseUser isLogged]) {
-        if (block) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                block(NO);
-            });
-        }
-        return;
-    }
-    
-    [self callFunction:@"updateNewUser"
-        withParameters:@{@"userID": [[BLParseUser currentUser] objectId]}
-              andBlock:^(BOOL success)
-    {
-        if (block) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                block(success);
-            });
-        }
-    }];
-}
-
 @end

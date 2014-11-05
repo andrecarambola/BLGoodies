@@ -14,6 +14,9 @@
 
 @protocol BLPlayerDelegate <NSObject>
 - (void)player:(BLPlayer *)player didChangeLoadingStatus:(BOOL)isLoading;
-- (void)player:(BLPlayer *)player willStartPlayingMediaWithURL:(NSURL *)mediaURL atTime:(double)timeInSeconds;
+- (void)player:(BLPlayer *)player willStartPlayingMediaWithURL:(NSURL *)mediaURL;
+- (NSTimeInterval)player:(BLPlayer *)player timeToSeekBeforePlayingMediaWithURL:(NSURL *)mediaURL;
+- (BOOL)shouldEnableSliderForPlayer:(BLPlayer *)player andMediaWithURL:(NSURL *)mediaURL;
+- (NSString *)trackNameForPlayer:(BLPlayer *)player andMediaWithURL:(NSURL *)mediaURL;
 - (void)player:(BLPlayer *)player didStopPlayingMediaWithURL:(NSURL *)mediaURL atTime:(double)timeInSeconds;
 @end

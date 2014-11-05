@@ -51,29 +51,28 @@
  
  */
 
-#import <Foundation/Foundation.h>
+#import "BLPlayerResponder.h"
 #import <AVFoundation/AVFoundation.h>
 #import <CoreMedia/CoreMedia.h>
-#import "BLVideoView.h"
 #import "BLPLayerDelegate.h"
 #import "BLPlayerControls.h"
 
 
-@interface BLPlayer : UIResponder
+@interface BLPlayer : BLPlayerResponder
 
 //Singleton
 + (BLPlayer *)sharedPlayer;
 
 //Setup
-@property (weak, nonatomic) id<BLPlayerDelegate>delegate;
+@property (nonatomic, weak) id<BLPlayerDelegate>delegate;
 //Array of NSURLs
 - (void)addMediaURLs:(NSArray *)mediaURLs;
 - (void)removeMediaURLs:(NSArray *)mediaURLs;
-+ (void)registerDefaultSkipTimeInSeconds:(double)skipTime;
++ (void)registerDefaultSkipTimeInSeconds:(NSTimeInterval)skipTime;
 
 //UI
-@property (weak, nonatomic) id<BLPlayerControls> playerControls;
-@property (weak, nonatomic) BLVideoView *videoView;
+@property (nonatomic, weak) id<BLPlayerControls> playerControls;
+@property (nonatomic, weak) id<BLPlayerVideoControls> videoControls;
 
 //Loading
 - (BOOL)isLoading;
@@ -84,7 +83,7 @@
 - (void)play;
 - (void)pause;
 - (void)stop;
-@property (readonly, nonatomic) double skipTime;
+@property (nonatomic, readonly) NSTimeInterval skipTime;
 @property (nonatomic) float playingRate;
 
 //Managing Tracks

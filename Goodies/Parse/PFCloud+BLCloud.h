@@ -17,7 +17,4 @@
       withParameters:(NSDictionary *)parameters
             andBlock:(ParseCompletionBlock)block;
 
-//New Users
-+ (void)registerNewClientUserWithBlock:(ParseCompletionBlock)block;
-
 @end

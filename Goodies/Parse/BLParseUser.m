@@ -32,8 +32,10 @@ static ParseCompletionBlock pushCompletionBlock;
 //Setup
 - (void)setup;
 @property (nonatomic) BOOL shouldClearCaches;
-- (void)privateInitialSetupWithBlock:(ParseCompletionBlock)setupBlock;
 - (void)privateLoginSetupWithBlock:(ParseCompletionBlock)loginBlock;
+//New Users
+- (void)privateInitialSetupWithBlock:(ParseCompletionBlock)setupBlock;
++ (void)registerNewClientUserWithBlock:(ParseCompletionBlock)block;
 
 //Background
 @property (nonatomic) UIBackgroundTaskIdentifier bgTaskId;
@@ -93,6 +95,8 @@ static ParseCompletionBlock pushCompletionBlock;
 
 @dynamic shouldClearCaches;
 
+#pragma mark New Users
+
 - (void)privateInitialSetupWithBlock:(ParseCompletionBlock)setupBlock
 {
     //Internet
@@ -110,7 +114,7 @@ static ParseCompletionBlock pushCompletionBlock;
                            andCompletionBlock:setupBlock];
         [[BLParseUser currentUser] stopTimeoutOperation];
     }];
-    [PFCloud registerNewClientUserWithBlock:^(BOOL success)
+    [BLParseUser registerNewClientUserWithBlock:^(BOOL success)
     {
         if (!success) {
             dispatch_async(dispatch_get_main_queue(), ^{
@@ -148,6 +152,31 @@ static ParseCompletionBlock pushCompletionBlock;
             }];
         }
     }];
+//    PFAnonymousUtils
+}
+
++ (void)registerNewClientUserWithBlock:(ParseCompletionBlock)block
+{
+    //Sanity
+    if (![BLParseUser isLogged]) {
+        if (block) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                block(NO);
+            });
+        }
+        return;
+    }
+    
+    [PFCloud callFunction:@"updateNewUser"
+           withParameters:@{@"userId": [[BLParseUser currentUser] objectId]}
+                 andBlock:^(BOOL success)
+     {
+         if (block) {
+             dispatch_async(dispatch_get_main_queue(), ^{
+                 block(success);
+             });
+         }
+     }];
 }
 
 - (void)initialSetupWithBlock:(ParseCompletionBlock)setupBlock
@@ -172,7 +201,7 @@ static ParseCompletionBlock pushCompletionBlock;
                            andCompletionBlock:loginBlock];
         [[BLParseUser currentUser] endBackgroundTask];
     }];
-    [self refreshInBackgroundWithBlock:^(PFObject *object, NSError *error)
+    [self fetchIfNeededInBackgroundWithBlock:^(PFObject *object, NSError *error)
      {
          if (error) {
              ParseLog(@"%@",error);

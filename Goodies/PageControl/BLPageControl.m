@@ -18,13 +18,13 @@
 - (void)setup;
 
 //Images
-@property (strong, nonatomic) NSMutableDictionary *imagesDictionary;
-@property (strong, nonatomic) NSMutableArray *imageViews;
+@property (nonatomic, strong) NSMutableDictionary *imagesDictionary;
+@property (nonatomic, strong) NSMutableArray *imageViews;
 - (UIImageView *)createImageViewAtYPosition:(CGFloat)yPosition;
 
 //UI Elements
-@property (weak, nonatomic) UIView *imageViewsContainer;
-@property (strong, nonatomic) NSMutableArray *touchViews;
+@property (nonatomic, weak) UIView *imageViewsContainer;
+@property (nonatomic, strong) NSMutableArray *touchViews;
 - (void)checkTouchViews;
 
 //UI Actions

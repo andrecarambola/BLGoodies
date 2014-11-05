@@ -12,3 +12,4 @@
 "BLInvalidPasswordAlert" = "Por favor, insira uma senha válida.";
 "BLNoLoginAlert" = "Não foi possível fazer o login. Por favor, verifique suas informações e tente novamente.";
 "BLEmailSentAlert" = "Email enviado para sua caixa de entrada!";
+"BLPlayerLoadFailureAlert" = "Não foi possível carregar a mídia... Por favor, tente novamente.";
