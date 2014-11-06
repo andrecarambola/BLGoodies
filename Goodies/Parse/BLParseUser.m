@@ -226,6 +226,7 @@ static ParseCompletionBlock pushCompletionBlock;
                       { // Since the request failed, we can check if it was due to an invalid session
                           FacebookLog(@"The facebook session was invalidated");
                           [BLParseUser customLogout];
+#warning implement message
                       }
                   } else {
                       // result is a dictionary with the user's Facebook data
