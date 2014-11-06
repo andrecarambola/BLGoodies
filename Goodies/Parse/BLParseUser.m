@@ -221,6 +221,12 @@ static ParseCompletionBlock pushCompletionBlock;
               {
                   if (error) {
                       FacebookLog(@"%@",error);
+                      if ([[[[error userInfo] objectForKey:@"error"] objectForKey:@"type"]
+                           isEqualToString: @"OAuthException"])
+                      { // Since the request failed, we can check if it was due to an invalid session
+                          FacebookLog(@"The facebook session was invalidated");
+                          [BLParseUser customLogout];
+                      }
                   } else {
                       // result is a dictionary with the user's Facebook data
                       NSDictionary *userData = (NSDictionary *)result;
