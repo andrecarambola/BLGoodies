@@ -11,6 +11,7 @@
 #import "BLDefines.h"
 #import "BLQueuer.h"
 #import "NSString+BLText.h"
+#import "BLLogger.h"
 
 
 #pragma mark - Defines

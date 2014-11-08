@@ -226,7 +226,13 @@ static ParseCompletionBlock pushCompletionBlock;
                       { // Since the request failed, we can check if it was due to an invalid session
                           FacebookLog(@"The facebook session was invalidated");
                           [BLParseUser customLogout];
-#warning implement message
+                          dispatch_async(dispatch_get_main_queue(), ^{
+                              [[[UIAlertView alloc] initWithTitle:appName
+                                                          message:NSLocalizedStringFromTable(@"BLFacebookSessionExpired", @"BLGoodies", @"An alert to be displayed if the user's Facebook session has expired")
+                                                         delegate:nil
+                                                cancelButtonTitle:@"Ok"
+                                                otherButtonTitles:nil] show];
+                          });
                       }
                   } else {
                       // result is a dictionary with the user's Facebook data

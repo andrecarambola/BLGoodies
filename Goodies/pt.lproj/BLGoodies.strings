@@ -13,3 +13,4 @@
 "BLNoLoginAlert" = "Não foi possível fazer o login. Por favor, verifique suas informações e tente novamente.";
 "BLEmailSentAlert" = "Email enviado para sua caixa de entrada!";
 "BLPlayerLoadFailureAlert" = "Não foi possível carregar a mídia... Por favor, tente novamente.";
+"BLFacebookSessionExpired" = "Sua sessão no Facebook expirou. Por favor, faça o login novamente.";
