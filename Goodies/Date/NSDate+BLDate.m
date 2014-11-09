@@ -15,7 +15,6 @@
 {
     NSDate *result = [NSDate date];
     
-    NSDateComponents *dateComponents = [NSLocale currentLocale] cal
 }
 
 @end

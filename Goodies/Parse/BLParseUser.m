@@ -564,7 +564,10 @@ static ParseCompletionBlock pushCompletionBlock;
 - (void)registerForPushNotificationsWithBlock:(ParseCompletionBlock)block
 {
     if (block) pushCompletionBlock = [block copy];
-    [[UIApplication sharedApplication] registerForRemoteNotificationTypes:UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound];
+    UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeAlert | UIUserNotificationTypeBadge | UIUserNotificationTypeSound
+                                                                             categories:nil];
+    [[UIApplication sharedApplication] registerUserNotificationSettings:settings];
+    [[UIApplication sharedApplication] registerForRemoteNotifications];
 }
 
 - (void)handlePushRegistrationWithSuccess:(BOOL)hasSucceeded
