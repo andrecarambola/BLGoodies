@@ -70,4 +70,54 @@
     }];
 }
 
++ (void)callFunction:(NSString *)function
+      withParameters:(NSDictionary *)parameters andCollectionCompletionBlock:(ParseCollectionCompletionBlock)block
+{
+    //Sanity
+    if (function.length == 0) {
+        if (block) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                block(nil);
+            });
+        }
+        return;
+    }
+    
+    //Internet
+    if (![BLInternet doWeHaveInternet]) {
+        if (block) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                block(nil);
+            });
+        }
+        return;
+    }
+    
+    //Calling function
+    UIBackgroundTaskIdentifier bgTaskId = [self startBackgroundTask];
+    NSTimer *timer = [self startTimeoutOperationWithBlock:^
+    {
+        if (block) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                block(nil);
+            });
+        }
+        [PFCloud endBackgroundTask:bgTaskId];
+    }];
+    [PFCloud callFunctionInBackground:function
+                       withParameters:parameters
+                                block:^(id object, NSError *error)
+     {
+         if (error) ParseLog(@"%@",error);
+         if ([object isKindOfClass:[NSString class]]) ParseLog(@"%@",object);
+         if (block) {
+             dispatch_async(dispatch_get_main_queue(), ^{
+                 block(([object isKindOfClass:[NSArray class]]) ? object : nil);
+             });
+         }
+         [PFCloud stopTimeoutOperation:timer];
+         [PFCloud endBackgroundTask:bgTaskId];
+     }];
+}
+
 @end
