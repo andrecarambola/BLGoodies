@@ -56,12 +56,12 @@
 
 #pragma mark - Send Push To User
 
-+ (void)sendPushToUser:(BLParseUser *)user
-              withData:(NSDictionary *)data
-              andBlock:(ParseCompletionBlock)block
++ (void)sendPushToUsers:(NSArray *)users
+               withData:(NSDictionary *)data
+               andBlock:(ParseCompletionBlock)block
 {
     //Sanity Check
-    if (!user || user.objectId.length == 0 || ![self isValidPushData:data])
+    if (users.count == 0 || ![self isValidPushData:data])
     {
         if (block) {
             dispatch_async(dispatch_get_main_queue(), ^{
@@ -71,10 +71,15 @@
         return;
     }
     
+    NSMutableArray *userIds = [NSMutableArray array];
+    for (BLParseUser *user in users) {
+        if (![user.objectId isEqualToString:[BLParseUser currentUser].objectId]) [userIds addObject:user.objectId];
+    }
+    
     UIBackgroundTaskIdentifier bgTaskId = [self startBackgroundTask];
     //Calling Push Function
     [PFCloud callFunction:@"sendPushToUser"
-           withParameters:@{@"userId": user.objectId,
+           withParameters:@{@"userIds": userIds,
                             @"pushData": data}
                  andBlock:^(BOOL success)
      {

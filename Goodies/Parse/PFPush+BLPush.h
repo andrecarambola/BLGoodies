@@ -21,8 +21,8 @@
                  andBlock:(ParseCompletionBlock)block;
 
 //Send Push To User
-+ (void)sendPushToUser:(BLParseUser *)user
-              withData:(NSDictionary *)data
-              andBlock:(ParseCompletionBlock)block;
++ (void)sendPushToUsers:(NSArray *)users
+               withData:(NSDictionary *)data
+               andBlock:(ParseCompletionBlock)block;
 
 @end
