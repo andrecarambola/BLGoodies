@@ -94,9 +94,9 @@
             if (error) FileLog(@"%@",error);
             return nil;
         }
-        if ([[NSFileManager defaultManager] shouldExcludeFileTypeFromBackup:fileType]) {
-            [NSFileManager excludeFileFromBackupWithURL:result];
-        }
+        //if ([[NSFileManager defaultManager] shouldExcludeFileTypeFromBackup:fileType]) {
+          //  [NSFileManager excludeFileFromBackupWithURL:result];
+       // }
     }
     
     [self endBackgroundTask:bgTaskId];
