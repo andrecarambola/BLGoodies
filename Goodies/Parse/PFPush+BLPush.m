@@ -22,12 +22,12 @@
 
 #pragma mark - Send Push To Channel
 
-+ (void)sendPushToChannel:(NSString *)channel
-                 withData:(NSDictionary *)data
-                 andBlock:(ParseCompletionBlock)block
++ (void)sendPushToChannels:(NSArray *)channels
+                  withData:(NSDictionary *)data
+                  andBlock:(ParseCompletionBlock)block
 {
     //Sanity Check
-    if (channel.length == 0 || ![self isValidPushData:data])
+    if (channels.count == 0 || ![self isValidPushData:data])
     {
         if (block) {
             dispatch_async(dispatch_get_main_queue(), ^{
@@ -39,8 +39,8 @@
     
     UIBackgroundTaskIdentifier bgTaskId = [self startBackgroundTask];
     //Calling Push Function
-    [PFCloud callFunction:@"sendPushToChannel"
-           withParameters:@{@"channel": channel,
+    [PFCloud callFunction:@"sendPushToChannels"
+           withParameters:@{@"channels": channels,
                             @"pushData": data}
                  andBlock:^(BOOL success)
     {
@@ -73,13 +73,13 @@
     
     NSMutableArray *userIds = [NSMutableArray array];
     for (BLParseUser *user in users) {
-        if (![user.objectId isEqualToString:[BLParseUser currentUser].objectId]) [userIds addObject:user.objectId];
+        [userIds addObject:user.objectId];
     }
     
     UIBackgroundTaskIdentifier bgTaskId = [self startBackgroundTask];
     //Calling Push Function
-    [PFCloud callFunction:@"sendPushToUser"
-           withParameters:@{@"userIds": userIds,
+    [PFCloud callFunction:@"sendPushToUsers"
+           withParameters:@{@"userIds": users,
                             @"pushData": data}
                  andBlock:^(BOOL success)
      {

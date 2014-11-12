@@ -16,9 +16,9 @@
 @interface PFPush (BLPush)
 
 //Send Push To Channel
-+ (void)sendPushToChannel:(NSString *)channel
-                 withData:(NSDictionary *)data
-                 andBlock:(ParseCompletionBlock)block;
++ (void)sendPushToChannels:(NSArray *)channels
+                  withData:(NSDictionary *)data
+                  andBlock:(ParseCompletionBlock)block;
 
 //Send Push To User
 + (void)sendPushToUsers:(NSArray *)users

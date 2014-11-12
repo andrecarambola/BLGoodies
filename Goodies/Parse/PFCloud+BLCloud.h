@@ -17,7 +17,4 @@
       withParameters:(NSDictionary *)parameters
             andBlock:(ParseCompletionBlock)block;
 
-+ (void)callFunction:(NSString *)function
-      withParameters:(NSDictionary *)parameters andCollectionCompletionBlock:(ParseCollectionCompletionBlock)block;
-
 @end

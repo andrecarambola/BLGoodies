@@ -11,10 +11,6 @@
 
 @implementation NSDate (BLDate)
 
-+ (NSDate *)firstDayOfNextMonth
-{
-    NSDate *result = [NSDate date];
-    
-}
+
 
 @end

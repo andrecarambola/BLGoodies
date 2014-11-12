@@ -11,6 +11,4 @@
 
 @interface NSDate (BLDate)
 
-+ (NSDate *)firstDayOfNextMonth;
-
 @end

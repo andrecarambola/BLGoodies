@@ -12,7 +12,6 @@
 
 #pragma mark - Type Defs
 typedef void (^ParseCompletionBlock) (BOOL success);
-typedef void (^ParseCollectionCompletionBlock) (NSArray *results);
 
 
 #pragma mark - PUBLIC INTERFACES
