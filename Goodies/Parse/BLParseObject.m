@@ -49,6 +49,8 @@
 + (instancetype)customObject
 {
     BLParseObject *result = [[self class] object];
+    [result setObject:[BLParseUser currentUser]
+               forKey:@"user"];
     [result setup];
     return result;
 }

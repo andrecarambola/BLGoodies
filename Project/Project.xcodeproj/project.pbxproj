@@ -18,6 +18,7 @@
 		6529392A19B378090047D238 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6529392819B378090047D238 /* InfoPlist.strings */; };
 		6529392C19B378090047D238 /* ProjectTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6529392B19B378090047D238 /* ProjectTests.m */; };
 		653B10A01A1419D900A97819 /* ParseUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 653B109F1A1419D900A97819 /* ParseUI.framework */; };
+		653B11701A14385600A97819 /* BLParseResultsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 653B116F1A14385600A97819 /* BLParseResultsController.m */; };
 		65875D3619CA584B00B348B7 /* BLPlayerResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 65875D3519CA584B00B348B7 /* BLPlayerResponder.m */; };
 		65A963E41A0AE1C800611867 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65A963E11A0AE1C800611867 /* Bolts.framework */; };
 		65A963E51A0AE1C800611867 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65A963E21A0AE1C800611867 /* Parse.framework */; };
@@ -92,6 +93,8 @@
 		6529392919B378090047D238 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		6529392B19B378090047D238 /* ProjectTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ProjectTests.m; sourceTree = "<group>"; };
 		653B109F1A1419D900A97819 /* ParseUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ParseUI.framework; path = "../../../07_extensões/Parse-iOS/ParseUI.framework"; sourceTree = "<group>"; };
+		653B116E1A14385600A97819 /* BLParseResultsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLParseResultsController.h; sourceTree = "<group>"; };
+		653B116F1A14385600A97819 /* BLParseResultsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLParseResultsController.m; sourceTree = "<group>"; };
 		65875D3419CA584B00B348B7 /* BLPlayerResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLPlayerResponder.h; sourceTree = "<group>"; };
 		65875D3519CA584B00B348B7 /* BLPlayerResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLPlayerResponder.m; sourceTree = "<group>"; };
 		65A963E11A0AE1C800611867 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Bolts.framework; path = "../../../07_extensões/Parse-iOS/Bolts.framework"; sourceTree = "<group>"; };
@@ -418,6 +421,8 @@
 				65FA991419B4086F0046A13E /* PFRole+BLRole.m */,
 				65A963FB1A0AE51D00611867 /* PFPush+BLPush.h */,
 				65A963FC1A0AE51D00611867 /* PFPush+BLPush.m */,
+				653B116E1A14385600A97819 /* BLParseResultsController.h */,
+				653B116F1A14385600A97819 /* BLParseResultsController.m */,
 			);
 			path = Parse;
 			sourceTree = "<group>";
@@ -590,6 +595,7 @@
 				65FA994319B4086F0046A13E /* PFObject+BLObject.m in Sources */,
 				65FA993819B4086F0046A13E /* NSObject+Goodies.m in Sources */,
 				65FA993919B4086F0046A13E /* BLTableViewController.m in Sources */,
+				653B11701A14385600A97819 /* BLParseResultsController.m in Sources */,
 				6529391319B378090047D238 /* main.m in Sources */,
 				65FA993D19B4086F0046A13E /* BLInternet.m in Sources */,
 				65B32A0119CA3BFD00937D6B /* NSFileManager+Goodies.m in Sources */,
