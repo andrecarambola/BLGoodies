@@ -152,7 +152,6 @@ static ParseCompletionBlock pushCompletionBlock;
             }];
         }
     }];
-//    PFAnonymousUtils
 }
 
 + (void)registerNewClientUserWithBlock:(ParseCompletionBlock)block
@@ -363,8 +362,9 @@ static ParseCompletionBlock pushCompletionBlock;
     }];
     
     //Sign Up
-    if (forCreation) {
-        BLParseUser *newUser = [self object];
+    if (forCreation)
+    {
+        BLParseUser *newUser = ([BLParseUser currentUser] && [PFAnonymousUtils isLinkedWithUser:[BLParseUser currentUser]]) ? [BLParseUser currentUser] : [self object];
         [newUser setEmail:username];
         [newUser setUsername:username];
         [newUser setPassword:password];
@@ -440,8 +440,8 @@ static ParseCompletionBlock pushCompletionBlock;
                            andCompletionBlock:block];
         [BLParseUser endBackgroundTask:bgTaskId];
     }];
-    [PFFacebookUtils logInWithPermissions:[BLParseUser facebookReadPermissions]
-                                    block:^(PFUser *user, NSError *error)
+    
+    void (^endBlock) (BOOL, PFUser *, NSError *) = ^(BOOL success, PFUser *user, NSError *error)
     {
         if (error) FacebookLog(@"%@",error);
         if (user) {
@@ -456,7 +456,26 @@ static ParseCompletionBlock pushCompletionBlock;
         }
         [BLParseUser stopTimeoutOperation:timer];
         [BLParseUser endBackgroundTask:bgTaskId];
-    }];
+    };
+    
+    if ([BLParseUser currentUser] &&
+        [PFAnonymousUtils isLinkedWithUser:[BLParseUser currentUser]])
+    {
+        [PFFacebookUtils linkUser:[BLParseUser currentUser]
+                      permissions:[BLParseUser facebookReadPermissions]
+                            block:^(BOOL succeeded, NSError *error)
+        {
+            endBlock(succeeded, (succeeded) ? [BLParseUser currentUser] : nil, error);
+        }];
+    }
+    else
+    {
+        [PFFacebookUtils logInWithPermissions:[BLParseUser facebookReadPermissions]
+                                        block:^(PFUser *user, NSError *error)
+        {
+            endBlock(user != nil, user, error);
+        }];
+    }
 }
 
 + (void)logInToTwitterWithBlock:(ParseCompletionBlock)block
@@ -476,7 +495,8 @@ static ParseCompletionBlock pushCompletionBlock;
                            andCompletionBlock:block];
         [BLParseUser endBackgroundTask:bgTaskId];
     }];
-    [PFTwitterUtils logInWithBlock:^(PFUser *user, NSError *error)
+    
+    void (^endBlock) (BOOL, PFUser *, NSError *) = ^(BOOL success, PFUser *user, NSError *error)
     {
         if (error) TwitterLog(@"%@",error);
         if (user) {
@@ -485,6 +505,54 @@ static ParseCompletionBlock pushCompletionBlock;
             } else {
                 [[BLParseUser currentUser] privateLoginSetupWithBlock:block];
             }
+        } else {
+            [BLParseUser returnToSenderWithResult:NO
+                               andCompletionBlock:block];
+        }
+        [BLParseUser stopTimeoutOperation:timer];
+        [BLParseUser endBackgroundTask:bgTaskId];
+    };
+    
+    if ([BLParseUser currentUser] &&
+        [PFAnonymousUtils isLinkedWithUser:[BLParseUser currentUser]])
+    {
+        [PFTwitterUtils linkUser:[BLParseUser currentUser]
+                           block:^(BOOL succeeded, NSError *error)
+        {
+            endBlock(succeeded, (succeeded) ? [BLParseUser currentUser] : nil, error);
+        }];
+    }
+    else
+    {
+        [PFTwitterUtils logInWithBlock:^(PFUser *user, NSError *error)
+        {
+            endBlock(user != nil, user, error);
+        }];
+    }
+}
+
++ (void)logInAnonymouslyWithBlock:(ParseCompletionBlock)block
+{
+    //Internet
+    if (![BLInternet doWeHaveInternetWithAlert:YES]) {
+        [BLParseUser returnToSenderWithResult:NO
+                           andCompletionBlock:block];
+        return;
+    }
+    
+    UIBackgroundTaskIdentifier bgTaskId = [self startBackgroundTask];
+    NSTimer *timer = [self startTimeoutOperationWithBlock:^
+    {
+        [BLParseUser returnToSenderWithResult:NO
+                           andCompletionBlock:block];
+        [BLParseUser endBackgroundTask:bgTaskId];
+    }];
+    
+    [PFAnonymousUtils logInWithBlock:^(PFUser *user, NSError *error)
+    {
+        if (error) ParseLog(@"%@",error);
+        if (user) {
+            [[BLParseUser currentUser] privateInitialSetupWithBlock:block];
         } else {
             [BLParseUser returnToSenderWithResult:NO
                                andCompletionBlock:block];
