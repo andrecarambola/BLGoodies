@@ -7,6 +7,7 @@
 //
 
 #import "NSString+BLText.h"
+#import "CWSBrasilValidate.h"
 
 
 #pragma mark
@@ -239,12 +240,11 @@
 + (BOOL)isValidPostalCode:(NSString *)postalCode
 {
 #warning add locales
-    postalCode = [postalCode cleanPostalCode];
     if (postalCode.length > 0) {
         if ([[[NSLocale currentLocale] localeIdentifier] rangeOfString:@"BR"
                                                                options:NSCaseInsensitiveSearch].location != NSNotFound)
         {
-            return (postalCode.length == 8);
+            return [CWSBrasilValidate validarCEP:postalCode];
         }
         return YES;
     }
@@ -267,6 +267,12 @@
         return YES;
     }
     return NO;
+}
+
++ (BOOL)isValidCPF:(NSString *)cpf
+{
+    cpf = [cpf cleanCPF];
+    return [CWSBrasilValidate validarCPF:cpf];
 }
 
 
@@ -315,6 +321,11 @@
 - (NSString *)cleanCity
 {
     return [self cleanName];
+}
+
+- (NSString *)cleanCPF
+{
+    return [self cleanPhoneNumber];
 }
 
 @end
@@ -466,6 +477,7 @@
     return [NSString formattedPhoneNumber:self];
 }
 
+
 #pragma mark - Postal Code
 
 + (NSString *)formattedPostalCode:(NSString *)text
@@ -492,6 +504,44 @@
 - (NSString *)formattedPostalCode
 {
     return [NSString formattedPostalCode:self];
+}
+
+
+#pragma mark - CPF
+
++ (NSString *)formattedCPF:(NSString *)cpf
+{
+    NSString *tempResult = [cpf cleanCPF];
+    if (tempResult.length <= 3) return tempResult;
+    
+    NSString *firstPart = [tempResult substringToIndex:3];
+    NSString *secondPart = [tempResult stringByReplacingOccurrencesOfString:firstPart
+                                                                 withString:@""];
+    NSString *thirdPart, *fourthPart;
+    NSString *result = [NSString stringWithFormat:@"%@",firstPart];
+    if (secondPart.length <= 3) {
+        result = [result stringByAppendingString:@"%@"];
+    } else {
+        secondPart = [secondPart substringToIndex:3];
+        thirdPart = [tempResult stringByReplacingOccurrencesOfString:firstPart
+                                                          withString:@""];
+        thirdPart = [thirdPart stringByReplacingOccurrencesOfString:secondPart
+                                                         withString:@""];
+    }
+    if (thirdPart.length <= 3) {
+        result = [result stringByAppendingFormat:@".%@",thirdPart];
+    } else {
+        thirdPart = [thirdPart substringToIndex:3];
+        fourthPart = [tempResult stringByReplacingOccurrencesOfString:firstPart
+                                                           withString:@""];
+        fourthPart = [fourthPart stringByReplacingOccurrencesOfString:secondPart
+                                                           withString:@""];
+        fourthPart = [fourthPart stringByReplacingOccurrencesOfString:thirdPart
+                                                           withString:@""];
+        result = [result stringByAppendingFormat:@".%@-%@",thirdPart,fourthPart];
+    }
+    
+    return result;
 }
 
 @end

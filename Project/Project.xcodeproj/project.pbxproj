@@ -69,6 +69,8 @@
 		65FAD56A1A3094A600A7E28F /* UILabel+CustomFont.m in Sources */ = {isa = PBXBuildFile; fileRef = 65FAD5641A3094A600A7E28F /* UILabel+CustomFont.m */; };
 		65FAD56B1A3094A600A7E28F /* UITextField+CustomFont.m in Sources */ = {isa = PBXBuildFile; fileRef = 65FAD5661A3094A600A7E28F /* UITextField+CustomFont.m */; };
 		65FAD56C1A3094A600A7E28F /* UITextView+CustomFont.m in Sources */ = {isa = PBXBuildFile; fileRef = 65FAD5681A3094A600A7E28F /* UITextView+CustomFont.m */; };
+		65FAD6261A30ED3100A7E28F /* CWSBrasilValidate.m in Sources */ = {isa = PBXBuildFile; fileRef = 65FAD6251A30ED3100A7E28F /* CWSBrasilValidate.m */; };
+		65FAD6291A30ED4B00A7E28F /* BLCPFTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 65FAD6281A30ED4B00A7E28F /* BLCPFTextField.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -192,6 +194,10 @@
 		65FAD5661A3094A600A7E28F /* UITextField+CustomFont.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITextField+CustomFont.m"; sourceTree = "<group>"; };
 		65FAD5671A3094A600A7E28F /* UITextView+CustomFont.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITextView+CustomFont.h"; sourceTree = "<group>"; };
 		65FAD5681A3094A600A7E28F /* UITextView+CustomFont.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITextView+CustomFont.m"; sourceTree = "<group>"; };
+		65FAD6241A30ED3100A7E28F /* CWSBrasilValidate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWSBrasilValidate.h; sourceTree = "<group>"; };
+		65FAD6251A30ED3100A7E28F /* CWSBrasilValidate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWSBrasilValidate.m; sourceTree = "<group>"; };
+		65FAD6271A30ED4B00A7E28F /* BLCPFTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLCPFTextField.h; sourceTree = "<group>"; };
+		65FAD6281A30ED4B00A7E28F /* BLCPFTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLCPFTextField.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -465,6 +471,7 @@
 		65FA991F19B4086F0046A13E /* Text */ = {
 			isa = PBXGroup;
 			children = (
+				65FAD6231A30ED3100A7E28F /* CWSBrasilValidate */,
 				65FAD56D1A3094AB00A7E28F /* Custom Font */,
 				65FAD5601A3092B000A7E28F /* Validation Text Fields */,
 				65FA993019B4086F0046A13E /* BLTextViewController.h */,
@@ -489,6 +496,8 @@
 			children = (
 				65FA992019B4086F0046A13E /* BLCityTextField.h */,
 				65FA992119B4086F0046A13E /* BLCityTextField.m */,
+				65FAD6271A30ED4B00A7E28F /* BLCPFTextField.h */,
+				65FAD6281A30ED4B00A7E28F /* BLCPFTextField.m */,
 				65FA992219B4086F0046A13E /* BLEmailTextField.h */,
 				65FA992319B4086F0046A13E /* BLEmailTextField.m */,
 				65FA992419B4086F0046A13E /* BLNameTextField.h */,
@@ -520,6 +529,16 @@
 				65FAD5681A3094A600A7E28F /* UITextView+CustomFont.m */,
 			);
 			name = "Custom Font";
+			sourceTree = "<group>";
+		};
+		65FAD6231A30ED3100A7E28F /* CWSBrasilValidate */ = {
+			isa = PBXGroup;
+			children = (
+				65FAD6241A30ED3100A7E28F /* CWSBrasilValidate.h */,
+				65FAD6251A30ED3100A7E28F /* CWSBrasilValidate.m */,
+			);
+			name = CWSBrasilValidate;
+			path = ../../../CWSBrasilValidate/CWSBrasilValidate;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -625,6 +644,7 @@
 				6529391719B378090047D238 /* BLAppDelegate.m in Sources */,
 				65FA994819B4086F0046A13E /* BLCityTextField.m in Sources */,
 				65FA994A19B4086F0046A13E /* BLNameTextField.m in Sources */,
+				65FAD6261A30ED3100A7E28F /* CWSBrasilValidate.m in Sources */,
 				65FAD56A1A3094A600A7E28F /* UILabel+CustomFont.m in Sources */,
 				65FA993719B4086F0046A13E /* BLObject.m in Sources */,
 				65C86B481A0F159500E3B6AE /* NSDate+BLDate.m in Sources */,
@@ -653,6 +673,7 @@
 				65A963FD1A0AE51D00611867 /* PFPush+BLPush.m in Sources */,
 				65FA993F19B4086F0046A13E /* BLPageControl.m in Sources */,
 				65FA994F19B4086F0046A13E /* BLTextField.m in Sources */,
+				65FAD6291A30ED4B00A7E28F /* BLCPFTextField.m in Sources */,
 				65FA993B19B4086F0046A13E /* BLDatabase.m in Sources */,
 				65FA995219B4086F0046A13E /* BLInternetLabel.m in Sources */,
 				65FA994D19B4086F0046A13E /* BLPostalCodeTextField.m in Sources */,

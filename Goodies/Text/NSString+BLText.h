@@ -48,6 +48,7 @@
 + (BOOL)isValidPostalCode:(NSString *)postalCode;
 + (BOOL)isValidCity:(NSString *)city;
 + (BOOL)isValidState:(NSString *)state;
++ (BOOL)isValidCPF:(NSString *)cpf;
 
 //Cleaning Text
 - (NSString *)cleanName;
@@ -57,6 +58,7 @@
 - (NSString *)cleanPostalCode;
 - (NSString *)cleanCity;
 - (NSString *)cleanState;
+- (NSString *)cleanCPF;
 
 @end
 
@@ -70,5 +72,9 @@
 //Postal Code
 + (NSString *)formattedPostalCode:(NSString *)text;
 - (NSString *)formattedPostalCode;
+
+//CPF
++ (NSString *)formattedCPF:(NSString *)cpf;
+- (NSString *)formattedCPF;
 
 @end
