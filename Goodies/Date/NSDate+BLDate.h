@@ -11,4 +11,6 @@
 
 @interface NSDate (BLDate)
 
++ (NSDateFormatter *)defaultDateFormatter;
+
 @end

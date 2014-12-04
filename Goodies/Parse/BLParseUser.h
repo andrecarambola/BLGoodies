@@ -30,6 +30,7 @@ extern NSString * const BLParseUserDidLogOutNotification;
 + (void)logInToFacebookWithBlock:(ParseCompletionBlock)block;
 + (void)logInToTwitterWithBlock:(ParseCompletionBlock)block;
 + (void)logInAnonymouslyWithBlock:(ParseCompletionBlock)block;
+- (void)startCachedUserWithBlock:(ParseCompletionBlock)block;
 
 //Managing the User
 + (void)requestPasswordResetWithEmail:(NSString *)email

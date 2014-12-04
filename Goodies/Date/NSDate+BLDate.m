@@ -9,8 +9,22 @@
 #import "NSDate+BLDate.h"
 
 
+static NSDateFormatter *myDF;
+
+
 @implementation NSDate (BLDate)
 
-
++ (NSDateFormatter *)defaultDateFormatter
+{
+    @synchronized(self)
+    {
+        if (!myDF) {
+            myDF = [[NSDateFormatter alloc] init];
+            [myDF setDateStyle:NSDateFormatterShortStyle];
+            [myDF setTimeStyle:NSDateFormatterNoStyle];
+        }
+        return myDF;
+    }
+}
 
 @end

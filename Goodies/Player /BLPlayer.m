@@ -54,6 +54,7 @@
 #import "BLPlayer.h"
 #import "BLQueuer.h"
 #import "BLDefines.h"
+#import "BLLogger.h"
 
 
 #pragma mark - Defines

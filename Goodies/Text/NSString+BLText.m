@@ -135,6 +135,32 @@
     return [NSString cleanStringForFileSystem:self];
 }
 
++ (NSString *)cleanHTMLTags:(NSString *)text
+{
+    //Sanity
+    if (text.length > 0)
+    {
+        text = [NSString trimText:text];
+        NSRange rangeOfStart = [text rangeOfString:@"<"];
+        NSRange rangeOfEnd = [text rangeOfString:@">"];
+        while (rangeOfStart.location != NSNotFound &&
+               rangeOfEnd.location != NSNotFound &&
+               rangeOfEnd.location > rangeOfStart.location)
+        {
+            text = [text substringFromIndex:rangeOfEnd.location + rangeOfEnd.length];
+            rangeOfStart = [text rangeOfString:@"<"];
+            rangeOfEnd = [text rangeOfString:@">"];
+        }
+    }
+    
+    return text;
+}
+
+- (NSString *)cleanHTMLTags
+{
+    return [NSString cleanHTMLTags:self];
+}
+
 
 #pragma mark - General Checks
 

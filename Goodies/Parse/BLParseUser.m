@@ -187,7 +187,7 @@ static ParseCompletionBlock pushCompletionBlock;
 {
     //Internet
     if (![BLInternet doWeHaveInternet]) {
-        [BLParseUser returnToSenderWithResult:NO
+        [BLParseUser returnToSenderWithResult:YES
                            andCompletionBlock:loginBlock];
         return;
     }
@@ -560,6 +560,11 @@ static ParseCompletionBlock pushCompletionBlock;
         [BLParseUser stopTimeoutOperation:timer];
         [BLParseUser endBackgroundTask:bgTaskId];
     }];
+}
+
+- (void)startCachedUserWithBlock:(ParseCompletionBlock)block
+{
+    [self privateLoginSetupWithBlock:block];
 }
 
 

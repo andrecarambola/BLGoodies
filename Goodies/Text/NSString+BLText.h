@@ -26,6 +26,8 @@
 - (NSString *)cleanNumbers;
 + (NSString *)cleanStringForFileSystem:(NSString *)text;
 - (NSString *)cleanStringForFileSystem;
++ (NSString *)cleanHTMLTags:(NSString *)text;
+- (NSString *)cleanHTMLTags;
 
 //General Checks
 + (BOOL)isLetter:(NSString *)string;
