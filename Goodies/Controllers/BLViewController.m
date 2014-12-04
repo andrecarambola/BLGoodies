@@ -87,8 +87,8 @@
     [super viewDidLoad];
     
     //UI
-    [self.movableContentView setOpaque:NO];
-    [self.movableContentView setBackgroundColor:[UIColor clearColor]];
+    [self.movableContentViewForInternet setOpaque:NO];
+    [self.movableContentViewForInternet setBackgroundColor:[UIColor clearColor]];
 }
 
 - (void)didReceiveMemoryWarning
@@ -245,7 +245,7 @@
     BOOL show = !hasConnection;
     
     BLInternetLabel *label = self.internetLabel;
-    UIView *contentView = self.movableContentView;
+    UIView *contentView = self.movableContentViewForInternet;
     
     CGRect labelRect, contentRect;
     if (show) {

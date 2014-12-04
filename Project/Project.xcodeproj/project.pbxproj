@@ -65,6 +65,10 @@
 		65FA995019B4086F0046A13E /* BLTextViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 65FA993119B4086F0046A13E /* BLTextViewController.m */; };
 		65FA995119B4086F0046A13E /* NSString+BLText.m in Sources */ = {isa = PBXBuildFile; fileRef = 65FA993319B4086F0046A13E /* NSString+BLText.m */; };
 		65FA995219B4086F0046A13E /* BLInternetLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 65FA993619B4086F0046A13E /* BLInternetLabel.m */; };
+		65FAD5691A3094A600A7E28F /* UIButton+CustomFont.m in Sources */ = {isa = PBXBuildFile; fileRef = 65FAD5621A3094A600A7E28F /* UIButton+CustomFont.m */; };
+		65FAD56A1A3094A600A7E28F /* UILabel+CustomFont.m in Sources */ = {isa = PBXBuildFile; fileRef = 65FAD5641A3094A600A7E28F /* UILabel+CustomFont.m */; };
+		65FAD56B1A3094A600A7E28F /* UITextField+CustomFont.m in Sources */ = {isa = PBXBuildFile; fileRef = 65FAD5661A3094A600A7E28F /* UITextField+CustomFont.m */; };
+		65FAD56C1A3094A600A7E28F /* UITextView+CustomFont.m in Sources */ = {isa = PBXBuildFile; fileRef = 65FAD5681A3094A600A7E28F /* UITextView+CustomFont.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -180,6 +184,14 @@
 		65FA993319B4086F0046A13E /* NSString+BLText.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+BLText.m"; sourceTree = "<group>"; };
 		65FA993519B4086F0046A13E /* BLInternetLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLInternetLabel.h; sourceTree = "<group>"; };
 		65FA993619B4086F0046A13E /* BLInternetLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLInternetLabel.m; sourceTree = "<group>"; };
+		65FAD5611A3094A600A7E28F /* UIButton+CustomFont.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+CustomFont.h"; sourceTree = "<group>"; };
+		65FAD5621A3094A600A7E28F /* UIButton+CustomFont.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+CustomFont.m"; sourceTree = "<group>"; };
+		65FAD5631A3094A600A7E28F /* UILabel+CustomFont.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UILabel+CustomFont.h"; sourceTree = "<group>"; };
+		65FAD5641A3094A600A7E28F /* UILabel+CustomFont.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UILabel+CustomFont.m"; sourceTree = "<group>"; };
+		65FAD5651A3094A600A7E28F /* UITextField+CustomFont.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITextField+CustomFont.h"; sourceTree = "<group>"; };
+		65FAD5661A3094A600A7E28F /* UITextField+CustomFont.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITextField+CustomFont.m"; sourceTree = "<group>"; };
+		65FAD5671A3094A600A7E28F /* UITextView+CustomFont.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITextView+CustomFont.h"; sourceTree = "<group>"; };
+		65FAD5681A3094A600A7E28F /* UITextView+CustomFont.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITextView+CustomFont.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -453,6 +465,28 @@
 		65FA991F19B4086F0046A13E /* Text */ = {
 			isa = PBXGroup;
 			children = (
+				65FAD56D1A3094AB00A7E28F /* Custom Font */,
+				65FAD5601A3092B000A7E28F /* Validation Text Fields */,
+				65FA993019B4086F0046A13E /* BLTextViewController.h */,
+				65FA993119B4086F0046A13E /* BLTextViewController.m */,
+				65FA993219B4086F0046A13E /* NSString+BLText.h */,
+				65FA993319B4086F0046A13E /* NSString+BLText.m */,
+			);
+			path = Text;
+			sourceTree = "<group>";
+		};
+		65FA993419B4086F0046A13E /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				65FA993519B4086F0046A13E /* BLInternetLabel.h */,
+				65FA993619B4086F0046A13E /* BLInternetLabel.m */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		65FAD5601A3092B000A7E28F /* Validation Text Fields */ = {
+			isa = PBXGroup;
+			children = (
 				65FA992019B4086F0046A13E /* BLCityTextField.h */,
 				65FA992119B4086F0046A13E /* BLCityTextField.m */,
 				65FA992219B4086F0046A13E /* BLEmailTextField.h */,
@@ -469,21 +503,23 @@
 				65FA992D19B4086F0046A13E /* BLStateTextField.m */,
 				65FA992E19B4086F0046A13E /* BLTextField.h */,
 				65FA992F19B4086F0046A13E /* BLTextField.m */,
-				65FA993019B4086F0046A13E /* BLTextViewController.h */,
-				65FA993119B4086F0046A13E /* BLTextViewController.m */,
-				65FA993219B4086F0046A13E /* NSString+BLText.h */,
-				65FA993319B4086F0046A13E /* NSString+BLText.m */,
 			);
-			path = Text;
+			name = "Validation Text Fields";
 			sourceTree = "<group>";
 		};
-		65FA993419B4086F0046A13E /* UI */ = {
+		65FAD56D1A3094AB00A7E28F /* Custom Font */ = {
 			isa = PBXGroup;
 			children = (
-				65FA993519B4086F0046A13E /* BLInternetLabel.h */,
-				65FA993619B4086F0046A13E /* BLInternetLabel.m */,
+				65FAD5611A3094A600A7E28F /* UIButton+CustomFont.h */,
+				65FAD5621A3094A600A7E28F /* UIButton+CustomFont.m */,
+				65FAD5631A3094A600A7E28F /* UILabel+CustomFont.h */,
+				65FAD5641A3094A600A7E28F /* UILabel+CustomFont.m */,
+				65FAD5651A3094A600A7E28F /* UITextField+CustomFont.h */,
+				65FAD5661A3094A600A7E28F /* UITextField+CustomFont.m */,
+				65FAD5671A3094A600A7E28F /* UITextView+CustomFont.h */,
+				65FAD5681A3094A600A7E28F /* UITextView+CustomFont.m */,
 			);
-			path = UI;
+			name = "Custom Font";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -589,8 +625,10 @@
 				6529391719B378090047D238 /* BLAppDelegate.m in Sources */,
 				65FA994819B4086F0046A13E /* BLCityTextField.m in Sources */,
 				65FA994A19B4086F0046A13E /* BLNameTextField.m in Sources */,
+				65FAD56A1A3094A600A7E28F /* UILabel+CustomFont.m in Sources */,
 				65FA993719B4086F0046A13E /* BLObject.m in Sources */,
 				65C86B481A0F159500E3B6AE /* NSDate+BLDate.m in Sources */,
+				65FAD5691A3094A600A7E28F /* UIButton+CustomFont.m in Sources */,
 				65FA994419B4086F0046A13E /* PFRole+BLRole.m in Sources */,
 				65FA994319B4086F0046A13E /* PFObject+BLObject.m in Sources */,
 				65FA993819B4086F0046A13E /* NSObject+Goodies.m in Sources */,
@@ -603,10 +641,12 @@
 				65FA994919B4086F0046A13E /* BLEmailTextField.m in Sources */,
 				65875D3619CA584B00B348B7 /* BLPlayerResponder.m in Sources */,
 				65FA994C19B4086F0046A13E /* BLPhoneNumberTextField.m in Sources */,
+				65FAD56B1A3094A600A7E28F /* UITextField+CustomFont.m in Sources */,
 				65FA993E19B4086F0046A13E /* Reachability.m in Sources */,
 				65FA994E19B4086F0046A13E /* BLStateTextField.m in Sources */,
 				65FA994119B4086F0046A13E /* BLParseUser.m in Sources */,
 				65FA994019B4086F0046A13E /* BLParseObject.m in Sources */,
+				65FAD56C1A3094A600A7E28F /* UITextView+CustomFont.m in Sources */,
 				65FA994719B4086F0046A13E /* BLQueuer.m in Sources */,
 				65FA994B19B4086F0046A13E /* BLPasswordTextField.m in Sources */,
 				65FA994219B4086F0046A13E /* PFCloud+BLCloud.m in Sources */,

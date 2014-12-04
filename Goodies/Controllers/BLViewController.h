@@ -32,7 +32,7 @@
 @property (nonatomic, strong) IBOutletCollection(UIControl) NSArray *loadingControls;
 @property (nonatomic, strong) IBOutletCollection(UIBarItem) NSArray *loadingBarItems;
 @property (nonatomic, strong) IBOutletCollection(UIView) NSArray *loadingViews;
-@property (nonatomic, weak) IBOutlet UIView *movableContentView;
+@property (nonatomic, weak) IBOutlet UIView *movableContentViewForInternet;
 
 //UI Actions
 - (IBAction)toggleInternetLabel:(id)sender;
