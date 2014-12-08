@@ -37,17 +37,13 @@ extern NSString * const BLParseUserDidLogOutNotification;
                              andBlock:(ParseCompletionBlock)block;
 - (void)requestPasswordResetWithBlock:(ParseCompletionBlock)block;
 
-//Push
-- (void)registerForPushNotificationsWithBlock:(ParseCompletionBlock)block;
-- (void)handlePushRegistrationWithSuccess:(BOOL)hasSucceeded
-                                  andData:(NSData *)data;
-
 //Logging Out
 + (void)customLogout;
 
 //Setup
 @property (nonatomic, getter = shouldClearCaches) BOOL clearCaches;
 @property (nonatomic, getter = hasAcceptedTerms) BOOL terms;
+@property (nonatomic, getter = shouldReceivePush) BOOL push;
 - (void)initialSetupWithBlock:(ParseCompletionBlock)setupBlock;
 - (void)loginSetupWithBlock:(ParseCompletionBlock)loginBlock;
 
@@ -56,11 +52,22 @@ extern NSString * const BLParseUserDidLogOutNotification;
 - (void)endBackgroundTask;
 
 //Timeout
++ (NSTimeInterval)customTimeoutTime;
+- (NSTimeInterval)customTimeoutTime;
 - (void)startTimeoutOperationWithBlock:(TimeoutBlock)timeoutBlock;
 - (void)stopTimeoutOperation;
 
 //Aux
 + (NSArray *)facebookReadPermissions;
 + (NSArray *)facebookWritePermissions;
+
+@end
+
+
+#pragma mark - Categories
+@interface BLParseUser (Saving)
+
+- (void)saveEverythingWithCompletionBlock:(ParseCompletionBlock)block;
+- (void)saveDependenciesWithBlock:(ParseCompletionBlock)dependenciesBlock;
 
 @end

@@ -15,6 +15,11 @@
 #import "BLQueuer.h"
 
 
+#pragma mark - Consts
+NSString * const BLParseObjectDidChangeObjectsNotification = @"BLParseObjectDidChangeObjectsNotification";
+NSString * const BLParseObjectChangedClassKey = @"BLParseObjectChangedClassKey";
+
+
 #pragma mark - Private Interface
 @interface BLParseObject ()
 
@@ -30,6 +35,9 @@
 
 //Timeout
 @property (nonatomic, weak) NSTimer *timeoutTimer;
+
+//Managing Cache
++ (void)clearAllCaches;
 
 @end
 
@@ -197,7 +205,7 @@
 
 - (void)startTimeoutOperationWithBlock:(TimeoutBlock)timeoutBlock
 {
-    [self startTimeoutOperationWithInterval:[BLObject defaultTimeoutTime]
+    [self startTimeoutOperationWithInterval:[self customTimeoutTime]
                                    andBlock:timeoutBlock];
 }
 
@@ -222,6 +230,38 @@
 {
     if (!self.timeoutTimer) return;
     [BLObject stopTimeoutOperation:self.timeoutTimer];
+}
+
+
+#pragma mark - Notifications
+
++ (void)emitChangeNotification
+{
+    [self clearAllCaches];
+    NSNotification *notification = [NSNotification notificationWithName:BLParseObjectDidChangeObjectsNotification
+                                                                 object:nil
+                                                               userInfo:@{BLParseObjectChangedClassKey: NSStringFromClass([self class])}];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [[NSNotificationCenter defaultCenter] postNotification:notification];
+    });
+}
+
+
+#pragma mark - Managing Cache
+
++ (void)clearAllCaches
+{
+    NSArray *additionalQueries = [self additionalCustomQueries];
+    NSMutableArray *queries = [NSMutableArray arrayWithObject:[self customQuery]];
+    if (additionalQueries.count > 0) [queries addObjectsFromArray:additionalQueries];
+    for (PFQuery *query in queries) {
+        [query clearCachedResult];
+    }
+}
+
++ (NSArray *)additionalCustomQueries
+{
+    return nil;
 }
 
 
@@ -396,7 +436,11 @@
             [PFObject saveAllInBackground:objects
                                     block:^(BOOL succeeded, NSError *error)
             {
-                if (error) ParseLog(@"%@",error);
+                if (error) {
+                    ParseLog(@"%@",error);
+                } else {
+                    [BLParseObject emitChangeNotification];
+                }
                 returnBlock(error == nil);
             }];
         }
@@ -463,7 +507,11 @@
              { //Saving to the server
                  [weakSelf saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error)
                   {
-                      if (error) ParseLog(@"%@",error);
+                      if (error) {
+                          ParseLog(@"%@",error);
+                      } else {
+                          [BLParseObject emitChangeNotification];
+                      }
                       returnBlock(error == nil);
                   }];
              }
@@ -520,7 +568,11 @@
             [PFObject deleteAllInBackground:objects
                                       block:^(BOOL succeeded, NSError *error)
             {
-                ParseLog(@"%@",error);
+                if (error) {
+                    ParseLog(@"%@",error);
+                } else {
+                    [BLParseObject emitChangeNotification];
+                }
                 returnBlock(error == nil);
             }];
         }
@@ -565,12 +617,14 @@
                  } else {
                      [weakSelf deleteEventually];
                  }
+                 [BLParseObject emitChangeNotification];
                  returnBlock(YES);
              }
          }];
     }
     else
     { //Not deleting
+        [BLParseObject emitChangeNotification];
         returnBlock(YES);
     }
 }

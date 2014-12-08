@@ -15,6 +15,11 @@
 
 @interface PFPush (BLPush)
 
+//Registering
++ (void)registerForPushNotificationsWithBlock:(ParseCompletionBlock)block;
++ (void)handlePushRegistrationWithSuccess:(BOOL)hasSucceeded
+                                  andData:(NSData *)data;
+
 //Send Push To Channel
 + (void)sendPushToChannels:(NSArray *)channels
                   withData:(NSDictionary *)data

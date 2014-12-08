@@ -71,6 +71,7 @@
 		65FAD56C1A3094A600A7E28F /* UITextView+CustomFont.m in Sources */ = {isa = PBXBuildFile; fileRef = 65FAD5681A3094A600A7E28F /* UITextView+CustomFont.m */; };
 		65FAD6261A30ED3100A7E28F /* CWSBrasilValidate.m in Sources */ = {isa = PBXBuildFile; fileRef = 65FAD6251A30ED3100A7E28F /* CWSBrasilValidate.m */; };
 		65FAD6291A30ED4B00A7E28F /* BLCPFTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 65FAD6281A30ED4B00A7E28F /* BLCPFTextField.m */; };
+		65FAD6DC1A31F3F500A7E28F /* PFFile+BLFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 65FAD6DB1A31F3F500A7E28F /* PFFile+BLFile.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -198,6 +199,8 @@
 		65FAD6251A30ED3100A7E28F /* CWSBrasilValidate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWSBrasilValidate.m; sourceTree = "<group>"; };
 		65FAD6271A30ED4B00A7E28F /* BLCPFTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLCPFTextField.h; sourceTree = "<group>"; };
 		65FAD6281A30ED4B00A7E28F /* BLCPFTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLCPFTextField.m; sourceTree = "<group>"; };
+		65FAD6DA1A31F3F500A7E28F /* PFFile+BLFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PFFile+BLFile.h"; sourceTree = "<group>"; };
+		65FAD6DB1A31F3F500A7E28F /* PFFile+BLFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "PFFile+BLFile.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -439,6 +442,8 @@
 				65FA991419B4086F0046A13E /* PFRole+BLRole.m */,
 				65A963FB1A0AE51D00611867 /* PFPush+BLPush.h */,
 				65A963FC1A0AE51D00611867 /* PFPush+BLPush.m */,
+				65FAD6DA1A31F3F500A7E28F /* PFFile+BLFile.h */,
+				65FAD6DB1A31F3F500A7E28F /* PFFile+BLFile.m */,
 				653B116E1A14385600A97819 /* BLParseResultsController.h */,
 				653B116F1A14385600A97819 /* BLParseResultsController.m */,
 			);
@@ -655,6 +660,7 @@
 				65FA993919B4086F0046A13E /* BLTableViewController.m in Sources */,
 				653B11701A14385600A97819 /* BLParseResultsController.m in Sources */,
 				6529391319B378090047D238 /* main.m in Sources */,
+				65FAD6DC1A31F3F500A7E28F /* PFFile+BLFile.m in Sources */,
 				65FA993D19B4086F0046A13E /* BLInternet.m in Sources */,
 				65B32A0119CA3BFD00937D6B /* NSFileManager+Goodies.m in Sources */,
 				65FA994619B4086F0046A13E /* BLVideoView.m in Sources */,

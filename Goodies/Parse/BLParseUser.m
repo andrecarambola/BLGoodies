@@ -16,14 +16,11 @@
 #import "PFCloud+BLCloud.h"
 #import <FacebookSDK/FacebookSDK.h>
 #import "PFRole+BLRole.h"
+#import "PFPush+BLPush.h"
 
 
 #pragma mark - Consts
 NSString * const BLParseUserDidLogOutNotification = @"BLParseUserDidLogOutNotification";
-
-
-#pragma mark - Globals
-static ParseCompletionBlock pushCompletionBlock;
 
 
 #pragma mark - Private Interface
@@ -31,7 +28,6 @@ static ParseCompletionBlock pushCompletionBlock;
 
 //Setup
 - (void)setup;
-@property (nonatomic) BOOL shouldClearCaches;
 - (void)privateLoginSetupWithBlock:(ParseCompletionBlock)loginBlock;
 //New Users
 - (void)privateInitialSetupWithBlock:(ParseCompletionBlock)setupBlock;
@@ -85,15 +81,12 @@ static ParseCompletionBlock pushCompletionBlock;
 //}
 
 @synthesize bgTaskId = _bgTaskId;
-@dynamic clearCaches;
-@dynamic terms;
+@dynamic clearCaches, terms, push;
 
 - (void)setup
 {
     _bgTaskId = UIBackgroundTaskInvalid;
 }
-
-@dynamic shouldClearCaches;
 
 #pragma mark New Users
 
@@ -136,6 +129,7 @@ static ParseCompletionBlock pushCompletionBlock;
             BLParseUser *newUser = [BLParseUser currentUser];
             [newUser setTerms:NO];
             [newUser setClearCaches:NO];
+            [newUser setPush:NO];
             PFACL *acl = [PFACL ACLWithUser:newUser];
             [acl setWriteAccess:YES
                 forRoleWithName:[PFRole roleNameForType:blRoleAdmin]];
@@ -210,11 +204,35 @@ static ParseCompletionBlock pushCompletionBlock;
              [[BLParseUser currentUser] endBackgroundTask];
              return ;
          }
+         
+         //Clearing caches
          if ([[BLParseUser currentUser] shouldClearCaches]) {
              [PFQuery clearAllCachedResults];
              [[BLParseUser currentUser] setClearCaches:NO];
-             [[BLParseUser currentUser] saveEventually];
          }
+         
+         void (^returnBlock) (BOOL) = ^(BOOL result)
+         {
+             [BLParseUser returnToSenderWithResult:result
+                                andCompletionBlock:loginBlock];
+             [[BLParseUser currentUser] stopTimeoutOperation];
+             [[BLParseUser currentUser] endBackgroundTask];
+         };
+         
+         void (^pushBlock) (BOOL) = ^(BOOL result)
+         {
+             //Renewing device token
+             if ([[BLParseUser currentUser] shouldReceivePush]) {
+                 [PFPush registerForPushNotificationsWithBlock:^(BOOL success)
+                 {
+                     [[BLParseUser currentUser] setPush:success];
+                     returnBlock(result);
+                 }];
+                 return;
+             }
+             returnBlock(result);
+         };
+         
          if ([BLParseUser isFacebookUser]) {
              [FBRequestConnection startForMeWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error)
               {
@@ -224,6 +242,7 @@ static ParseCompletionBlock pushCompletionBlock;
                            isEqualToString: @"OAuthException"])
                       { // Since the request failed, we can check if it was due to an invalid session
                           FacebookLog(@"The facebook session was invalidated");
+                          [[BLParseUser currentUser] stopTimeoutOperation];
                           [BLParseUser customLogout];
                           dispatch_async(dispatch_get_main_queue(), ^{
                               [[[UIAlertView alloc] initWithTitle:appName
@@ -232,6 +251,7 @@ static ParseCompletionBlock pushCompletionBlock;
                                                 cancelButtonTitle:@"Ok"
                                                 otherButtonTitles:nil] show];
                           });
+                          return;
                       }
                   } else {
                       // result is a dictionary with the user's Facebook data
@@ -240,31 +260,26 @@ static ParseCompletionBlock pushCompletionBlock;
                       BLParseUser *user = [BLParseUser currentUser];
                       if (![user.email isEqualToString:email]) {
                           [user setEmail:email];
-                          [user saveEventually];
                       }
                   }
                   [[BLParseUser currentUser] loginSetupWithBlock:^(BOOL success)
-                   {
-                       [BLParseUser returnToSenderWithResult:success
-                                          andCompletionBlock:loginBlock];
-                       [[BLParseUser currentUser] stopTimeoutOperation];
-                       [[BLParseUser currentUser] endBackgroundTask];
-                   }];
+                  {
+                      pushBlock(success);
+                  }];
               }];
              return;
          }
          [[BLParseUser currentUser] loginSetupWithBlock:^(BOOL success)
-          {
-              [BLParseUser returnToSenderWithResult:success
-                                 andCompletionBlock:loginBlock];
-              [[BLParseUser currentUser] stopTimeoutOperation];
-              [[BLParseUser currentUser] endBackgroundTask];
-          }];
+         {
+             pushBlock(success);
+         }];
      }];
 }
 
 - (void)loginSetupWithBlock:(ParseCompletionBlock)loginBlock
 {
+    if ([[BLParseUser currentUser] shouldReceivePush]) [[PFInstallation currentInstallation] saveEventually];
+    [self saveEventually];
     if (loginBlock) loginBlock(YES);
 }
 
@@ -287,6 +302,16 @@ static ParseCompletionBlock pushCompletionBlock;
 
 #pragma mark - Timeout
 
++ (NSTimeInterval)customTimeoutTime
+{
+    return [BLObject defaultTimeoutTime];
+}
+
+- (NSTimeInterval)customTimeoutTime
+{
+    return [BLObject defaultTimeoutTime];
+}
+
 @synthesize timeoutTimer = _timeoutTimer;
 
 - (void)startTimeoutOperationWithBlock:(TimeoutBlock)timeoutBlock
@@ -294,7 +319,7 @@ static ParseCompletionBlock pushCompletionBlock;
     if (self.timeoutTimer) [self stopTimeoutOperation];
     NSTimer *timer = [BLObject startTimeoutOperationWithTarget:self
                                                         action:@selector(operationDidTimeout:)
-                                                      interval:[BLObject defaultTimeoutTime]
+                                                      interval:[self customTimeoutTime]
                                                       andBlock:timeoutBlock];
     [self setTimeoutTimer:timer];
 }
@@ -368,7 +393,6 @@ static ParseCompletionBlock pushCompletionBlock;
         [newUser setEmail:username];
         [newUser setUsername:username];
         [newUser setPassword:password];
-        [newUser setShouldClearCaches:NO];
         [newUser signUpInBackgroundWithBlock:^(BOOL succeeded, NSError *error)
         {
             ParseLog(@"%@",error);
@@ -632,35 +656,6 @@ static ParseCompletionBlock pushCompletionBlock;
 }
 
 
-#pragma mark - Push
-
-- (void)registerForPushNotificationsWithBlock:(ParseCompletionBlock)block
-{
-    if (block) pushCompletionBlock = [block copy];
-    UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeAlert | UIUserNotificationTypeBadge | UIUserNotificationTypeSound
-                                                                             categories:nil];
-    [[UIApplication sharedApplication] registerUserNotificationSettings:settings];
-    [[UIApplication sharedApplication] registerForRemoteNotifications];
-}
-
-- (void)handlePushRegistrationWithSuccess:(BOOL)hasSucceeded
-                                  andData:(NSData *)data
-{
-    BOOL success = (hasSucceeded == YES && data != nil);
-    if (success) {
-        PFInstallation *currentInstallation = [PFInstallation currentInstallation];
-        [currentInstallation setDeviceTokenFromData:data];
-        [currentInstallation setObject:self
-                                forKey:@"user"];
-        [currentInstallation saveInBackground];
-    }
-    ParseCompletionBlock block = pushCompletionBlock;
-    [BLParseUser returnToSenderWithResult:success
-                       andCompletionBlock:block];
-    pushCompletionBlock = nil;
-}
-
-
 #pragma mark - Logging Out
 
 + (void)customLogout
@@ -688,5 +683,13 @@ static ParseCompletionBlock pushCompletionBlock;
 {
     return @[@"publish_actions"];
 }
+
+@end
+
+
+#pragma mark - Saving
+@implementation BLParseUser (Saving)
+
+
 
 @end

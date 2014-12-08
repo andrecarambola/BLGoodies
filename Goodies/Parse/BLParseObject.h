@@ -14,6 +14,11 @@
 @class BLParseUser;
 
 
+#pragma mark - Consts
+extern NSString * const BLParseObjectDidChangeObjectsNotification;
+extern NSString * const BLParseObjectChangedClassKey;
+
+
 #pragma mark - Public Interface
 @interface BLParseObject : PFObject <PFSubclassing>
 
@@ -44,6 +49,12 @@
                                  andBlock:(TimeoutBlock)timeoutBlock;
 - (void)operationDidTimeout:(NSTimer *)timer;
 - (void)stopTimeoutOperation;
+
+//Notifications
++ (void)emitChangeNotification;
+
+//Managing Cache
++ (NSArray *)additionalCustomQueries;
 
 @end
 

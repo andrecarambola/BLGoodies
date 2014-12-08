@@ -9,6 +9,10 @@
 #import "PFPush+BLPush.h"
 #import "PFCloud+BLCloud.h"
 #import "BLParseUser.h"
+#import "BLInternet.h"
+
+
+static ParseCompletionBlock pushCompletionBlock;
 
 
 @interface PFPush (BLAdditions)
@@ -19,6 +23,33 @@
 
 
 @implementation PFPush (BLPush)
+
+#pragma mark - Registering
+
++ (void)registerForPushNotificationsWithBlock:(ParseCompletionBlock)block
+{
+    if (block) pushCompletionBlock = [block copy];
+    UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeAlert | UIUserNotificationTypeBadge | UIUserNotificationTypeSound
+                                                                             categories:nil];
+    [[UIApplication sharedApplication] registerUserNotificationSettings:settings];
+    [[UIApplication sharedApplication] registerForRemoteNotifications];
+}
+
++ (void)handlePushRegistrationWithSuccess:(BOOL)hasSucceeded
+                                  andData:(NSData *)data
+{
+    BOOL success = (hasSucceeded == YES && data != nil);
+    if (success) {
+        PFInstallation *currentInstallation = [PFInstallation currentInstallation];
+        [currentInstallation setDeviceTokenFromData:data];
+        [currentInstallation setObject:[BLParseUser currentUser]
+                                forKey:@"user"];
+    }
+    ParseCompletionBlock block = pushCompletionBlock;
+    [BLParseUser returnToSenderWithResult:success
+                       andCompletionBlock:block];
+    pushCompletionBlock = nil;
+}
 
 #pragma mark - Send Push To Channel
 
