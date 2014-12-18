@@ -7,6 +7,7 @@
 //
 
 #import "PFObject+BLObject.h"
+#import "NSDate+BLDate.h"
 
 
 @implementation PFObject (BLObject)
@@ -23,6 +24,19 @@
 {
     if (!self.hasBeenSavedToParse) return YES;
     return self.isDirty;
+}
+
+
+#pragma mark - Formatting
+
+- (NSString *)fixedCreatedAt
+{
+    return [[NSDate defaultDateFormatter] stringFromDate:self.createdAt];
+}
+
+- (NSString *)fixedUpdatedAt
+{
+    return [[NSDate defaultDateFormatter] stringFromDate:self.updatedAt];
 }
 
 
