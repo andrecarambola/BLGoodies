@@ -19,17 +19,22 @@
     BOOL isShowingKeyboard;
 }
 
+//Setup
+- (BOOL)isKeyboardViewController;
+
 //Notifications
 - (void)handleKeyboardWillAppearNotification:(NSNotification *)notification;
 - (void)handleKeyboardWillHideNotification:(NSNotification *)notification;
 
 //Keyboard Handling
 - (UIView *)defaultInputAccessoryView;
-- (UITextField *)nextTextFieldForTextField:(UITextField *)textField;
+- (id)nextTextElementForTextElement:(id)textField;
 - (void)keyboardOkPressed:(UIBarButtonItem *)sender;
 
 //UI Elements
 @property (nonatomic, weak) UITextField *activeTextField;
+@property (nonatomic, weak) UITextView *activeTextView;
+@property (nonatomic, strong) NSArray *allTextElements;
 
 @end
 
@@ -42,7 +47,7 @@
 
 - (BOOL)isKeyboardViewController
 {
-    return (self.keyboardScrollView != nil && self.allTextFields.count > 0);
+    return (self.allTextFields.count > 0 || self.allTextViews.count > 0);
 }
 
 - (void)setup
@@ -65,6 +70,9 @@
         for (UITextField *textField in self.allTextFields) {
             [textField setEnabled:keyboardEnabled];
         }
+        for (UITextView *textView in self.allTextViews) {
+            [textView setEditable:keyboardEnabled];
+        }
         
         _keyboardEnabled = keyboardEnabled;
         [self didChangeValueForKey:@"keyboardEnabled"];
@@ -76,14 +84,17 @@
     if (_editingText != editingText || !editingText) {
         [self willChangeValueForKey:@"editingText"];
         
-        if (editingText) {
-            UITextField *firstTextField = [self.allTextFields firstObject];
-            [firstTextField becomeFirstResponder];
-        } else {
-            BOOL shouldUseForm = self.shouldUseForms;
-            [self setUseForms:NO];
-            [self.activeTextField resignFirstResponder];
-            [self setUseForms:shouldUseForm];
+        if (self.isKeyboardViewController) {
+            if (editingText) {
+                id firstTextElement = [self.allTextElements firstObject];
+                [firstTextElement becomeFirstResponder];
+            } else {
+                BOOL shouldUseForm = self.shouldUseForms;
+                [self setUseForms:NO];
+                [self.activeTextField resignFirstResponder];
+                [self.activeTextView resignFirstResponder];
+                [self setUseForms:shouldUseForm];
+            }
         }
         
         _editingText = editingText;
@@ -94,12 +105,7 @@
 
 #pragma mark - Forms
 
-//- (UITextField *)nextTextFieldForTextField:(UITextField *)element
-//{
-//    return nil;
-//}
-
-- (void)storeValidatedTextForTextField:(UITextField *)element
+- (void)storeValidatedTextForTextElement:(id)element
 {
     return;
 }
@@ -137,6 +143,26 @@
                 }
             }
         }
+        NSArray *orderedTextViews = [self.allTextViews sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2)
+        {
+            UITextView *firstTextField = obj1;
+            UITextView *secondTextField = obj2;
+            if (firstTextField.tag > secondTextField.tag) return (NSComparisonResult)NSOrderedDescending;
+            if (firstTextField.tag < secondTextField.tag) return (NSComparisonResult)NSOrderedAscending;
+            return (NSComparisonResult)NSOrderedSame;
+        }];
+        [self setAllTextViews:orderedTextViews];
+        
+        NSMutableArray *tempTextElements = [NSMutableArray arrayWithCapacity:self.allTextFields.count + self.allTextViews.count];
+        if (self.allTextFields.count > 0) [tempTextElements addObjectsFromArray:self.allTextFields];
+        if (self.allTextViews.count > 0) [tempTextElements addObjectsFromArray:self.allTextViews];
+        NSArray *orderedTextElements = [tempTextElements sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2)
+        {
+            if ([obj1 tag] > [obj2 tag]) return (NSComparisonResult)NSOrderedDescending;
+            if ([obj1 tag] < [obj2 tag]) return (NSComparisonResult)NSOrderedAscending;
+            return (NSComparisonResult)NSOrderedSame;
+        }];
+        [self setAllTextElements:orderedTextElements];
     }
 }
 
@@ -144,7 +170,7 @@
 {
     [super viewWillAppear:animated];
     
-    if (self.isKeyboardViewController) {
+    if (self.isKeyboardViewController && self.keyboardScrollView) {
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(handleKeyboardWillAppearNotification:)
                                                      name:UIKeyboardWillShowNotification
@@ -159,7 +185,7 @@
 - (void)viewWillDisappear:(BOOL)animated
 {
     [self setEditingText:NO];
-    if (self.isKeyboardViewController) {
+    if (self.isKeyboardViewController && self.keyboardScrollView) {
         [[NSNotificationCenter defaultCenter] removeObserver:self
                                                         name:UIKeyboardWillShowNotification
                                                       object:nil];
@@ -178,6 +204,10 @@
 {
     if (isShowingKeyboard) return;
     isShowingKeyboard = YES;
+    __weak BLTextViewController *weakSelf = self;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [weakSelf handleKeyboardStateChange:YES];
+    });
     
     if (notification &&
         self.keyboardScrollView.frame.size.height == self.view.frame.size.height)
@@ -203,6 +233,10 @@
 {
     if (!isShowingKeyboard) return;
     isShowingKeyboard = NO;
+    __weak BLTextViewController *weakSelf = self;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [weakSelf handleKeyboardStateChange:NO];
+    });
     
     [self.keyboardScrollView setFrame:self.view.frame];
     [self.keyboardScrollView setContentOffset:CGPointZero
@@ -263,6 +297,11 @@ replacementString:(NSString *)string
             }
             else if ([textField isKindOfClass:[BLCityTextField class]] &&
                      [NSString isLetter:string])
+            {
+                appendString = YES;
+            }
+            else if ([textField isKindOfClass:[BLCPFTextField class]] &&
+                     [NSString isNumber:string])
             {
                 appendString = YES;
             }
@@ -327,9 +366,9 @@ replacementString:(NSString *)string
 {
     if (self.isKeyboardViewController)
     {
-        [self storeValidatedTextForTextField:self.activeTextField];
+        [self storeValidatedTextForTextElement:self.activeTextField];
         if (self.useForms) {
-            UITextField *nextTextField = [self nextTextFieldForTextField:self.activeTextField];
+            UITextField *nextTextField = [self nextTextElementForTextElement:self.activeTextField];
             if (nextTextField) [nextTextField becomeFirstResponder];
         }
     }
@@ -345,6 +384,56 @@ replacementString:(NSString *)string
     [self.activeTextField resignFirstResponder];
     
     return YES;
+}
+
+
+#pragma mark - Text View Delegate
+
+- (BOOL)textViewShouldBeginEditing:(UITextView *)textView
+{
+    if ([self isKeyboardViewController])
+    {
+        //Setting an accessory view to the keyboard if needed
+        BOOL shouldIncludeAccessoryView = NO;
+        switch ([textView keyboardType]) {
+            case UIKeyboardTypeNumberPad:
+                shouldIncludeAccessoryView = YES;
+                break;
+            case UIKeyboardTypePhonePad:
+                shouldIncludeAccessoryView = YES;
+                break;
+            case UIKeyboardTypeDecimalPad:
+                shouldIncludeAccessoryView = YES;
+                break;
+            default:
+                break;
+        }
+        [textView setInputAccessoryView:(shouldIncludeAccessoryView) ? [self defaultInputAccessoryView] : nil];
+    }
+    
+    return YES;
+}
+
+- (void)textViewDidBeginEditing:(UITextView *)textView
+{
+    if ([self isKeyboardViewController]) {
+        self.activeTextView = textView;
+        
+        [self.keyboardScrollView scrollRectToVisible:textView.frame
+                                            animated:YES];
+    }
+}
+
+- (void)textViewDidEndEditing:(UITextView *)textView
+{
+    if (self.isKeyboardViewController)
+    {
+        [self storeValidatedTextForTextElement:self.activeTextView];
+        if (self.useForms) {
+            UITextField *nextTextField = [self nextTextElementForTextElement:self.activeTextField];
+            if (nextTextField) [nextTextField becomeFirstResponder];
+        }
+    }
 }
 
 
@@ -367,20 +456,19 @@ replacementString:(NSString *)string
     return okToolbar;
 }
 
-- (UITextField *)nextTextFieldForTextField:(UITextField *)textField
+- (id)nextTextElementForTextElement:(id)textField
 {
     if (!self.shouldUseForms) return nil;
-    for (UITextField *tempTextField in self.allTextFields) {
-        if (tempTextField.tag > textField.tag) {
-            return tempTextField;
-        }
-    }
-    return nil;
+    
+    NSInteger index = [self.allTextElements indexOfObject:textField] + 1;
+    id result = (index < self.allTextElements.count) ? [self.allTextElements objectAtIndex:index] : nil;
+    return result;
 }
 
 - (void)keyboardOkPressed:(UIBarButtonItem *)sender
 {
     [self.activeTextField resignFirstResponder];
+    [self.activeTextView resignFirstResponder];
 }
 
 @end
