@@ -18,7 +18,11 @@
     int loadingCounter;
 }
 
+//States
+@property (nonatomic) BOOL hasAppeared;
+
 //App States
+@property (nonatomic) BOOL isInBackground;
 - (void)handleWeAreGoingToTheBackgroundNotification:(NSNotification *)notification;
 - (void)handleWeAreComingBackFromTheBackgroundNotification:(NSNotification *)notification;
 
@@ -73,6 +77,8 @@
 - (void)setup
 {
     loadingCounter = 0;
+    _hasAppeared = NO;
+    _isInBackground = NO;
     _handlesAppStates = NO;
     _handlesInternet = NO;
     _internetId = BLInternetStatusChangeInvalid;
@@ -84,6 +90,23 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    //Visibility
+    [self setHandlesAppStates:YES];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    [self setHasAppeared:YES];
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [self setHasAppeared:NO];
+    
+    [super viewDidDisappear:animated];
 }
 
 - (void)didReceiveMemoryWarning
@@ -139,6 +162,31 @@
     return;
 }
 
+- (BOOL)isVisible
+{
+    return (self.hasAppeared && !self.isInBackground);
+}
+
+- (void)setHasAppeared:(BOOL)hasAppeared
+{
+    BOOL isVisible = self.isVisible;
+    if (hasAppeared && self.isInBackground) [self setIsInBackground:NO];
+    _hasAppeared = hasAppeared;
+    if (self.isVisible != isVisible) [self didChangeVisibilityStatus:self.isVisible];
+}
+
+- (void)setIsInBackground:(BOOL)isInBackground
+{
+    BOOL isVisible = self.isVisible;
+    _isInBackground = isInBackground;
+    if (self.isVisible != isVisible) [self didChangeVisibilityStatus:self.isVisible];
+}
+
+- (void)didChangeVisibilityStatus:(BOOL)isVisible
+{
+    return;
+}
+
 
 #pragma mark - App States
 
@@ -177,11 +225,13 @@
 
 - (void)handleWeAreGoingToTheBackgroundNotification:(NSNotification *)notification
 {
+    [self setIsInBackground:YES];
     [self handleAppStateChange:YES];
 }
 
 - (void)handleWeAreComingBackFromTheBackgroundNotification:(NSNotification *)notification
 {
+    [self setIsInBackground:NO];
     [self handleAppStateChange:NO];
 }
 

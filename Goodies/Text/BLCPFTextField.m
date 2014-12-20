@@ -24,7 +24,7 @@
     [self setKeyboardType:UIKeyboardTypeNumberPad];
     [self setSecureTextEntry:NO];
     [self setClearsOnBeginEditing:NO];
-    [self setMinNumberOfCharacters:11];
+    [self setMinNumberOfCharacters:14];
     [self setMaxNumberOfCharacters:14];
 }
 
@@ -35,8 +35,8 @@
 {
     [super checkValidText];
     BOOL isValid = [self isValid];
-    if (isValid) isValid = [NSString isValidCity:self.text];
-    if (isValid) [self setText:[self.text cleanCity]];
+    if (isValid) isValid = [NSString isValidCPF:self.text];
+    if (isValid) [self setText:[NSString formattedCPF:self.text]];
     [self setIsValid:isValid];
 }
 

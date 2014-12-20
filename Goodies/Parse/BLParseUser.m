@@ -81,7 +81,7 @@ NSString * const BLParseUserDidLogOutNotification = @"BLParseUserDidLogOutNotifi
 //}
 
 @synthesize bgTaskId = _bgTaskId;
-@dynamic clearCaches, terms, push;
+@dynamic clearCaches, terms;
 
 - (void)setup
 {
@@ -129,7 +129,6 @@ NSString * const BLParseUserDidLogOutNotification = @"BLParseUserDidLogOutNotifi
             BLParseUser *newUser = [BLParseUser currentUser];
             [newUser setTerms:NO];
             [newUser setClearCaches:NO];
-            [newUser setPush:NO];
             PFACL *acl = [PFACL ACLWithUser:newUser];
             [acl setWriteAccess:YES
                 forRoleWithName:[PFRole roleNameForType:blRoleAdmin]];
@@ -219,20 +218,6 @@ NSString * const BLParseUserDidLogOutNotification = @"BLParseUserDidLogOutNotifi
              [[BLParseUser currentUser] endBackgroundTask];
          };
          
-         void (^pushBlock) (BOOL) = ^(BOOL result)
-         {
-             //Renewing device token
-             if ([[BLParseUser currentUser] shouldReceivePush]) {
-                 [PFPush registerForPushNotificationsWithBlock:^(BOOL success)
-                 {
-                     [[BLParseUser currentUser] setPush:success];
-                     returnBlock(result);
-                 }];
-                 return;
-             }
-             returnBlock(result);
-         };
-         
          if ([BLParseUser isFacebookUser]) {
              [FBRequestConnection startForMeWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error)
               {
@@ -264,21 +249,20 @@ NSString * const BLParseUserDidLogOutNotification = @"BLParseUserDidLogOutNotifi
                   }
                   [[BLParseUser currentUser] loginSetupWithBlock:^(BOOL success)
                   {
-                      pushBlock(success);
+                      returnBlock(success);
                   }];
               }];
              return;
          }
          [[BLParseUser currentUser] loginSetupWithBlock:^(BOOL success)
          {
-             pushBlock(success);
+             returnBlock(success);
          }];
      }];
 }
 
 - (void)loginSetupWithBlock:(ParseCompletionBlock)loginBlock
 {
-    if ([[BLParseUser currentUser] shouldReceivePush]) [[PFInstallation currentInstallation] saveEventually];
     [self saveEventually];
     if (loginBlock) loginBlock(YES);
 }

@@ -17,6 +17,8 @@
 //States
 @property (nonatomic, getter = isLoading) BOOL loading;
 - (void)didChangeLoadingStatus:(BOOL)isLoading;
+- (BOOL)isVisible;
+- (void)didChangeVisibilityStatus:(BOOL)isVisible;
 
 //App States
 @property (nonatomic) BOOL handlesAppStates;

@@ -544,4 +544,9 @@
     return result;
 }
 
+- (NSString *)formattedCPF
+{
+    return [NSString formattedCPF:self];
+}
+
 @end

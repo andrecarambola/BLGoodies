@@ -22,6 +22,10 @@ typedef void (^ParseCompletionBlock) (BOOL success);
 - (BOOL)hasBeenSavedToParse;
 - (BOOL)shouldSave;
 
+//Formatting
+- (NSString *)fixedCreatedAt;
+- (NSString *)fixedUpdatedAt;
+
 //Aux
 + (void)returnToSenderWithResult:(BOOL)result
               andCompletionBlock:(ParseCompletionBlock)completionBlock;
