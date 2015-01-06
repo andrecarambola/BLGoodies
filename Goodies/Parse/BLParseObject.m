@@ -37,7 +37,7 @@ NSString * const BLParseObjectChangedClassKey = @"BLParseObjectChangedClassKey";
 @property (nonatomic, weak) NSTimer *timeoutTimer;
 
 //Managing Cache
-+ (void)clearAllCaches;
++ (void)clearAllCaches:(NSString *)parseClassName;
 
 @end
 
@@ -75,11 +75,10 @@ NSString * const BLParseObjectChangedClassKey = @"BLParseObjectChangedClassKey";
 
 #pragma mark - Setup
 
-//+ (NSString *)parseClassName
-//{
-//    NSAssert([self class] != [PFObject class] && [self class] != [BLParseObject class], @"%@ is not a concrete parse object subclass", [self class]);
-//    return NSStringFromClass([self class]);
-//}
++ (NSString *)parseClassName
+{
+    return @"BLParseObject";
+}
 
 @synthesize bgTaskId = _bgTaskId;
 @synthesize handlesAppStates = _handlesAppStates;
@@ -235,12 +234,13 @@ NSString * const BLParseObjectChangedClassKey = @"BLParseObjectChangedClassKey";
 
 #pragma mark - Notifications
 
-+ (void)emitChangeNotification
++ (void)emitChangeNotificationForParseClassName:(NSString *)parseClassName
 {
-    [self clearAllCaches];
+    if (parseClassName.length == 0) return;
+    [self clearAllCaches:parseClassName];
     NSNotification *notification = [NSNotification notificationWithName:BLParseObjectDidChangeObjectsNotification
                                                                  object:nil
-                                                               userInfo:@{BLParseObjectChangedClassKey: NSStringFromClass([self class])}];
+                                                               userInfo:@{BLParseObjectChangedClassKey: parseClassName}];
     dispatch_async(dispatch_get_main_queue(), ^{
         [[NSNotificationCenter defaultCenter] postNotification:notification];
     });
@@ -249,19 +249,25 @@ NSString * const BLParseObjectChangedClassKey = @"BLParseObjectChangedClassKey";
 
 #pragma mark - Managing Cache
 
-+ (void)clearAllCaches
++ (void)clearAllCaches:(NSString *)parseClassName
 {
-    NSArray *additionalQueries = [self additionalCustomQueries];
-    NSMutableArray *queries = [NSMutableArray arrayWithObject:[self customQuery]];
-    if (additionalQueries.count > 0) [queries addObjectsFromArray:additionalQueries];
-    for (PFQuery *query in queries) {
-        [query clearCachedResult];
+    Class aClass = NSClassFromString(parseClassName);
+    if ([aClass parseClassName].length > 0) {
+        [[aClass customQuery] clearCachedResult];
     }
 }
 
-+ (NSArray *)additionalCustomQueries
+
+#pragma mark - KVO
+
++ (BOOL)automaticallyNotifiesObserversForKey:(NSString *)key
 {
-    return nil;
+    if ([key isEqualToString:@"handlesAppStates"] || 
+        [key isEqualToString:@"handlesInternet"]) 
+    {
+        return NO;
+    }
+    return [super automaticallyNotifiesObserversForKey:key];
 }
 
 
@@ -439,7 +445,7 @@ NSString * const BLParseObjectChangedClassKey = @"BLParseObjectChangedClassKey";
                 if (error) {
                     ParseLog(@"%@",error);
                 } else {
-                    [BLParseObject emitChangeNotification];
+                    [BLParseObject emitChangeNotificationForParseClassName:NSStringFromClass([objects.firstObject class])];
                 }
                 returnBlock(error == nil);
             }];
@@ -510,7 +516,7 @@ NSString * const BLParseObjectChangedClassKey = @"BLParseObjectChangedClassKey";
                       if (error) {
                           ParseLog(@"%@",error);
                       } else {
-                          [BLParseObject emitChangeNotification];
+                          [BLParseObject emitChangeNotificationForParseClassName:NSStringFromClass([weakSelf class])];
                       }
                       returnBlock(error == nil);
                   }];
@@ -571,7 +577,7 @@ NSString * const BLParseObjectChangedClassKey = @"BLParseObjectChangedClassKey";
                 if (error) {
                     ParseLog(@"%@",error);
                 } else {
-                    [BLParseObject emitChangeNotification];
+                    [BLParseObject emitChangeNotificationForParseClassName:NSStringFromClass([objects.firstObject class])];
                 }
                 returnBlock(error == nil);
             }];
@@ -617,14 +623,14 @@ NSString * const BLParseObjectChangedClassKey = @"BLParseObjectChangedClassKey";
                  } else {
                      [weakSelf deleteEventually];
                  }
-                 [BLParseObject emitChangeNotification];
+                 [BLParseObject emitChangeNotificationForParseClassName:NSStringFromClass([weakSelf class])];
                  returnBlock(YES);
              }
          }];
     }
     else
     { //Not deleting
-        [BLParseObject emitChangeNotification];
+        [BLParseObject emitChangeNotificationForParseClassName:NSStringFromClass([weakSelf class])];
         returnBlock(YES);
     }
 }

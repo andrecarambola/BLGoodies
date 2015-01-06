@@ -51,10 +51,7 @@ extern NSString * const BLParseObjectChangedClassKey;
 - (void)stopTimeoutOperation;
 
 //Notifications
-+ (void)emitChangeNotification;
-
-//Managing Cache
-+ (NSArray *)additionalCustomQueries;
++ (void)emitChangeNotificationForParseClassName:(NSString *)parseClassName;
 
 @end
 
