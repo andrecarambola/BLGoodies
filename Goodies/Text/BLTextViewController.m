@@ -439,6 +439,11 @@ replacementString:(NSString *)string
 
 #pragma mark - Keyboard Handling
 
+- (void)handleKeyboardStateChange:(BOOL)isShowingKeyboard
+{
+    return;
+}
+
 - (UIView *)defaultInputAccessoryView
 {
     UIToolbar *okToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0.f,
@@ -469,6 +474,19 @@ replacementString:(NSString *)string
 {
     [self.activeTextField resignFirstResponder];
     [self.activeTextView resignFirstResponder];
+}
+
+
+#pragma mark - KVO
+
++ (BOOL)automaticallyNotifiesObserversForKey:(NSString *)key
+{
+    if ([key isEqualToString:@"keyboardEnabled"] || 
+        [key isEqualToString:@"editingText"]) 
+    {
+        return NO;
+    }
+    return [super automaticallyNotifiesObserversForKey:key];
 }
 
 @end

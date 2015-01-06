@@ -210,4 +210,18 @@
     [BLObject stopTimeoutOperation:self.timeoutTimer];
 }
 
+
+#pragma mark - KVO
+
++ (BOOL)automaticallyNotifiesObserversForKey:(NSString *)key
+{
+    if ([key isEqualToString:@"handlesMemory"] || 
+        [key isEqualToString:@"handlesAppStates"] ||
+        [key isEqualToString:@"handlesInternet"]) 
+    {
+        return NO;
+    }
+    return [super automaticallyNotifiesObserversForKey:key];
+}
+
 @end

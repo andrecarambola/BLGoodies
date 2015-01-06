@@ -7,7 +7,7 @@
 //
 
 #import "PFObject+BLObject.h"
-#import "NSDate+BLDate.h"
+#import "NSDateFormatter+BLDate.h"
 
 
 @implementation PFObject (BLObject)
@@ -31,12 +31,12 @@
 
 - (NSString *)fixedCreatedAt
 {
-    return [[NSDate defaultDateFormatter] stringFromDate:self.createdAt];
+    return [[NSDateFormatter defaultDateFormatter] stringFromDate:self.createdAt];
 }
 
 - (NSString *)fixedUpdatedAt
 {
-    return [[NSDate defaultDateFormatter] stringFromDate:self.updatedAt];
+    return [[NSDateFormatter defaultDateFormatter] stringFromDate:self.updatedAt];
 }
 
 

@@ -73,4 +73,16 @@
                       self.text.length <= self.maxNumberOfCharacters)];
 }
 
+
+#pragma mark - KVO
+
++ (BOOL)automaticallyNotifiesObserversForKey:(NSString *)key
+{
+    if ([key isEqualToString:@"isValid"]) 
+    {
+        return NO;
+    }
+    return [super automaticallyNotifiesObserversForKey:key];
+}
+
 @end

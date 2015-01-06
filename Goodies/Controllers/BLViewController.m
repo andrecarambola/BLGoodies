@@ -169,7 +169,7 @@
 
 - (BOOL)isVisible
 {
-    return (self.hasAppeared && !self.isInBackground);
+    return (self.isViewLoaded && self.hasAppeared && !self.isInBackground);
 }
 
 - (void)setHasAppeared:(BOOL)hasAppeared
@@ -373,6 +373,20 @@
 {
     [self toggleInternetLabelWithConnection:[BLInternet doWeHaveInternet]
                                    animated:YES];
+}
+
+
+#pragma mark - KVO
+
++ (BOOL)automaticallyNotifiesObserversForKey:(NSString *)key
+{
+    if ([key isEqualToString:@"handlesAppStates"] || 
+        [key isEqualToString:@"handlesInternet"] ||
+        [key isEqualToString:@"loading"]) 
+    {
+        return NO;
+    }
+    return [super automaticallyNotifiesObserversForKey:key];
 }
 
 @end
