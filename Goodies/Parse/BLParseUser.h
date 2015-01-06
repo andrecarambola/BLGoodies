@@ -37,6 +37,10 @@ extern NSString * const BLParseUserDidLogOutNotification;
                              andBlock:(ParseCompletionBlock)block;
 - (void)requestPasswordResetWithBlock:(ParseCompletionBlock)block;
 
+//Saving
+- (void)saveEverythingWithCompletionBlock:(ParseCompletionBlock)block;
+- (void)saveDependenciesWithBlock:(ParseCompletionBlock)dependenciesBlock;
+
 //Logging Out
 + (void)customLogout;
 
@@ -59,14 +63,5 @@ extern NSString * const BLParseUserDidLogOutNotification;
 //Aux
 + (NSArray *)facebookReadPermissions;
 + (NSArray *)facebookWritePermissions;
-
-@end
-
-
-#pragma mark - Categories
-@interface BLParseUser (Saving)
-
-- (void)saveEverythingWithCompletionBlock:(ParseCompletionBlock)block;
-- (void)saveDependenciesWithBlock:(ParseCompletionBlock)dependenciesBlock;
 
 @end

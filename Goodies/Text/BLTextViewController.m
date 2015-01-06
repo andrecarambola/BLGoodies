@@ -243,6 +243,11 @@
                                      animated:YES];
 }
 
+- (void)handleKeyboardStateChange:(BOOL)isShowingKeyboard
+{
+    return;
+}
+
 
 #pragma mark - Text Field Delegate
 

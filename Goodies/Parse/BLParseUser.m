@@ -9,6 +9,7 @@
 #import "BLParseUser.h"
 #import <Parse/PFObject+Subclass.h>
 #import <ParseFacebookUtils/PFFacebookUtils.h>
+#import "BLParseObject.h"
 #import "BLInternet.h"
 #import "BLLogger.h"
 #import "NSString+BLText.h"
@@ -640,6 +641,80 @@ NSString * const BLParseUserDidLogOutNotification = @"BLParseUserDidLogOutNotifi
 }
 
 
+#pragma mark - Saving
+
+- (void)saveEverythingWithCompletionBlock:(ParseCompletionBlock)block
+{
+    //Sanity
+    if (![self shouldSave]) {
+        [PFObject returnToSenderWithResult:YES
+                        andCompletionBlock:block];
+        return;
+    }
+    
+    //Internet
+    if (![self hasBeenSavedToParse] &&
+        ![BLInternet doWeHaveInternet])
+    {
+        [PFObject returnToSenderWithResult:NO
+                        andCompletionBlock:block];
+        return;
+    }
+    
+    //Saving
+    [self startBackgroundTask];
+    __weak BLParseUser *weakSelf = self;
+    [self startTimeoutOperationWithBlock:^
+    {
+        [BLParseObject returnToSenderWithResult:NO
+                             andCompletionBlock:block];
+        [weakSelf endBackgroundTask];
+    }];
+    
+    void (^returnBlock) (BOOL) = ^(BOOL result)
+    {
+        [PFObject returnToSenderWithResult:result
+                        andCompletionBlock:block];
+        [weakSelf stopTimeoutOperation];
+        [weakSelf endBackgroundTask];
+    };
+    
+    [self saveDependenciesWithBlock:^(BOOL success)
+     {
+         if (!success)
+         {
+             returnBlock(NO);
+         }
+         else
+         {
+             if ([weakSelf hasBeenSavedToParse])
+             { //Saving Locally
+                 [self saveEventually];
+                 returnBlock(YES);
+             }
+             else
+             { //Saving to the server
+                 [weakSelf saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error)
+                  {
+                      if (error) {
+                          ParseLog(@"%@",error);
+                      } else {
+                          [BLParseObject emitChangeNotification];
+                      }
+                      returnBlock(error == nil);
+                  }];
+             }
+         }
+     }];
+}
+
+
+- (void)saveDependenciesWithBlock:(ParseCompletionBlock)dependenciesBlock
+{
+    if (dependenciesBlock) dependenciesBlock(YES);
+}
+
+
 #pragma mark - Logging Out
 
 + (void)customLogout
@@ -667,13 +742,5 @@ NSString * const BLParseUserDidLogOutNotification = @"BLParseUserDidLogOutNotifi
 {
     return @[@"publish_actions"];
 }
-
-@end
-
-
-#pragma mark - Saving
-@implementation BLParseUser (Saving)
-
-
 
 @end
