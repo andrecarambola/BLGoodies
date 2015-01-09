@@ -39,12 +39,12 @@ static ParseCompletionBlock pushCompletionBlock;
                                   andData:(NSData *)data
 {
     BOOL success = (hasSucceeded == YES && data != nil);
+    PFInstallation *currentInstallation = [PFInstallation currentInstallation];
     if (success) {
-        PFInstallation *currentInstallation = [PFInstallation currentInstallation];
         [currentInstallation setDeviceTokenFromData:data];
-        [currentInstallation setObject:[BLParseUser currentUser]
-                                forKey:@"user"];
     }
+    [currentInstallation setObject:[BLParseUser currentUser]
+                            forKey:@"user"];
     ParseCompletionBlock block = pushCompletionBlock;
     [BLParseUser returnToSenderWithResult:success
                        andCompletionBlock:block];

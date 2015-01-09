@@ -696,11 +696,7 @@ NSString * const BLParseUserDidLogOutNotification = @"BLParseUserDidLogOutNotifi
              { //Saving to the server
                  [weakSelf saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error)
                   {
-                      if (error) {
-                          ParseLog(@"%@",error);
-                      } else {
-                          [BLParseObject emitChangeNotification];
-                      }
+                      if (error) ParseLog(@"%@",error);
                       returnBlock(error == nil);
                   }];
              }
