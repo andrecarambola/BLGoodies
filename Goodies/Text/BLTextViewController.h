@@ -38,6 +38,7 @@
 @property (nonatomic, strong) IBOutletCollection(UITextView) NSArray *allTextViews;
 
 //UI Actions
+- (void)addTextElements:(NSArray *)textElements;
 - (void)storeValidatedTextForTextElement:(id)element;
 
 @end

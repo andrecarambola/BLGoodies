@@ -73,6 +73,11 @@
                       self.text.length <= self.maxNumberOfCharacters)];
 }
 
+- (void)formatText
+{
+    return;
+}
+
 
 #pragma mark - KVO
 

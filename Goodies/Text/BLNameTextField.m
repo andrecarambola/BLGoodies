@@ -36,8 +36,13 @@
     [super checkValidText];
     BOOL isValid = [self isValid];
     if (isValid) isValid = [NSString isValidName:self.text];
-    if (isValid) [self setText:[self.text cleanName]];
+    if (isValid) [self formatText];
     [self setIsValid:isValid];
+}
+
+- (void)formatText
+{
+    [self setText:[self.text cleanName]];
 }
 
 @end

@@ -10,6 +10,13 @@
 #import "CWSBrasilValidate.h"
 
 
+@interface NSString (BLAux)
+
++ (BOOL)isComponentsArrayEmpty:(NSArray *)componentsArray;
+
+@end
+
+
 #pragma mark
 @implementation NSString (BLTextAdditions)
 
@@ -30,6 +37,38 @@
 - (NSString *)trimText
 {
     return [NSString trimText:self];
+}
+
++ (NSString *)cleanWhiteSpaces:(NSString *)text
+{
+    //Sanity Check
+    if (text.length > 0) {
+        return [[text componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] componentsJoinedByString:@""];
+    }
+    
+    //Invalid Cases
+    return text;
+}
+
+- (NSString *)cleanWhiteSpaces
+{
+    return [NSString cleanWhiteSpaces:self];
+}
+
++ (NSString *)cleanNewLineCharacters:(NSString *)text
+{
+    //Sanity Check
+    if (text.length > 0) {
+        return [[text componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]] componentsJoinedByString:@""];
+    }
+    
+    //Invalid Cases
+    return text;
+}
+
+- (NSString *)cleanNewLineCharacters
+{
+    return [NSString cleanNewLineCharacters:self];
 }
 
 + (NSString *)cleanWhiteSpacesAndNewLineCharacters:(NSString *)text
@@ -167,26 +206,26 @@
 
 + (BOOL)isLetter:(NSString *)string
 {
-    return ([[string componentsSeparatedByCharactersInSet:[NSCharacterSet letterCharacterSet]] count] == 0);
+    return [NSString isComponentsArrayEmpty:[string componentsSeparatedByCharactersInSet:[NSCharacterSet letterCharacterSet]]];
 }
 
 + (BOOL)isNumber:(NSString *)string
 {
     string = [[string componentsSeparatedByCharactersInSet:[NSCharacterSet punctuationCharacterSet]] componentsJoinedByString:@""];
     if (string.length > 0) {
-        return ([[string componentsSeparatedByCharactersInSet:[NSCharacterSet decimalDigitCharacterSet]] count] == 0);
+        return [NSString isComponentsArrayEmpty:[string componentsSeparatedByCharactersInSet:[NSCharacterSet decimalDigitCharacterSet]]];
     }
     return NO;
 }
 
 + (BOOL)isSpaceCharacter:(NSString *)string
 {
-    return ([[string componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] count] == 0);
+    return [NSString isComponentsArrayEmpty:[string componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]]];
 }
 
 + (BOOL)isNewLineCharacter:(NSString *)string
 {
-    return ([[string componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]] count] == 0);
+    return [NSString isComponentsArrayEmpty:[string componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]]];
 }
 
 @end
@@ -280,7 +319,7 @@
 
 - (NSString *)cleanName
 {
-    NSString *result = [self cleanWhiteSpacesAndNewLineCharacters];
+    NSString *result = [self cleanNewLineCharacters];
     result = [result cleanPunctuation];
     result = [result cleanSymbols];
     result = [result cleanNumbers];
@@ -315,6 +354,7 @@
 - (NSString *)cleanState
 {
     NSString *result = [self cleanName];
+    result = [result cleanWhiteSpaces];
     return [result uppercaseString];
 }
 
@@ -344,59 +384,59 @@
     if (tempString.length == 0) return @"";
     
     NSString *result = @"";
-    if ([[[NSLocale currentLocale] localeIdentifier] rangeOfString:@"UK"
-                                                           options:NSCaseInsensitiveSearch].location != NSNotFound)
-    {
-        if (tempString.length == 0 || ![[tempString substringToIndex:1] isEqualToString:@"0"])
-            tempString = [NSString stringWithFormat:@"0%@",tempString];
-        if (tempString.length <= 8)
-        {
-            if (tempString.length > 4) {
-                result = [NSString stringWithFormat:@"%@ %@",[tempString substringToIndex:4],[tempString substringFromIndex:4]];
-            } else {
-                result = tempString;
-            }
-        }
-        else if (tempString.length <= 10)
-        {
-            if (![[tempString substringToIndex:2] isEqualToString:@"01"]) {
-                result = [NSString stringWithFormat:@"%@ %@",[tempString substringToIndex:4],[tempString substringFromIndex:4]];
-            } else if ([[tempString substringToIndex:6] isEqualToString:@"016977"]) {
-                result = [NSString stringWithFormat:@"(%@) %@",[tempString substringToIndex:6],[tempString substringFromIndex:6]];
-            } else {
-                result = [NSString stringWithFormat:@"(%@) %@",[tempString substringToIndex:5],[tempString substringFromIndex:5]];
-            }
-        }
-        else
-        {
-            if ([[tempString substringToIndex:2] isEqualToString:@"01"])
-            {
-                result = [NSString stringWithFormat:@"(%@) %@",[tempString substringToIndex:5],[tempString substringFromIndex:5]];
-            }
-            else if ([[tempString substringToIndex:2] isEqualToString:@"02"])
-            {
-                NSString *subString = [tempString substringFromIndex:3];
-                NSString *finalString = [subString substringFromIndex:4];
-                result = [NSString stringWithFormat:@"(%@) %@ %@",[tempString substringToIndex:3],[subString substringToIndex:3],finalString];
-            }
-            else if ([[tempString substringToIndex:2] isEqualToString:@"05"] ||
-                     [[tempString substringToIndex:2] isEqualToString:@"07"])
-            {
-                NSString *subString = [tempString substringFromIndex:3];
-                NSString *finalString = [subString substringFromIndex:4];
-                result = [NSString stringWithFormat:@"%@ %@ %@",[tempString substringToIndex:3],[subString substringToIndex:3],finalString];
-            }
-            else
-            {
-                NSString *subString = [tempString substringFromIndex:4];
-                NSString *finalString = [subString substringFromIndex:3];
-                result = [NSString stringWithFormat:@"%@ %@ %@",[tempString substringToIndex:4],[subString substringToIndex:3],finalString];
-            }
-        }
-    }
-    else if ([[[NSLocale currentLocale] localeIdentifier] rangeOfString:@"BR"
-                                                                options:NSCaseInsensitiveSearch].location != NSNotFound)
-    {
+//    if ([[[NSLocale currentLocale] localeIdentifier] rangeOfString:@"UK"
+//                                                           options:NSCaseInsensitiveSearch].location != NSNotFound)
+//    {
+//        if (tempString.length == 0 || ![[tempString substringToIndex:1] isEqualToString:@"0"])
+//            tempString = [NSString stringWithFormat:@"0%@",tempString];
+//        if (tempString.length <= 8)
+//        {
+//            if (tempString.length > 4) {
+//                result = [NSString stringWithFormat:@"%@ %@",[tempString substringToIndex:4],[tempString substringFromIndex:4]];
+//            } else {
+//                result = tempString;
+//            }
+//        }
+//        else if (tempString.length <= 10)
+//        {
+//            if (![[tempString substringToIndex:2] isEqualToString:@"01"]) {
+//                result = [NSString stringWithFormat:@"%@ %@",[tempString substringToIndex:4],[tempString substringFromIndex:4]];
+//            } else if ([[tempString substringToIndex:6] isEqualToString:@"016977"]) {
+//                result = [NSString stringWithFormat:@"(%@) %@",[tempString substringToIndex:6],[tempString substringFromIndex:6]];
+//            } else {
+//                result = [NSString stringWithFormat:@"(%@) %@",[tempString substringToIndex:5],[tempString substringFromIndex:5]];
+//            }
+//        }
+//        else
+//        {
+//            if ([[tempString substringToIndex:2] isEqualToString:@"01"])
+//            {
+//                result = [NSString stringWithFormat:@"(%@) %@",[tempString substringToIndex:5],[tempString substringFromIndex:5]];
+//            }
+//            else if ([[tempString substringToIndex:2] isEqualToString:@"02"])
+//            {
+//                NSString *subString = [tempString substringFromIndex:3];
+//                NSString *finalString = [subString substringFromIndex:4];
+//                result = [NSString stringWithFormat:@"(%@) %@ %@",[tempString substringToIndex:3],[subString substringToIndex:3],finalString];
+//            }
+//            else if ([[tempString substringToIndex:2] isEqualToString:@"05"] ||
+//                     [[tempString substringToIndex:2] isEqualToString:@"07"])
+//            {
+//                NSString *subString = [tempString substringFromIndex:3];
+//                NSString *finalString = [subString substringFromIndex:4];
+//                result = [NSString stringWithFormat:@"%@ %@ %@",[tempString substringToIndex:3],[subString substringToIndex:3],finalString];
+//            }
+//            else
+//            {
+//                NSString *subString = [tempString substringFromIndex:4];
+//                NSString *finalString = [subString substringFromIndex:3];
+//                result = [NSString stringWithFormat:@"%@ %@ %@",[tempString substringToIndex:4],[subString substringToIndex:3],finalString];
+//            }
+//        }
+//    }
+//    else if ([[[NSLocale currentLocale] localeIdentifier] rangeOfString:@"BR"
+//                                                                options:NSCaseInsensitiveSearch].location != NSNotFound)
+//    {
         if (tempString.length == 0 || ![[tempString substringToIndex:1] isEqualToString:@"0"])
             tempString = [NSString stringWithFormat:@"0%@",tempString];
         if (tempString.length <= 5) {
@@ -432,43 +472,43 @@
             NSString *finalString = [subString substringFromIndex:5];
             result = [NSString stringWithFormat:@"(%@) %@-%@",[tempString substringToIndex:5],[subString substringToIndex:5],[finalString substringToIndex:4]];
         }
-    }
-    else if ([[[NSLocale currentLocale] localeIdentifier] rangeOfString:@"PT"
-                                                                options:NSCaseInsensitiveSearch].location != NSNotFound)
-    {
-        if (tempString.length <= 3)
-        {
-            result = tempString;
-        }
-        else if (tempString.length <= 6)
-        {
-            result = [NSString stringWithFormat:@"%@ %@",[tempString substringToIndex:3],[tempString substringFromIndex:3]];
-        }
-        else
-        {
-            NSString *subString = [tempString substringFromIndex:3];
-            NSString *finalString = [subString substringFromIndex:3];
-            result = [NSString stringWithFormat:@"%@ %@ %@",[tempString substringToIndex:3],[subString substringToIndex:3],finalString];
-        }
-    }
-    else
-    {
-        //Defaults to US format
-        if (tempString.length <= 3)
-        {
-            result = [NSString stringWithFormat:@"(%@)",tempString];
-        }
-        else if (tempString.length <= 6)
-        {
-            result = [NSString stringWithFormat:@"(%@) %@",[tempString substringToIndex:3],[tempString substringFromIndex:3]];
-        }
-        else
-        {
-            NSString *subString = [tempString substringFromIndex:3];
-            NSString *finalString = [subString substringFromIndex:3];
-            result = [NSString stringWithFormat:@"(%@) %@-%@",[tempString substringToIndex:3],[subString substringToIndex:3],finalString];
-        }
-    }
+//    }
+//    else if ([[[NSLocale currentLocale] localeIdentifier] rangeOfString:@"PT"
+//                                                                options:NSCaseInsensitiveSearch].location != NSNotFound)
+//    {
+//        if (tempString.length <= 3)
+//        {
+//            result = tempString;
+//        }
+//        else if (tempString.length <= 6)
+//        {
+//            result = [NSString stringWithFormat:@"%@ %@",[tempString substringToIndex:3],[tempString substringFromIndex:3]];
+//        }
+//        else
+//        {
+//            NSString *subString = [tempString substringFromIndex:3];
+//            NSString *finalString = [subString substringFromIndex:3];
+//            result = [NSString stringWithFormat:@"%@ %@ %@",[tempString substringToIndex:3],[subString substringToIndex:3],finalString];
+//        }
+//    }
+//    else
+//    {
+//        //Defaults to US format
+//        if (tempString.length <= 3)
+//        {
+//            result = [NSString stringWithFormat:@"(%@)",tempString];
+//        }
+//        else if (tempString.length <= 6)
+//        {
+//            result = [NSString stringWithFormat:@"(%@) %@",[tempString substringToIndex:3],[tempString substringFromIndex:3]];
+//        }
+//        else
+//        {
+//            NSString *subString = [tempString substringFromIndex:3];
+//            NSString *finalString = [subString substringFromIndex:3];
+//            result = [NSString stringWithFormat:@"(%@) %@-%@",[tempString substringToIndex:3],[subString substringToIndex:3],finalString];
+//        }
+//    }
     return result;
 }
 
@@ -519,26 +559,29 @@
                                                                  withString:@""];
     NSString *thirdPart, *fourthPart;
     NSString *result = [NSString stringWithFormat:@"%@",firstPart];
-    if (secondPart.length <= 3) {
-        result = [result stringByAppendingString:@"%@"];
-    } else {
+    if (secondPart.length > 3) {
         secondPart = [secondPart substringToIndex:3];
         thirdPart = [tempResult stringByReplacingOccurrencesOfString:firstPart
                                                           withString:@""];
         thirdPart = [thirdPart stringByReplacingOccurrencesOfString:secondPart
                                                          withString:@""];
+        
     }
-    if (thirdPart.length <= 3) {
+    result = [result stringByAppendingFormat:@".%@",secondPart];
+    if (thirdPart.length > 0) {
+        if (thirdPart.length > 3) {
+            thirdPart = [thirdPart substringToIndex:3];
+            fourthPart = [tempResult stringByReplacingOccurrencesOfString:firstPart
+                                                               withString:@""];
+            fourthPart = [fourthPart stringByReplacingOccurrencesOfString:secondPart
+                                                               withString:@""];
+            fourthPart = [fourthPart stringByReplacingOccurrencesOfString:thirdPart
+                                                               withString:@""];
+        }
         result = [result stringByAppendingFormat:@".%@",thirdPart];
-    } else {
-        thirdPart = [thirdPart substringToIndex:3];
-        fourthPart = [tempResult stringByReplacingOccurrencesOfString:firstPart
-                                                           withString:@""];
-        fourthPart = [fourthPart stringByReplacingOccurrencesOfString:secondPart
-                                                           withString:@""];
-        fourthPart = [fourthPart stringByReplacingOccurrencesOfString:thirdPart
-                                                           withString:@""];
-        result = [result stringByAppendingFormat:@".%@-%@",thirdPart,fourthPart];
+        if (fourthPart.length > 0) {
+            result = [result stringByAppendingFormat:@"-%@",fourthPart];
+        }
     }
     
     return result;
@@ -547,6 +590,25 @@
 - (NSString *)formattedCPF
 {
     return [NSString formattedCPF:self];
+}
+
+@end
+
+
+@implementation NSString (BLAux)
+
++ (BOOL)isComponentsArrayEmpty:(NSArray *)componentsArray
+{
+    if (componentsArray.count == 0) return YES;
+    
+    BOOL isEmpty = YES;
+    for (NSString *string in componentsArray) {
+        if (string.length > 0) {
+            isEmpty = NO;
+            break;
+        }
+    }
+    return isEmpty;
 }
 
 @end

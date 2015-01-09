@@ -20,5 +20,6 @@
 @property (nonatomic) NSInteger minNumberOfCharacters;
 @property (nonatomic) NSInteger maxNumberOfCharacters;
 - (void)checkValidText;
+- (void)formatText;
 
 @end

@@ -25,6 +25,7 @@
     [self setSecureTextEntry:NO];
     [self setClearsOnBeginEditing:NO];
     [self setMinNumberOfCharacters:5];
+    [self setMaxNumberOfCharacters:16];
 }
 
 
@@ -35,8 +36,13 @@
     [super checkValidText];
     BOOL isValid = [self isValid];
     if (isValid) isValid = [NSString isValidPhoneNumber:self.text];
-    if (isValid) [self setText:[NSString formattedPhoneNumber:self.text]];
+    if (isValid) [self formatText];
     [self setIsValid:isValid];
+}
+
+- (void)formatText
+{
+    [self setText:[NSString formattedPhoneNumber:self.text]];
 }
 
 @end

@@ -36,8 +36,13 @@
     [super checkValidText];
     BOOL isValid = [self isValid];
     if (isValid) isValid = [NSString isValidCPF:self.text];
-    if (isValid) [self setText:[NSString formattedCPF:self.text]];
+    if (isValid) [self formatText];
     [self setIsValid:isValid];
+}
+
+- (void)formatText
+{
+    [self setText:[NSString formattedCPF:self.text]];
 }
 
 @end

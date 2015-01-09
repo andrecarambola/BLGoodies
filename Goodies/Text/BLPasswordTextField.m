@@ -36,8 +36,13 @@
     [super checkValidText];
     BOOL isValid = [self isValid];
     if (isValid) isValid = [NSString isValidPassword:self.text];
-    if (isValid) [self setText:[self.text cleanPassword]];
+    if (isValid) [self formatText];
     [self setIsValid:isValid];
+}
+
+- (void)formatText
+{
+    [self setText:[self.text cleanPassword]];
 }
 
 @end

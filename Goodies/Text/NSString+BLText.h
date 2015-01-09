@@ -14,6 +14,10 @@
 //Cleaning Text
 + (NSString *)trimText:(NSString *)text;
 - (NSString *)trimText;
++ (NSString *)cleanWhiteSpaces:(NSString *)text;
+- (NSString *)cleanWhiteSpaces;
++ (NSString *)cleanNewLineCharacters:(NSString *)text;
+- (NSString *)cleanNewLineCharacters;
 + (NSString *)cleanWhiteSpacesAndNewLineCharacters:(NSString *)text;
 - (NSString *)cleanWhiteSpacesAndNewLineCharacters;
 + (NSString *)cleanLetters:(NSString *)text;

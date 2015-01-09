@@ -131,8 +131,8 @@ NSString * const BLParseUserDidLogOutNotification = @"BLParseUserDidLogOutNotifi
             [newUser setTerms:NO];
             [newUser setClearCaches:NO];
             PFACL *acl = [PFACL ACLWithUser:newUser];
-            [acl setWriteAccess:YES
-                forRoleWithName:[PFRole roleNameForType:blRoleAdmin]];
+//            [acl setWriteAccess:YES
+//                forRoleWithName:[PFRole roleNameForType:blRoleAdmin]];
             [acl setReadAccess:YES
                forRoleWithName:[PFRole roleNameForType:blRoleAdmin]];
             [newUser setACL:acl];
@@ -380,7 +380,7 @@ NSString * const BLParseUserDidLogOutNotification = @"BLParseUserDidLogOutNotifi
         [newUser setPassword:password];
         [newUser signUpInBackgroundWithBlock:^(BOOL succeeded, NSError *error)
         {
-            ParseLog(@"%@",error);
+            if (error) ParseLog(@"%@",error);
             if (succeeded) {
                 [newUser privateInitialSetupWithBlock:^(BOOL success)
                 {

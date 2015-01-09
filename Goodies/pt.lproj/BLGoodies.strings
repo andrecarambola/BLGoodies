@@ -11,6 +11,6 @@
 "BLInvalidEmailAlert" = "Por favor, insira um endereço de email válido.";
 "BLInvalidPasswordAlert" = "Por favor, insira uma senha válida.";
 "BLNoLoginAlert" = "Não foi possível fazer o login. Por favor, verifique suas informações e tente novamente.";
-"BLEmailSentAlert" = "Email enviado para sua caixa de entrada!";
+"BLEmailSentAlert" = "Seu pedido de troca de senha foi efetuado! Por favor, verifique seu email.";
 "BLPlayerLoadFailureAlert" = "Não foi possível carregar a mídia... Por favor, tente novamente.";
 "BLFacebookSessionExpired" = "Sua sessão no Facebook expirou. Por favor, faça o login novamente.";

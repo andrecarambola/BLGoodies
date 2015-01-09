@@ -17,10 +17,13 @@
 @interface BLTextViewController ()
 {
     BOOL isShowingKeyboard;
+    BOOL isJumpingThroughForm;
+    CGRect originalScrollViewRect;
 }
 
 //Setup
 - (BOOL)isKeyboardViewController;
+- (void)organizeCollections;
 
 //Notifications
 - (void)handleKeyboardWillAppearNotification:(NSNotification *)notification;
@@ -29,11 +32,14 @@
 //Keyboard Handling
 - (UIView *)defaultInputAccessoryView;
 - (id)nextTextElementForTextElement:(id)textField;
+- (void)handleNextTextElement;
 - (void)keyboardOkPressed:(UIBarButtonItem *)sender;
 
 //UI Elements
 @property (nonatomic, weak) UITextField *activeTextField;
 @property (nonatomic, weak) UITextView *activeTextView;
+- (id)activeTextElement;
+- (void)setActiveTextElement:(id)textElement;
 @property (nonatomic, strong) NSArray *allTextElements;
 
 @end
@@ -57,6 +63,60 @@
     _keyboardEnabled = YES;
     _editingText = NO;
     isShowingKeyboard = NO;
+    isJumpingThroughForm = NO;
+    originalScrollViewRect = CGRectZero;
+}
+
+- (void)organizeCollections
+{
+    NSArray *orderedTextFields = [self.allTextFields sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2)
+                                  {
+                                      UITextField *firstTextField = obj1;
+                                      UITextField *secondTextField = obj2;
+                                      if (firstTextField.tag > secondTextField.tag) return (NSComparisonResult)NSOrderedDescending;
+                                      if (firstTextField.tag < secondTextField.tag) return (NSComparisonResult)NSOrderedAscending;
+                                      return (NSComparisonResult)NSOrderedSame;
+                                  }];
+    [self setAllTextFields:orderedTextFields];
+    NSArray *orderedValidationViews = [self.allTextValidationViews sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2)
+                                       {
+                                           UIView *firstTextField = obj1;
+                                           UIView *secondTextField = obj2;
+                                           if (firstTextField.tag > secondTextField.tag) return (NSComparisonResult)NSOrderedDescending;
+                                           if (firstTextField.tag < secondTextField.tag) return (NSComparisonResult)NSOrderedAscending;
+                                           return (NSComparisonResult)NSOrderedSame;
+                                       }];
+    [self setAllTextValidationViews:orderedValidationViews];
+    for (UITextField *textField in self.allTextFields) {
+        for (UIView *validationView in self.allTextValidationViews) {
+            if (textField.tag == validationView.tag) {
+                [textField setRightView:validationView];
+            }
+        }
+    }
+    NSArray *orderedTextViews = [self.allTextViews sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2)
+                                 {
+                                     UITextView *firstTextField = obj1;
+                                     UITextView *secondTextField = obj2;
+                                     if (firstTextField.tag > secondTextField.tag) return (NSComparisonResult)NSOrderedDescending;
+                                     if (firstTextField.tag < secondTextField.tag) return (NSComparisonResult)NSOrderedAscending;
+                                     return (NSComparisonResult)NSOrderedSame;
+                                 }];
+    [self setAllTextViews:orderedTextViews];
+    
+    NSMutableArray *tempTextElements = [NSMutableArray arrayWithCapacity:self.allTextFields.count + self.allTextViews.count];
+    if (self.allTextFields.count > 0) [tempTextElements addObjectsFromArray:self.allTextFields];
+    if (self.allTextViews.count > 0) [tempTextElements addObjectsFromArray:self.allTextViews];
+    NSArray *orderedTextElements = [tempTextElements sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2)
+                                    {
+                                        if ([obj1 tag] > [obj2 tag]) return (NSComparisonResult)NSOrderedDescending;
+                                        if ([obj1 tag] < [obj2 tag]) return (NSComparisonResult)NSOrderedAscending;
+                                        return (NSComparisonResult)NSOrderedSame;
+                                    }];
+    [self setAllTextElements:orderedTextElements];
+    
+    [self.keyboardScrollView setClipsToBounds:NO];
+    [self.keyboardScrollView setAutoresizesSubviews:NO];
 }
 
 
@@ -86,13 +146,14 @@
         
         if (self.isKeyboardViewController) {
             if (editingText) {
-                id firstTextElement = [self.allTextElements firstObject];
-                [firstTextElement becomeFirstResponder];
+                if (!self.activeTextElement) {
+                    id firstTextElement = [self.allTextElements firstObject];
+                    [firstTextElement becomeFirstResponder];
+                }
             } else {
                 BOOL shouldUseForm = self.shouldUseForms;
                 [self setUseForms:NO];
-                [self.activeTextField resignFirstResponder];
-                [self.activeTextView resignFirstResponder];
+                [self.activeTextElement resignFirstResponder];
                 [self setUseForms:shouldUseForm];
             }
         }
@@ -103,7 +164,29 @@
 }
 
 
-#pragma mark - Forms
+#pragma mark - UI Actions
+
+- (void)addTextElements:(NSArray *)textElements
+{
+    if (textElements.count == 0) return;
+    BOOL didAdd = NO;
+    NSMutableArray *textFields = (self.allTextFields.count > 0) ? [NSMutableArray arrayWithArray:self.allTextFields] : [NSMutableArray array];
+    NSMutableArray *textViews = (self.allTextViews.count > 0) ? [NSMutableArray arrayWithArray:self.allTextViews] : [NSMutableArray array];
+    for (id element in textElements) {
+        if ([element isKindOfClass:[UITextField class]]) {
+            didAdd = YES;
+            [textFields addObject:element];
+        } else if ([element isKindOfClass:[UITextView class]]) {
+            didAdd = YES;
+            [textViews addObject:textViews];
+        }
+    }
+    if (didAdd) {
+        [self setAllTextFields:[NSArray arrayWithArray:textFields]];
+        [self setAllTextViews:[NSArray arrayWithArray:textViews]];
+        [self organizeCollections];
+    }
+}
 
 - (void)storeValidatedTextForTextElement:(id)element
 {
@@ -118,51 +201,7 @@
     [super viewDidLoad];
     
     if (self.isKeyboardViewController) {
-        NSArray *orderedTextFields = [self.allTextFields sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2)
-        {
-            UITextField *firstTextField = obj1;
-            UITextField *secondTextField = obj2;
-            if (firstTextField.tag > secondTextField.tag) return (NSComparisonResult)NSOrderedDescending;
-            if (firstTextField.tag < secondTextField.tag) return (NSComparisonResult)NSOrderedAscending;
-            return (NSComparisonResult)NSOrderedSame;
-        }];
-        [self setAllTextFields:orderedTextFields];
-        NSArray *orderedValidationViews = [self.allTextValidationViews sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2)
-        {
-            UIView *firstTextField = obj1;
-            UIView *secondTextField = obj2;
-            if (firstTextField.tag > secondTextField.tag) return (NSComparisonResult)NSOrderedDescending;
-            if (firstTextField.tag < secondTextField.tag) return (NSComparisonResult)NSOrderedAscending;
-            return (NSComparisonResult)NSOrderedSame;
-        }];
-        [self setAllTextValidationViews:orderedValidationViews];
-        for (UITextField *textField in self.allTextFields) {
-            for (UIView *validationView in self.allTextValidationViews) {
-                if (textField.tag == validationView.tag) {
-                    [textField setRightView:validationView];
-                }
-            }
-        }
-        NSArray *orderedTextViews = [self.allTextViews sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2)
-        {
-            UITextView *firstTextField = obj1;
-            UITextView *secondTextField = obj2;
-            if (firstTextField.tag > secondTextField.tag) return (NSComparisonResult)NSOrderedDescending;
-            if (firstTextField.tag < secondTextField.tag) return (NSComparisonResult)NSOrderedAscending;
-            return (NSComparisonResult)NSOrderedSame;
-        }];
-        [self setAllTextViews:orderedTextViews];
-        
-        NSMutableArray *tempTextElements = [NSMutableArray arrayWithCapacity:self.allTextFields.count + self.allTextViews.count];
-        if (self.allTextFields.count > 0) [tempTextElements addObjectsFromArray:self.allTextFields];
-        if (self.allTextViews.count > 0) [tempTextElements addObjectsFromArray:self.allTextViews];
-        NSArray *orderedTextElements = [tempTextElements sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2)
-        {
-            if ([obj1 tag] > [obj2 tag]) return (NSComparisonResult)NSOrderedDescending;
-            if ([obj1 tag] < [obj2 tag]) return (NSComparisonResult)NSOrderedAscending;
-            return (NSComparisonResult)NSOrderedSame;
-        }];
-        [self setAllTextElements:orderedTextElements];
+        [self organizeCollections];
     }
 }
 
@@ -179,6 +218,8 @@
                                                  selector:@selector(handleKeyboardWillHideNotification:)
                                                      name:UIKeyboardWillHideNotification
                                                    object:nil];
+        [self.keyboardScrollView setContentSize:CGSizeMake(self.keyboardScrollView.frame.size.width, 
+                                                           self.keyboardScrollView.frame.size.height)];
     }
 }
 
@@ -202,7 +243,7 @@
 
 - (void)handleKeyboardWillAppearNotification:(NSNotification *)notification
 {
-    if (isShowingKeyboard) return;
+    if (isShowingKeyboard || isJumpingThroughForm) return;
     isShowingKeyboard = YES;
     __weak BLTextViewController *weakSelf = self;
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -212,12 +253,14 @@
     if (notification &&
         self.keyboardScrollView.frame.size.height == self.view.frame.size.height)
     {
+        originalScrollViewRect = self.keyboardScrollView.frame;
+        
         //Keyboard size
         CGRect kbRect;
         NSDictionary *info = [notification userInfo];
         kbRect = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
-        kbRect.size.height += kBLTextDefaultInputAccessoryViewHeight + 4.f;
-        kbRect.origin.y -= kBLTextDefaultInputAccessoryViewHeight + 4.f;
+//        kbRect.size.height += kBLTextDefaultInputAccessoryViewHeight + 4.f;
+//        kbRect.origin.y -= kBLTextDefaultInputAccessoryViewHeight + 4.f;
         
         [self.keyboardScrollView setFrame:CGRectMake(self.keyboardScrollView.frame.origin.x,
                                                      self.keyboardScrollView.frame.origin.y,
@@ -225,22 +268,51 @@
                                                      self.keyboardScrollView.frame.size.height - kbRect.size.height)];
     }
     
-    [self.keyboardScrollView scrollRectToVisible:self.activeTextField.frame
+    [self.keyboardScrollView scrollRectToVisible:[self.activeTextElement frame]
                                         animated:YES];
 }
 
 - (void)handleKeyboardWillHideNotification:(NSNotification *)notification
 {
-    if (!isShowingKeyboard) return;
+    if (!isShowingKeyboard || isJumpingThroughForm) return;
     isShowingKeyboard = NO;
     __weak BLTextViewController *weakSelf = self;
     dispatch_async(dispatch_get_main_queue(), ^{
         [weakSelf handleKeyboardStateChange:NO];
     });
     
-    [self.keyboardScrollView setFrame:self.view.frame];
+    [self.keyboardScrollView setFrame:originalScrollViewRect];
+    originalScrollViewRect = CGRectZero;
     [self.keyboardScrollView setContentOffset:CGPointZero
                                      animated:YES];
+}
+
+
+#pragma mark - UI Elements
+
+- (id)activeTextElement
+{
+    if (self.activeTextField) return self.activeTextField;
+    return self.activeTextView;
+}
+
+- (void)setActiveTextElement:(id)textElement
+{
+    self.activeTextField = nil;
+    self.activeTextView = nil;
+    
+    if (textElement) {
+        if ([textElement isKindOfClass:[UITextField class]]) {
+            self.activeTextField = textElement;
+        } else if ([textElement isKindOfClass:[UITextView class]]) {
+            self.activeTextView = textElement;
+        }
+        [self setEditingText:YES];
+    } else {
+        [self setEditingText:NO];
+    }
+    
+    isJumpingThroughForm = NO;
 }
 
 
@@ -253,13 +325,22 @@ replacementString:(NSString *)string
         self.activeTextField &&
         [self.activeTextField isKindOfClass:[BLTextField class]])
     {
+        BLTextField *tempTextField = (BLTextField *)self.activeTextField;
+        
         //Deleting Text
         if (string.length == 0) {
-            [textField setText:[textField.text substringToIndex:textField.text.length - 1]];
+            if ([tempTextField isKindOfClass:[BLPhoneNumberTextField class]] &&
+                [[textField.text substringFromIndex:textField.text.length - 1] isEqualToString:@")"]) 
+            {
+                [textField setText:[textField.text substringToIndex:textField.text.length - 2]];
+            }
+            else
+            {
+                [textField setText:[textField.text substringToIndex:textField.text.length - 1]];
+            }
+            [tempTextField formatText];
             return NO;
         }
-        
-        BLTextField *tempTextField = (BLTextField *)self.activeTextField;
         
         //Checking Max Number of Characters
         if (textField.text.length == tempTextField.maxNumberOfCharacters)
@@ -307,6 +388,7 @@ replacementString:(NSString *)string
             }
             if (appendString) {
                 [textField setText:[textField.text stringByAppendingString:string]];
+                [tempTextField formatText];
                 return NO;
             }
         }
@@ -343,7 +425,7 @@ replacementString:(NSString *)string
 - (void)textFieldDidBeginEditing:(UITextField *)textField
 {
     if ([self isKeyboardViewController]) {
-        self.activeTextField = textField;
+        [self setActiveTextElement:textField];
         if ([textField isKindOfClass:[BLTextField class]]) {
             [(BLTextField *)self.activeTextField setIsValid:YES];
         }
@@ -357,6 +439,11 @@ replacementString:(NSString *)string
 {
     if (self.isKeyboardViewController) {
         if ([self.activeTextField isKindOfClass:[BLTextField class]]) [(BLTextField *)self.activeTextField checkValidText];
+        if (self.shouldUseForms && 
+            [self nextTextElementForTextElement:self.activeTextElement])
+        {
+            isJumpingThroughForm = YES;
+        }
     }
     
     return YES;
@@ -367,10 +454,7 @@ replacementString:(NSString *)string
     if (self.isKeyboardViewController)
     {
         [self storeValidatedTextForTextElement:self.activeTextField];
-        if (self.useForms) {
-            UITextField *nextTextField = [self nextTextElementForTextElement:self.activeTextField];
-            if (nextTextField) [nextTextField becomeFirstResponder];
-        }
+        [self handleNextTextElement];
     }
 }
 
@@ -417,11 +501,22 @@ replacementString:(NSString *)string
 - (void)textViewDidBeginEditing:(UITextView *)textView
 {
     if ([self isKeyboardViewController]) {
-        self.activeTextView = textView;
+        [self setActiveTextElement:textView];
         
         [self.keyboardScrollView scrollRectToVisible:textView.frame
                                             animated:YES];
     }
+}
+
+- (BOOL)textViewShouldEndEditing:(UITextView *)textView
+{
+    if (self.shouldUseForms && 
+        [self nextTextElementForTextElement:self.activeTextElement])
+    {
+        isJumpingThroughForm = YES;
+    }
+    
+    return YES;
 }
 
 - (void)textViewDidEndEditing:(UITextView *)textView
@@ -429,10 +524,7 @@ replacementString:(NSString *)string
     if (self.isKeyboardViewController)
     {
         [self storeValidatedTextForTextElement:self.activeTextView];
-        if (self.useForms) {
-            UITextField *nextTextField = [self nextTextElementForTextElement:self.activeTextField];
-            if (nextTextField) [nextTextField becomeFirstResponder];
-        }
+        [self handleNextTextElement];
     }
 }
 
@@ -470,10 +562,21 @@ replacementString:(NSString *)string
     return result;
 }
 
+- (void)handleNextTextElement
+{
+    if (self.useForms) {
+        id nextTextElement = [self nextTextElementForTextElement:self.activeTextElement];
+        if (nextTextElement) {
+            [nextTextElement becomeFirstResponder];
+            return;
+        }
+    }
+    [self setActiveTextElement:nil];
+}
+
 - (void)keyboardOkPressed:(UIBarButtonItem *)sender
 {
-    [self.activeTextField resignFirstResponder];
-    [self.activeTextView resignFirstResponder];
+    [self.activeTextElement resignFirstResponder];
 }
 
 
