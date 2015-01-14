@@ -250,7 +250,8 @@
         [weakSelf handleKeyboardStateChange:YES];
     });
     
-    if (notification &&
+    if (self.keyboardScrollView &&
+        notification &&
         self.keyboardScrollView.frame.size.height == self.view.frame.size.height)
     {
         originalScrollViewRect = self.keyboardScrollView.frame;
@@ -283,8 +284,6 @@
     
     [self.keyboardScrollView setFrame:originalScrollViewRect];
     originalScrollViewRect = CGRectZero;
-    [self.keyboardScrollView setContentOffset:CGPointZero
-                                     animated:YES];
 }
 
 
@@ -477,22 +476,7 @@ replacementString:(NSString *)string
 {
     if ([self isKeyboardViewController])
     {
-        //Setting an accessory view to the keyboard if needed
-        BOOL shouldIncludeAccessoryView = NO;
-        switch ([textView keyboardType]) {
-            case UIKeyboardTypeNumberPad:
-                shouldIncludeAccessoryView = YES;
-                break;
-            case UIKeyboardTypePhonePad:
-                shouldIncludeAccessoryView = YES;
-                break;
-            case UIKeyboardTypeDecimalPad:
-                shouldIncludeAccessoryView = YES;
-                break;
-            default:
-                break;
-        }
-        [textView setInputAccessoryView:(shouldIncludeAccessoryView) ? [self defaultInputAccessoryView] : nil];
+        [textView setInputAccessoryView:[self defaultInputAccessoryView]];
     }
     
     return YES;

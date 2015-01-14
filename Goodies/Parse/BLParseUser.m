@@ -194,8 +194,8 @@ NSString * const BLParseUserDidLogOutNotification = @"BLParseUserDidLogOutNotifi
                            andCompletionBlock:loginBlock];
         [[BLParseUser currentUser] endBackgroundTask];
     }];
-    [self fetchIfNeededInBackgroundWithBlock:^(PFObject *object, NSError *error)
-     {
+    [self fetchInBackgroundWithBlock:^(PFObject *object, NSError *error) 
+    {
          if (error) {
              ParseLog(@"%@",error);
              [BLParseUser returnToSenderWithResult:NO

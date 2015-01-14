@@ -21,7 +21,7 @@
     [self setAutocapitalizationType:UITextAutocapitalizationTypeNone];
     [self setAutocorrectionType:UITextAutocorrectionTypeNo];
     [self setSpellCheckingType:UITextSpellCheckingTypeNo];
-    [self setKeyboardType:UIKeyboardTypeNamePhonePad];
+    [self setKeyboardType:UIKeyboardTypeNumberPad];
     [self setSecureTextEntry:NO];
     [self setClearsOnBeginEditing:NO];
     [self setMinNumberOfCharacters:5];

@@ -57,17 +57,7 @@ static NSInteger uploadIteration;
         return;
     }
     
-    //Internet
-    BOOL shouldDownload = NO;
-    for (PFFile *file in files) {
-        if (!file.isDataAvailable) {
-            shouldDownload = YES;
-            break;
-        }
-    }
-    
-    if (shouldDownload &&
-        ![BLInternet doWeHaveInternet])
+    if (![BLInternet doWeHaveInternet])
     {
         [PFObject returnToSenderWithResult:NO
                         andCompletionBlock:completionBlock];
