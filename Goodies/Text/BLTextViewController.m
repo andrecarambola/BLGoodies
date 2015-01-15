@@ -18,7 +18,8 @@
 {
     BOOL isShowingKeyboard;
     BOOL isJumpingThroughForm;
-    CGRect originalScrollViewRect;
+//    CGRect originalScrollViewRect;
+    UIEdgeInsets originalScrollViewInsets;
 }
 
 //Setup
@@ -64,7 +65,8 @@
     _editingText = NO;
     isShowingKeyboard = NO;
     isJumpingThroughForm = NO;
-    originalScrollViewRect = CGRectZero;
+//    originalScrollViewRect = CGRectZero;
+    originalScrollViewInsets = UIEdgeInsetsZero;
 }
 
 - (void)organizeCollections
@@ -116,7 +118,7 @@
     [self setAllTextElements:orderedTextElements];
     
     [self.keyboardScrollView setClipsToBounds:NO];
-    [self.keyboardScrollView setAutoresizesSubviews:NO];
+    [self.keyboardScrollView setAutoresizesSubviews:YES];
 }
 
 
@@ -220,7 +222,16 @@
                                                    object:nil];
         [self.keyboardScrollView setContentSize:CGSizeMake(self.keyboardScrollView.frame.size.width, 
                                                            self.keyboardScrollView.frame.size.height)];
+        [self.keyboardScrollView setScrollEnabled:NO];
     }
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+//    originalScrollViewRect = self.keyboardScrollView.frame;
+    originalScrollViewInsets = self.keyboardScrollView.contentInset;
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -254,7 +265,7 @@
         notification &&
         self.keyboardScrollView.frame.size.height == self.view.frame.size.height)
     {
-        originalScrollViewRect = self.keyboardScrollView.frame;
+        [self.keyboardScrollView setScrollEnabled:YES];
         
         //Keyboard size
         CGRect kbRect;
@@ -263,10 +274,14 @@
 //        kbRect.size.height += kBLTextDefaultInputAccessoryViewHeight + 4.f;
 //        kbRect.origin.y -= kBLTextDefaultInputAccessoryViewHeight + 4.f;
         
-        [self.keyboardScrollView setFrame:CGRectMake(self.keyboardScrollView.frame.origin.x,
-                                                     self.keyboardScrollView.frame.origin.y,
-                                                     self.keyboardScrollView.frame.size.width,
-                                                     self.keyboardScrollView.frame.size.height - kbRect.size.height)];
+//        [self.keyboardScrollView setFrame:CGRectMake(self.keyboardScrollView.frame.origin.x,
+//                                                     self.keyboardScrollView.frame.origin.y,
+//                                                     self.keyboardScrollView.frame.size.width,
+//                                                     self.keyboardScrollView.frame.size.height - kbRect.size.height)];
+        [self.keyboardScrollView setContentInset:UIEdgeInsetsMake(originalScrollViewInsets.top, 
+                                                                  originalScrollViewInsets.left, 
+                                                                  originalScrollViewInsets.bottom + kbRect.size.height, 
+                                                                  originalScrollViewInsets.right)];
     }
     
     [self.keyboardScrollView scrollRectToVisible:[self.activeTextElement frame]
@@ -282,8 +297,11 @@
         [weakSelf handleKeyboardStateChange:NO];
     });
     
-    [self.keyboardScrollView setFrame:originalScrollViewRect];
-    originalScrollViewRect = CGRectZero;
+    [self.keyboardScrollView setContentOffset:CGPointMake(0, 
+                                                          -self.keyboardScrollView.contentInset.top)];
+    [self.keyboardScrollView setContentInset:originalScrollViewInsets];
+//    [self.keyboardScrollView setFrame:originalScrollViewRect];
+    [self.keyboardScrollView setScrollEnabled:NO];
 }
 
 

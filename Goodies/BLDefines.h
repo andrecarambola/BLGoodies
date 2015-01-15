@@ -13,7 +13,7 @@
 #define isiOS6 ([[[UIDevice currentDevice] systemVersion] doubleValue] < 7.0)
 #define isiOS7 ([[[UIDevice currentDevice] systemVersion] doubleValue] < 8.0)
 #define isRetina ([UIScreen mainScreen].scale > 1.0f)
-#define isiPhone5 (!isiPad && isRetina && [UIScreen mainScreen].fixedCoordinateSpace.bounds.size.height == 568.0f)
+#define isiPhone5 (!isiPad && isRetina && [UIScreen mainScreen].bounds.size.height == 568.0f)
 #define isiPhone6 (!isiPad && isRetina && [UIScreen mainScreen].fixedCoordinateSpace.bounds.size.height == 667.0f)
 #define isiPhone6Plus (!isiPad && isRetina && [UIScreen mainScreen].fixedCoordinateSpace.bounds.size.height == 736.0f)
 #define isScaledUp (isiPhone6Plus && [UIScreen mainScreen].nativeScale > [UIScreen mainScreen].scale)
